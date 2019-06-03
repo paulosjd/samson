@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
 import './login.css';
 import AuthService from './auth_service';
-import {connect} from "react-redux";
-import withAuth from "./with_auth";
 
 class Login extends Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {invalid: false}
         this.handleChange = this.handleChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.Auth = new AuthService();
     }
-
     componentWillMount(){
-        if (this.Auth.loggedIn()) {
+        if(this.Auth.loggedIn())
             this.props.history.replace('/');
-        }
     }
-
     render() {
         return (
             <div className="center">
@@ -65,23 +60,12 @@ class Login extends Component {
     }
 
     handleChange(e){
-        this.setState({[e.target.name]: e.target.value})
+        this.setState(
+            {
+                [e.target.name]: e.target.value
+            }
+        )
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        // activeCategory: state.activeCategory,
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        // fetchCategoriesData: () => dispatch(actionCreator.setUsername()),
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withAuth(Login));
+export default Login;

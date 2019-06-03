@@ -4,7 +4,7 @@ import AuthService from './components/auth/auth_service';
 import withAuth from './components/auth/with_auth';
 import TopNav from './containers/top_nav';
 import MainBody from './containers/main_body';
-import * as profileActionCreator from "./store/actions/profile";
+// import * as actionCreator from "../../store/actions/profile";
 
 const Auth = new AuthService();
 
@@ -17,8 +17,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        console.log('dispatched username action')
-        this.props.setUsername(this.props.user.username)
+        console.log()
      }
 
     render() {
@@ -26,7 +25,7 @@ class App extends Component {
           <div className="App">
               <TopNav
                   handleLogout={this.handleLogout.bind(this)}
-                  // username={this.props.user.username}
+                  username={this.props.user.username}
               />
               <div className='app-body'>
                   <MainBody />
@@ -44,7 +43,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setUsername: (username) => dispatch(profileActionCreator.setUsername(username)),
+        // fetchCategoriesData: (username) => dispatch(actionCreator.setUsername(username)),
     };
 };
 
