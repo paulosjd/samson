@@ -4,9 +4,8 @@ import {connect} from "react-redux";
 import { Col, ListGroup, ListGroupItem } from 'reactstrap';
 import MenuItemContent from '../components/menu_item_content'
 
-const testItems = ['Test item 1', 'Foobar!']
 
-class MenuItems extends Component {
+class Summary extends Component {
 
     componentDidMount() {
         // this.props.setPathname()
@@ -19,21 +18,27 @@ class MenuItems extends Component {
     }
 
     render() {
+        let foo
+
+        if (this.props.summaryItems.length > 0) {
+            foo = this.props.summaryItems.map(obj => { return (
+                <MenuItemContent
+                    key={obj.name}
+                    label={obj.name}
+                    param_value={obj.value}
+                    handleClick={this.handleCategorySelection.bind(this)}
+                /> )
+            })
+        } else {
+            foo = <h2>You need to add items</h2>
+        }
         return (
-                <ListGroup>
-                    {/*{this.props.categories.sort().map(name => {*/}
-                    {testItems.map(name => {
-                        return (
-                            <ListGroupItem
-                                className={'cats'} tag="a" key={name}
-                                active={name === 'Test item 1'} action>
-                                <MenuItemContent
-                                    label={name}
-                                    handleClick={this.handleCategorySelection.bind(this)}
-                                />
-                            </ListGroupItem>)
-                    })}
-                </ListGroup>
+            <ListGroup>
+                <ListGroupItem
+                    className={'cats'} tag="a" >
+                    {foo}
+                </ListGroupItem>
+            </ListGroup>
         );
     }
 }
@@ -58,4 +63,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(MenuItems);
+)(Summary);

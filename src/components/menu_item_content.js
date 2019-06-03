@@ -5,7 +5,7 @@ export default (props) => {
     return (
         <div onClick={() => props.handleClick(props.label + 'clicked!')}>
             <img className='category_logo' src={logo} alt={'foobar'}/>
-            <h5 className='category_label'>{props.label}</h5>
+            <h5 className='category_label'>{props.label + ': ' + props.param_value}</h5>
         </div>
     )
 }

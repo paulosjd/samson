@@ -11,6 +11,10 @@
   background-color: #f8f9fa !important;
 }
 
+.container {
+  max-width: 100% !important;
+}
+
 .foobar{
   display: inline-block !important;
   float: right;

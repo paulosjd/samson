@@ -3,11 +3,14 @@ import * as actionCreator from "../store/actions/profile";
 import {connect} from "react-redux";
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 import MenuItems from './menu_items'
+import FeatItems from './feat_items'
+import Summary from './summary'
+
 
 class MainBody extends Component {
 
     componentDidMount() {
-        // this.props.setPathname()
+        this.props.fetchProfileDataSuccess()
     }
 
     handleCategorySelection(catName) {
@@ -16,6 +19,7 @@ class MainBody extends Component {
     }
 
     render() {
+        console.log(this.props.summaryItems)
         const { error, loading, items } = this.props
         if ( error ) {
             return <div></div>
@@ -27,7 +31,7 @@ class MainBody extends Component {
                       <MenuItems />
                   </Col>
                   <Col xs="8" >
-
+                      <Summary summaryItems={this.props.summaryItems || []}/>
                       <MenuItems />
                   </Col>
                 </Row>
@@ -36,9 +40,9 @@ class MainBody extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({profile}) => {
     return {
-        // categories: state.categories,
+        summaryItems: profile.summaryItems,
         // allTopics: state.allTopics,
 
     };
@@ -46,7 +50,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        // setTopic: (val) => dispatch(actionCreator.setTopic(val)),
+        fetchProfileDataSuccess: (val) => dispatch(actionCreator.fetchProfileDataSuccess()),
         // setCategory: (val) => dispatch(actionCreator.setCategory(val)),
         // topicsByCategory: () => dispatch(actionCreator.topicsByCategory()),
         // setPathname: () => dispatch(actionCreator.setPathname())

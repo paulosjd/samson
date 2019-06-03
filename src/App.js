@@ -4,29 +4,36 @@ import AuthService from './components/auth/auth_service';
 import withAuth from './components/auth/with_auth';
 import TopNav from './containers/top_nav';
 import MainBody from './containers/main_body';
+import * as profileActionCreator from "./store/actions/profile";
 
 const Auth = new AuthService();
 
 class App extends Component {
 
-  handleLogout(){
-    Auth.logout();
-    this.props.history.replace('/login');
-  }
+    handleLogout(){
+        Auth.logout();
+        this.props.history.replace('/login');
 
-  render() {
-    return (
-      <div className="App">
-          <TopNav
-              handleLogout={this.handleLogout.bind(this)}
-              username={this.props.user.username}
-          />
-          <div className='app-body'>
-              <MainBody />
+    }
+
+    componentDidMount() {
+        console.log('dispatched username action')
+        this.props.setUsername(this.props.user.username)
+     }
+
+    render() {
+        return (
+          <div className="App">
+              <TopNav
+                  handleLogout={this.handleLogout.bind(this)}
+                  // username={this.props.user.username}
+              />
+              <div className='app-body'>
+                  <MainBody />
+              </div>
           </div>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 const mapStateToProps = state => {
@@ -37,7 +44,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        // fetchCategoriesData: () => dispatch(actionCreator.setCategories()),
+        setUsername: (username) => dispatch(profileActionCreator.setUsername(username)),
     };
 };
 

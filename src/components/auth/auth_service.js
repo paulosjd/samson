@@ -1,4 +1,5 @@
 import decode from 'jwt-decode';
+
 export default class AuthService {
     constructor() {
         this.fetch = this.fetch.bind(this)
@@ -20,7 +21,7 @@ export default class AuthService {
     loggedIn() {
         // Checks if there is a saved token and it's still valid
         const token = this.getToken()
-        return !!token && !this.isTokenExpired(token) // handwaiving here
+        return !!token && !this.isTokenExpired(token)
     }
 
     isTokenExpired(token) {
@@ -28,8 +29,7 @@ export default class AuthService {
             const decoded = decode(token);
             if (decoded.exp < Date.now() / 1000) {
                 return true;
-            }
-            else
+            } else
                 return false;
         }
         catch (err) {
@@ -81,7 +81,7 @@ export default class AuthService {
         if (response.status >= 200 && response.status < 300) {
             return response
         } else {
-            var error = new Error(response.statusText)
+            let error = new Error(response.statusText)
             error.response = response
             throw error
         }

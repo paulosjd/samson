@@ -23,7 +23,6 @@ class MenuItems extends Component {
         return (
             <Col xs={this.props.width} >
                 <ListGroup>
-                    {/*{this.props.categories.sort().map(name => {*/}
                     {testItems.map(name => {
                         return (
                             <ListGroupItem
