@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import AuthService from '../../utils/auth_service';
 import './login.css';
-import AuthService from './auth_service';
+
 
 class Login extends Component {
-    constructor(){
-        super();
-        this.state = {invalid: false}
+    constructor(props){
+        super(props);
+        this.state = {invalid: false};
         this.handleChange = this.handleChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.Auth = new AuthService();
@@ -40,7 +41,8 @@ class Login extends Component {
                             type="submit"
                         />
                     </form>
-                    { this.state.invalid ? <h5 style={{color: 'red'}}>Login credentials failed</h5> : null }
+                    { this.state.invalid ? <h5 style={{color: 'red'}}>
+                        Login credentials failed</h5> : null }
                 </div>
             </div>
         );
@@ -48,23 +50,15 @@ class Login extends Component {
 
     handleFormSubmit(e){
         e.preventDefault();
-      
         this.Auth.login(this.state.username,this.state.password)
-            .then(res =>{
-               this.props.history.replace('/');
+            .then(() => {
+                this.props.history.replace('/');
             })
-            .catch(err =>{
-                this.setState({invalid: true});
-                alert(err);
-            })
+            .catch(() => {this.setState({invalid: true})})
     }
 
     handleChange(e){
-        this.setState(
-            {
-                [e.target.name]: e.target.value
-            }
-        )
+        this.setState({[e.target.name]: e.target.value})
     }
 }
 

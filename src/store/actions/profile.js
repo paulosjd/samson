@@ -1,101 +1,24 @@
-export const FETCH_PROFILE_DATA_BEGIN = 'FETCH_PROFILE_DATA_BEGIN'
-export const FETCH_PROFILE_DATA_SUCCESS = 'FETCH_PROFILE_DATA_SUCCESS'
-export const FETCH_PROFILE_DATA_FAILURE = 'FETCH_PROFILE_DATA_FAILURE'
-export const SET_USERNAME = 'SET_USERNAME'
+import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE } from '../constants/profile'
 
-export const fetchProfileDataBegin = () => ({
-    type: FETCH_PROFILE_DATA_BEGIN
+export const fetchProfileSummaryBegin = () => ({
+    type: FETCH_SUMMARY_DATA_BEGIN
 })
 
-export const fetchProfileDataSuccess = profileData => ({
-    type: FETCH_PROFILE_DATA_SUCCESS,
-    payload: { profileData }
-
-})
-
-export const fetchProfileDataFailure = error => ({
-    type: FETCH_PROFILE_DATA_FAILURE,
-    payload: { error }
-})
-
-export const setUsername = username => ({
-    type: SET_USERNAME,
-    value: username
-})
-
-
-// export const setCategories = () => {
-//     let url = 'https://snipstore.paulja.me/api/categories';
-//     return dispatch => {
-//         fetch(url)
-//             .then(response => response.json())
-//             .then(cats => {
-//                 let allTopics = cats.map(cat => {
-//                     return {topics: cat.topics, catName: cat.name}
-//                 });
-//                 let categories = cats.map(cat => cat.name);
-//                 dispatch({ type: 'SET_CATEGORIES', value: {categories, allTopics} });
-//                 dispatch({ type: 'CAT_TOPICS' })
-//             })
-//     }
-// };
-//
-// export const getMarkdownContent = (slug) => {
-//     let url = 'https://snipstore.paulja.me/api/topics/' + slug;
-//     let mdContent = '';
-//     return dispatch => {
-//         fetch(url)
-//             .then(response => response.json())
-//             .then(obj => {
-//                 obj.forEach(obj => mdContent = mdContent + obj.content);
-//                 dispatch({ type: 'MD_CONTENT', value: mdContent })
-//             })
-//     };
-// };
-//
-// export const getTextSearchResults = (text) => {
-//     let url = 'https://snipstore.paulja.me/api/search/' + text;
-//     return dispatch => {
-//         fetch(url)
-//             .then(response => response.json())
-//             .then(obj => dispatch(
-//                 { type: 'SEARCH_RESULTS', value: obj })
-//             )
-//     }
-// };
-//
-// export const setResultIndex = (val) => {
-//     return ( {type: "SET_RESULT_INDEX", value: val } )
-// };
-//
-// export const setSearchLoading = () => {
-//     return ( {type: "SET_SEARCH_LOADING", value: true } )
-// };
-//
-// export const setSearchRedirect = (val) => {
-//     return { type: "SEARCH_REDIRECT", value: val }
-// };
-//
-// export const setTopicFromSlug = (slug) => {
-//     return { type: "TOPIC_FROM_SLUG", value: slug };
-// };
-//
-// export const setTopic = (val) => {
-//     return { type: "SET_TOPIC", value: val };
-// };
-//
-// export const topicsByCategory = () => {
-//     return { type: "CAT_TOPICS" }
-// };
-//
-// export const setPathname = () => {
-//     return { type: "SET_PATHNAME" }
-// };
-//
-// export const setCategory = (val) => {
-//     return { type: "SET_CATEGORY", value: val };
-// };
-//
-// export const setTextInput = (val) => {
-//     return { type: 'SET_TEXT_INPUT', value: val}
-// };
+export const fetchProfileSummary = (user_id) => {
+    console.log(user_id)
+    // TODO include JWT in header
+    let url = `http://127.0.0.1:8000/api/profile/${user_id}/summary`;
+    return dispatch => {
+        fetch(url)
+            .then(response => response.json())
+            .then(profileData => {
+                dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: { profileData } });
+            })
+            .catch(error => {
+                // Dispatch specific "some resources failed" if needed...
+                dispatch({type: FETCH_SUMMARY_DATA_FAILURE, payload: { error }});
+                // Dispatch the generic "global errors" action, this is what makes its way into state.errors
+                // dispatch({type: ADD_ERROR, error: err});
+            });
+    }
+};

@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import * as actionCreator from "../store/actions/profile";
 import {connect} from "react-redux";
-import { Col, ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 import MenuItemContent from '../components/menu_item_content'
 
 const testItems = ['Test item 1', 'Foobar!']
 
 class MenuItems extends Component {
-
-    componentDidMount() {
-        // this.props.setPathname()
-    }
 
     handleCategorySelection(value) {
         // this.props.setCategory(catName);

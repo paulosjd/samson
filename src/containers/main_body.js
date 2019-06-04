@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
 import * as actionCreator from "../store/actions/profile";
 import {connect} from "react-redux";
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import MenuItems from './menu_items'
 import FeatItems from './feat_items'
-import Summary from './summary'
+import Summary from '../components/summary'
 
 
 class MainBody extends Component {
 
     componentDidMount() {
-        this.props.fetchProfileDataSuccess()
-    }
-
-    handleCategorySelection(catName) {
-        // this.props.setCategory(catName);
-        // this.props.topicsByCategory()
+        this.props.fetchProfileSummaryBegin();
+        this.props.fetchProfileSummary(this.props.user_id)
     }
 
     render() {
-        console.log(this.props.summaryItems)
-        const { error, loading, items } = this.props
-        if ( error ) {
-            return <div></div>
+        console.log(this.props.loading)
+        if ( this.props.error ) {
+            console.log(this.props.error)
+            return <div>ERROR!!!</div>
         }
         return (
             <Container>
@@ -31,7 +27,9 @@ class MainBody extends Component {
                       <MenuItems />
                   </Col>
                   <Col xs="8" >
-                      <Summary summaryItems={this.props.summaryItems || []}/>
+                      <Summary
+                          isLoading={this.props.loading}
+                          summaryItems={this.props.summaryItems || []}/>
                       <MenuItems />
                   </Col>
                 </Row>
@@ -40,17 +38,21 @@ class MainBody extends Component {
     }
 }
 
-const mapStateToProps = ({profile}) => {
+const mapStateToProps = ({profile, auth}) => {
+    console.log('profile')
+    console.log(profile)
     return {
+        error: profile.error,
+        loading: profile.loading,
         summaryItems: profile.summaryItems,
-        // allTopics: state.allTopics,
-
+        user_id: auth.user_id,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchProfileDataSuccess: (val) => dispatch(actionCreator.fetchProfileDataSuccess()),
+        fetchProfileSummaryBegin: () => dispatch(actionCreator.fetchProfileSummaryBegin()),
+        fetchProfileSummary: (user_id) => dispatch(actionCreator.fetchProfileSummary(user_id)),
         // setCategory: (val) => dispatch(actionCreator.setCategory(val)),
         // topicsByCategory: () => dispatch(actionCreator.topicsByCategory()),
         // setPathname: () => dispatch(actionCreator.setPathname())

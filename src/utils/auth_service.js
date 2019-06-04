@@ -1,13 +1,13 @@
 import decode from 'jwt-decode';
+
 export default class AuthService {
     constructor() {
-        this.fetch = this.fetch.bind(this)
-        this.login = this.login.bind(this)
+        this.fetch = this.fetch.bind(this);
+        this.login = this.login.bind(this);
         this.getProfile = this.getProfile.bind(this)
     }
 
     login(username, password) {
-        // Get a token
         return this.fetch('http://localhost:8000/auth-jwt/', {
             method: 'POST',
             body: JSON.stringify({username, password})
@@ -19,18 +19,14 @@ export default class AuthService {
 
     loggedIn() {
         // Checks if there is a saved token and it's still valid
-        const token = this.getToken()
-        return !!token && !this.isTokenExpired(token) // handwaiving here
+        const token = this.getToken();
+        return !!token && !this.isTokenExpired(token)
     }
 
     isTokenExpired(token) {
         try {
             const decoded = decode(token);
-            if (decoded.exp < Date.now() / 1000) {
-                return true;
-            }
-            else
-                return false;
+            return decoded.exp < Date.now() / 1000;
         }
         catch (err) {
             return false;
@@ -50,6 +46,7 @@ export default class AuthService {
     logout() {
         // Clear user token and profile data from localStorage
         localStorage.removeItem('id_token');
+        localStorage.removeItem('user');
     }
 
     getProfile() {
@@ -62,7 +59,7 @@ export default class AuthService {
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        }
+        };
 
         if (this.loggedIn()) {
             headers['Authorization'] = 'Bearer ' + this.getToken()
