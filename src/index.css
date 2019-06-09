@@ -7,9 +7,21 @@
 .navbar {
   margin-bottom: 0;
   /*justify-content: flex-end !important;*/
-  height: 40px;
+  height: 52px;
   background-color: #f8f9fa !important;
 }
+
+.col {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+
+}
+
+/*.col-9 {*/
+  /*padding-right: 0 !important;*/
+  /*padding-left: 0 !important;*/
+
+/*}*/
 
 .container {
   max-width: 100% !important;

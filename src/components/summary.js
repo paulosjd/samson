@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem, Spinner } from 'reactstrap';
 import MenuItemContent from './menu_item_content'
 
 const Summary = (props) => {
@@ -9,10 +9,13 @@ const Summary = (props) => {
         // this.props.topicsByCategory()
         console.log(value)
     };
-    let foo;
+    let item;
+    if (props.isLoading){
+        item = <Spinner color="secondary" />
 
-    if (props.summaryItems.length > 0) {
-        foo = props.summaryItems.map(obj => { return (
+
+    } else if (props.summaryItems.length > 0) {
+        item = props.summaryItems.map(obj => { return (
             <MenuItemContent
                 key={obj.name}
                 label={obj.name}
@@ -21,13 +24,13 @@ const Summary = (props) => {
             /> )
         })
     } else {
-        foo = <h2>You need to add items</h2>
+        item = <h2>You need to add items</h2>
     }
     return (
         <ListGroup>
             <ListGroupItem
                 className={'cats'} tag="a" >
-                {foo}
+                {item}
             </ListGroupItem>
         </ListGroup>
     )

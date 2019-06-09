@@ -15,7 +15,11 @@ class MainBody extends Component {
     }
 
     render() {
+        console.log(this.props.summaryItems)
         console.log(this.props.loading)
+
+        // TODO SHOW SPINNER LOADING
+
         if ( this.props.error ) {
             console.log(this.props.error)
             return <div>ERROR!!!</div>
@@ -23,14 +27,13 @@ class MainBody extends Component {
         return (
             <Container>
                 <Row>
-                  <Col xs="4" >
+                  <Col xs="3" style={{paddingLeft: 0, paddingRight: 0}}>
                       <MenuItems />
                   </Col>
-                  <Col xs="8" >
+                  <Col xs="9" style={{paddingLeft: 0, paddingRight: 0}}>
                       <Summary
                           isLoading={this.props.loading}
                           summaryItems={this.props.summaryItems || []}/>
-                      <MenuItems />
                   </Col>
                 </Row>
             </Container>
@@ -53,9 +56,6 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchProfileSummaryBegin: () => dispatch(actionCreator.fetchProfileSummaryBegin()),
         fetchProfileSummary: (user_id) => dispatch(actionCreator.fetchProfileSummary(user_id)),
-        // setCategory: (val) => dispatch(actionCreator.setCategory(val)),
-        // topicsByCategory: () => dispatch(actionCreator.topicsByCategory()),
-        // setPathname: () => dispatch(actionCreator.setPathname())
     };
 };
 

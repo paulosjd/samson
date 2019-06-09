@@ -2,10 +2,10 @@ import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DAT
 
 export const fetchProfileSummaryBegin = () => ({
     type: FETCH_SUMMARY_DATA_BEGIN
-})
+});
 
 export const fetchProfileSummary = (user_id) => {
-    console.log(user_id)
+    console.log(user_id);
     // TODO include JWT in header
     let url = `http://127.0.0.1:8000/api/profile/${user_id}/summary`;
     return dispatch => {
