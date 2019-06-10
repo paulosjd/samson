@@ -1,12 +1,16 @@
 import { userConstants } from '../constants/user';
 
-export function registration(state = {}, action) {
+
+
+export default function registration(state = {}, action) {
     switch (action.type) {
         case userConstants.REGISTER_REQUEST:
-            return { registering: true };
+            return { isSubmitting: true };
         case userConstants.REGISTER_SUCCESS:
+            console.log(action.value)
             return {};
         case userConstants.REGISTER_FAILURE:
+            console.log(action.errors)
             return {};
         default:
             return state

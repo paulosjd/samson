@@ -1,10 +1,33 @@
+import axios from 'axios'
 import { userConstants } from '../../store/constants/user';
-// import { userService } from '../_services';
-// import { alertActions } from '../../store/actions/alert';
-// import { history } from '../_helpers';
+import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS } from "../constants/user";
 
 export const loginSuccess = (user) => {
     return { type: userConstants.LOGIN_SUCCESS, user }
+};
+
+export const registrationSubmitBegin = () => {
+    return { type: REGISTER_REQUEST };
+};
+
+export const registrationSubmit = (data) => {
+    let url = 'http://127.0.0.1:8000/api/users/registration';
+    return dispatch => {
+        axios.post(url, JSON.stringify(data), {headers: {"Content-Type": "application/json", }})
+            .then(response => response.json())
+            .then(value => {
+                console.log(value)
+                dispatch({ type: REGISTER_SUCCESS, value });
+                // redirect to main app
+            })
+            .catch(errors => {
+                console.log(errors)
+                // Dispatch specific "some resources failed" if needed...
+                dispatch({ type: REGISTER_FAILURE, errors });
+                // Dispatch the generic "global errors" action, this is what makes its way into state.errors
+                // dispatch({type: ADD_ERROR, error: err});
+            });
+    }
 };
 
 

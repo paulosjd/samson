@@ -47,7 +47,19 @@
     transition: 0.3s opacity ease;
     cursor: pointer;
 }
+.reg-submit{
+    margin-top: 20px;
+}
 .form-submit:hover{
    opacity: 0.6;
+}
+.registration-modal{
+    max-width: 400px !important;
+}
+
+.register-input-feedback{
+    text-align: right;
+    color: orangered;
+    text-align: right !important;
 }
 
