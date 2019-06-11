@@ -3,10 +3,8 @@ import {connect} from "react-redux";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import AuthService from '../../utils/auth_service';
 import Register from './register'
+import { regSubmitBegin, registrationSubmit, refreshRegistration } from "../../store/actions/user";
 import './login.css';
-import registration from "../../store/reducers/registration";
-import { registrationSubmitBegin, registrationSubmit } from "../../store/actions/user";
-
 
 class Login extends Component {
     constructor(props){
@@ -19,14 +17,20 @@ class Login extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.Auth = new AuthService();
     }
-    componentWillMount(){
+    componentWillMount() {
+        this.props.refreshRegistration();
         if(this.Auth.loggedIn())
             this.props.history.replace('/');
     }
-    toggleRegister(){
+    toggleRegister() {
+        this.props.refreshRegistration();
         this.setState({
             show_register: !this.state.show_register
         });
+    }
+    loginOnRegistration() {
+        this.Auth.setToken(this.props.registrationData.data.token);
+        this.props.history.replace('/');
     }
     render() {
         let register = <button onClick={this.toggleRegister.bind(this)}
@@ -38,7 +42,9 @@ class Login extends Component {
                              isOpen={this.state.show_register}
                              isSubmitting={this.props.isSubmitting}
                              registrationSubmit={this.props.registrationSubmit}
-                             registrationSubmitBegin={this.props.registrationSubmitBegin}
+                             regSubmitBegin={this.props.regSubmitBegin}
+                             submitErrors={this.props.submitErrors}
+                             onRegister={this.loginOnRegistration.bind(this)}
             />
         }
         return (
@@ -88,17 +94,18 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-                    console.log(state.registration.isSubmitting)
     return {
+        registrationData: state.registration.regData,
         isSubmitting: state.registration.isSubmitting,
-
+        submitErrors: state.registration.errors,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        registrationSubmitBegin: () => dispatch(registrationSubmitBegin()),
-        registrationSubmit: (val) => dispatch(registrationSubmit(val)),
+        refreshRegistration: () => dispatch(refreshRegistration()),
+        regSubmitBegin: () => dispatch(regSubmitBegin()),
+        registrationSubmit: (val, loginOnReg) => dispatch(registrationSubmit(val, loginOnReg)),
     };
 };
 
