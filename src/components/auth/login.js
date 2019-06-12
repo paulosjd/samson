@@ -4,16 +4,13 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import AuthService from '../../utils/auth_service';
 import Register from './register'
 import { regSubmitBegin, registrationSubmit, refreshRegistration } from "../../store/actions/user";
+import { LoginSchema } from './schemas'
 import './login.css';
 
 class Login extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            invalid: false,
-            show_register: false
-        };
-        this.handleChange = this.handleChange.bind(this);
+        this.state = {show_register: false};
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.Auth = new AuthService();
     }
@@ -24,19 +21,13 @@ class Login extends Component {
     }
     toggleRegister() {
         this.props.refreshRegistration();
-        this.setState({
-            show_register: !this.state.show_register
-        });
+        this.setState({show_register: !this.state.show_register});
     }
     loginOnRegistration() {
         this.Auth.setToken(this.props.registrationData.data.token);
         this.props.history.replace('/');
     }
     render() {
-        let register = <button onClick={this.toggleRegister.bind(this)}
-                               style={{marginTop: 20, height: 25, backgroundColor: '#BFC9B8'}}
-                               className="form-submit"
-                        >Register</button>;
         if (this.state.show_register) {
             return <Register toggle={this.toggleRegister.bind(this)}
                              isOpen={this.state.show_register}
@@ -48,48 +39,61 @@ class Login extends Component {
             />
         }
         return (
-            <div className="center">
-                <div className="card">
-                    <h1>Login</h1>
-                    <form onSubmit={this.handleFormSubmit}>
+            <Formik
+                initialValues={{ username: '', password: ''}}
+                validationSchema={LoginSchema}
+                onSubmit={this.handleFormSubmit}
+            >
+                {props => {
+                    const {values, touched, errors, handleChange, handleBlur, handleSubmit} = props;
+                    console.log('{values, touched, errors, handleChange, handleBlur, handleSubmit}')
+                    console.log({values, touched, errors, handleChange, handleBlur, handleSubmit})
+                    return (
+                        <div className="center">
+                        <div className="card">
+                        <h5>Login</h5>
+                        <form onSubmit={handleSubmit}>
                         <input
-                            className="form-item"
+                            id="username"
                             placeholder="Username"
-                            name="username"
                             type="text"
-                            onChange={this.handleChange}
+                            value={values.username}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={errors.username && touched.username ? 'auth-item-error' : 'form-item'}
                         />
+                        {errors.username && touched.username && (<div className="login-error">{errors.username}</div>)}
                         <input
-                            className="form-item"
+                            id="password"
                             placeholder="Password"
-                            name="password"
-                            type="password"
-                            onChange={this.handleChange}
+                            type="text"
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={errors.password && touched.password ? 'auth-item-error' : 'form-item'}
                         />
-                        <input
+                        {errors.password && touched.password && (<div className="login-error">{errors.password}</div>)}
+                        <button type="submit" className="form-submit login-submit">Submit</button>
+                        </form>
+                        <button
+                            onClick={this.toggleRegister.bind(this)}
+                            style={{marginTop: 20, height: 25, backgroundColor: '#BFC9B8'}}
                             className="form-submit"
-                            value="SUBMIT"
-                            type="submit"
-                        />
-                    </form>
-                    { this.state.invalid ? <h5 style={{color: 'red'}}>
-                        TODO FIX UP</h5> : register }
-                </div>
-            </div>
+                        >Register</button>
+                        </div>
+                        </div>
+                    )
+                }}
+            </Formik>
         );
     }
 
-    handleFormSubmit(e){
-        e.preventDefault();
-        this.Auth.login(this.state.username,this.state.password)
+    handleFormSubmit(values){
+        console.log(values);
+        this.Auth.login(values.username, values.password)
             .then(() => {
                 this.props.history.replace('/');
             })
-            .catch(() => {this.setState({invalid: true})})
-    }
-
-    handleChange(e){
-        this.setState({[e.target.name]: e.target.value})
     }
 }
 

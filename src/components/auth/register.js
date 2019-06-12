@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { RegisterSchema } from './schemas'
 
 const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitBegin, submitErrors, onRegister }) => {
-    const usernameError = (submitErrors && submitErrors.username) ? <div className="reg-input-feedback">
+    const usernameError = (submitErrors && submitErrors.username) ? <div className="auth-errors">
         {submitErrors.username}</div> : undefined;
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="registration-modal">
@@ -34,7 +34,7 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                                               ? 'text-input error' : 'form-item' }
                             />
                             {(usernameError || ( errors.username && touched.username )) && (
-                                <div className="reg-input-feedback">{usernameError || errors.username}</div>
+                                <div className="auth-errors">{usernameError || errors.username}</div>
                             )}
                             <label htmlFor="password" style={{ display: 'block' }}>Password</label>
                             <input
@@ -47,7 +47,7 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                                 className={errors.password && touched.password ? 'text-input error' : 'form-item'}
                             />
                             {errors.password && touched.password && (
-                                <div className="reg-input-feedback">{errors.password}</div>
+                                <div className="auth-errors">{errors.password}</div>
                             )}
                             <label htmlFor="password_confirm" style={{ display: 'block' }}>Confirm password</label>
                             <input
@@ -61,7 +61,7 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                                     ? 'text-input error' : 'form-item'}
                             />
                             {errors.password_confirm && touched.password_confirm && (
-                                <div className="reg-input-feedback">{errors.password_confirm}</div>
+                                <div className="auth-errors">{errors.password_confirm}</div>
                             )}
                             <label htmlFor="email" style={{ display: 'block' }}>Email</label>
                             <input
@@ -73,13 +73,14 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                                 onBlur={handleBlur}
                                 className={errors.email && touched.email ? 'text-input error' : 'form-item'}
                             />
-                            {errors.email && touched.email && (
-                                <div className="reg-input-feedback">{errors.email}</div>
-                            )}
-                            { submitErrors && !usernameError && <div className="reg-input-feedback">
-                                Please try again</div> }
-                            <button type="submit" disabled={isSubmitting} className="form-submit reg-submit">
-                                Submit
+                            {errors.email && touched.email && (<div className="auth-errors">{errors.email}</div>)}
+                            { submitErrors && !usernameError && <div className="auth-errors">Please try again</div> }
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="form-submit reg-submit"
+                            >
+                            Submit
                             </button>
                         </form>
                         </div>
