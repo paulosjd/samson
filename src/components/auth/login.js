@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import AuthService from '../../utils/auth_service';
 import Register from './register'
 import { regSubmitBegin, registrationSubmit, refreshRegistration } from "../../store/actions/user";
@@ -10,7 +10,10 @@ import './login.css';
 class Login extends Component {
     constructor(props){
         super(props);
-        this.state = {show_register: false};
+        this.state = {
+            show_register: false,
+            login_fail: false
+        };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.Auth = new AuthService();
     }
@@ -54,25 +57,29 @@ class Login extends Component {
                         <h5>Login</h5>
                         <form onSubmit={handleSubmit}>
                         <input
-                            id="username"
-                            placeholder="Username"
                             type="text"
+                            name="username"
+                            placeholder="Username"
                             value={values.username}
-                            onChange={handleChange}
                             onBlur={handleBlur}
+                            onChange={val => {handleChange(val); this.setState({login_fail: false})}}
                             className={errors.username && touched.username ? 'auth-item-error' : 'form-item'}
                         />
                         {errors.username && touched.username && (<div className="login-error">{errors.username}</div>)}
                         <input
-                            id="password"
-                            placeholder="Password"
                             type="text"
+                            name="password"
+                            placeholder="Password"
                             value={values.password}
-                            onChange={handleChange}
                             onBlur={handleBlur}
-                            className={errors.password && touched.password ? 'auth-item-error' : 'form-item'}
+                            onChange={val => {handleChange(val); this.setState({login_fail: false})}}
+                            className={errors.password && touched.password ? 'auth-item-error' : (
+                                this.state.login_fail && !errors.username && !errors.password )
+                                ? 'password-invalid-login' : 'form-item'}
                         />
                         {errors.password && touched.password && (<div className="login-error">{errors.password}</div>)}
+                        { this.state.login_fail && !errors.username && !errors.password && (
+                            <div className="login-error">Invalid credentials</div> )}
                         <button type="submit" className="form-submit login-submit">Submit</button>
                         </form>
                         <button
@@ -89,11 +96,10 @@ class Login extends Component {
     }
 
     handleFormSubmit(values){
-        console.log(values);
         this.Auth.login(values.username, values.password)
             .then(() => {
                 this.props.history.replace('/');
-            })
+            }).catch(() => this.setState({login_fail: true}));
     }
 }
 

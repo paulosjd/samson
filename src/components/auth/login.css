@@ -20,15 +20,18 @@
 .card h5{
     text-align: center;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 18px;
 }
-.form-item{
+.form-item, .password-invalid-login{
     font-family: 'Raleway', sans-serif;
     padding: 5px;
     margin-bottom: 2rem;
     height: 30px;
     width: 16rem;
     border: 1px solid grey;
+}
+.password-invalid-login{
+    margin-bottom: 1rem !important;
 }
 .auth-item-error{
     font-family: 'Raleway', sans-serif;
@@ -61,5 +64,6 @@
     color: orangered;
 }
 .login-error{
+    text-align: left !important;
     margin-bottom: 1em;
 }
