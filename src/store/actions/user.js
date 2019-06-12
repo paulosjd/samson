@@ -26,7 +26,6 @@ export const registrationSubmit = (data, loginFunc) => {
                 if (errors.response.status === 400) {
                     dispatch({ type: REGISTER_FAILURE, errors: errors.response.data.errors });
                 } else {
-                    console.log('got error')
                     dispatch({ type: REGISTER_FAILURE, errors: {miscError: true} })
                 }
             });

@@ -35,10 +35,11 @@ class Login extends Component {
             return <Register toggle={this.toggleRegister.bind(this)}
                              isOpen={this.state.show_register}
                              isSubmitting={this.props.isSubmitting}
-                             registrationSubmit={this.props.registrationSubmit}
+                             regSubmit={this.props.registrationSubmit}
                              regSubmitBegin={this.props.regSubmitBegin}
                              submitErrors={this.props.submitErrors}
                              onRegister={this.loginOnRegistration.bind(this)}
+                             clearErr={this.props.refreshRegistration.bind(this)}
             />
         }
         return (
@@ -49,8 +50,6 @@ class Login extends Component {
             >
                 {props => {
                     const {values, touched, errors, handleChange, handleBlur, handleSubmit} = props;
-                    console.log('{values, touched, errors, handleChange, handleBlur, handleSubmit}')
-                    console.log({values, touched, errors, handleChange, handleBlur, handleSubmit})
                     return (
                         <div className="center">
                         <div className="card">
@@ -67,7 +66,7 @@ class Login extends Component {
                         />
                         {errors.username && touched.username && (<div className="login-error">{errors.username}</div>)}
                         <input
-                            type="text"
+                            type="password"
                             name="password"
                             placeholder="Password"
                             value={values.password}

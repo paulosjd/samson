@@ -3,9 +3,11 @@ import { Modal, ModalHeader } from 'reactstrap';
 import { Formik } from 'formik';
 import { RegisterSchema } from './schemas'
 
-const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitBegin, submitErrors, onRegister }) => {
+const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, submitErrors, onRegister, clearErr }) => {
     const usernameError = (submitErrors && submitErrors.username) ? <div className="auth-errors">
         {submitErrors.username}</div> : undefined;
+    const emailError = (submitErrors && submitErrors.email) ? <div className="auth-errors">
+        {submitErrors.email}</div> : undefined;
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="registration-modal">
         <ModalHeader toggle={this.toggle}>Create profile</ModalHeader>
@@ -14,11 +16,12 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                 validationSchema={RegisterSchema}
                 onSubmit={(values) => {
                     regSubmitBegin();
-                    registrationSubmit(values, onRegister)}
+                    regSubmit(values, onRegister)}
                 }
             >
                 {props => {
                     const {values, touched, errors, handleChange, handleBlur, handleSubmit} = props;
+                    const handleFieldChange = val => {handleChange(val); clearErr()};
                     return (
                         <div className="card">
                         <form onSubmit={handleSubmit}>
@@ -28,7 +31,7 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                                 placeholder="Enter a username"
                                 type="text"
                                 value={values.username}
-                                onChange={handleChange}
+                                onChange={handleFieldChange}
                                 onBlur={handleBlur}
                                 className={ (usernameError || ( errors.username && touched.username ))
                                               ? 'text-input error' : 'form-item' }
@@ -40,9 +43,9 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                             <input
                                 id="password"
                                 placeholder="Enter a password"
-                                type="text"
+                                type="password"
                                 value={values.password}
-                                onChange={handleChange}
+                                onChange={handleFieldChange}
                                 onBlur={handleBlur}
                                 className={errors.password && touched.password ? 'text-input error' : 'form-item'}
                             />
@@ -53,8 +56,8 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                             <input
                                 id="password_confirm"
                                 placeholder="Re-enter password"
-                                type="text"
-                                onChange={handleChange}
+                                type="password"
+                                onChange={handleFieldChange}
                                 onBlur={handleBlur}
                                 autoComplete="off"
                                 className={errors.password_confirm && touched.password_confirm
@@ -69,12 +72,16 @@ const Register = ({ toggle, isOpen, isSubmitting, registrationSubmit, regSubmitB
                                 placeholder="Enter an email"
                                 type="text"
                                 value={values.email}
-                                onChange={handleChange}
                                 onBlur={handleBlur}
-                                className={errors.email && touched.email ? 'text-input error' : 'form-item'}
+                                onChange={handleChange}
+                                className={ emailError || ( errors.email && touched.email ) ?
+                                    'text-input error' : 'form-item' }
                             />
-                            {errors.email && touched.email && (<div className="auth-errors">{errors.email}</div>)}
-                            { submitErrors && !usernameError && <div className="auth-errors">Please try again</div> }
+                            {(emailError || ( errors.email && touched.email )) && (
+                                <div className="auth-errors">{emailError || errors.email}</div>
+                            )}
+                            { submitErrors && !usernameError && !emailError && <div className="auth-errors">
+                                Please try again</div> }
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
