@@ -59,6 +59,11 @@
 .registration-modal{
     max-width: 400px;
 }
+.reg-modal-button{
+    margin-top: 20px;
+    height: 25px;
+    background-color: #BFC9B8
+}
 .auth-errors, .login-error{
     text-align: right;
     color: orangered;

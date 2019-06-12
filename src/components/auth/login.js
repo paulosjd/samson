@@ -83,8 +83,7 @@ class Login extends Component {
                         </form>
                         <button
                             onClick={this.toggleRegister.bind(this)}
-                            style={{marginTop: 20, height: 25, backgroundColor: '#BFC9B8'}}
-                            className="form-submit"
+                            className="form-submit reg-modal-button"
                         >Register</button>
                         </div>
                         </div>
@@ -93,7 +92,6 @@ class Login extends Component {
             </Formik>
         );
     }
-
     handleFormSubmit(values){
         this.Auth.login(values.username, values.password)
             .then(() => {
