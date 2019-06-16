@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, ModalHeader } from 'reactstrap';
 import { Formik } from 'formik';
-import { RegisterSchema } from './schemas'
+import { RegisterSchema } from '../../schemas/auth'
 
 const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, submitErrors, onRegister, clearErr }) => {
     const usernameError = (submitErrors && submitErrors.username) ? <div className="auth-errors">
@@ -10,7 +10,7 @@ const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, sub
         {submitErrors.email}</div> : undefined;
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="registration-modal">
-        <ModalHeader toggle={this.toggle}>Create profile</ModalHeader>
+        <ModalHeader>Create profile</ModalHeader>
             <Formik
                 initialValues={{ email: '', password: '', confirm_password: '', username: ''}}
                 validationSchema={RegisterSchema}

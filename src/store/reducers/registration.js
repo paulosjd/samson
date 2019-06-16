@@ -10,6 +10,12 @@ export default function registration(state = {}, action) {
             return {};
         case userConstants.REGISTER_FAILURE:
             return { errors: action.errors };
+        case userConstants.PASSWORD_RESET_SUCCESS:
+            return { passwordResetSent: true };
+        case userConstants.USERNAME_REMINDER_SUCCESS:
+            return { usernameReminderSent: true };
+        case userConstants.NEW_PASSWORD_CONFIRMED:
+            return { passwordReset: action.value};
         default:
             return state
     }

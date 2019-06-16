@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { Formik } from 'formik';
+import { Alert } from 'reactstrap';
 import AuthService from '../../utils/auth_service';
 import Register from './register'
-import { regSubmitBegin, registrationSubmit, refreshRegistration } from "../../store/actions/user";
-import { LoginSchema } from './schemas'
+import Forgotten from './forgotten'
+import { regSubmitBegin, registrationSubmit, refreshRegistration, forgottenLogin } from "../../store/actions/user";
+import { LoginSchema } from '../../schemas/auth'
 import './login.css';
 
 class Login extends Component {
@@ -12,14 +14,15 @@ class Login extends Component {
         super(props);
         this.state = {
             show_register: false,
-            login_fail: false
+            login_fail: false,
+            show_help: false,
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.Auth = new AuthService();
     }
     componentWillMount() {
         this.props.refreshRegistration();
-        if(this.Auth.loggedIn())
+        if (this.Auth.loggedIn())
             this.props.history.replace('/');
     }
     toggleRegister() {
@@ -40,6 +43,15 @@ class Login extends Component {
                              submitErrors={this.props.submitErrors}
                              onRegister={this.loginOnRegistration.bind(this)}
                              clearErr={this.props.refreshRegistration.bind(this)}
+            />
+        }
+        if (this.state.show_help) {
+            return <Forgotten toggle={this.toggleLoginHelp.bind(this)}
+                              isOpen={this.state.show_help}
+                              forgotField={this.state.help_topic}
+                              sendEmail={this.props.forgottenLogin}
+                              passwordResetSent={this.props.passwordResetSent}
+                              usernameReminderSent={this.props.usernameReminderSent}
             />
         }
         return (
@@ -85,6 +97,17 @@ class Login extends Component {
                             onClick={this.toggleRegister.bind(this)}
                             className="form-submit reg-modal-button"
                         >Register</button>
+                            <div className="forgot-links">
+                                {['username', 'password'].map(str => {
+                                    return <h6 data-field={str} onClick={this.toggleLoginHelp.bind(this)} key={str}
+                                               className="forgot-field">Forgot {str}</h6>
+                                })}
+                            </div>
+                            { this.props.passwordReset && (
+                                <Alert className="password-reset-done"
+                                       color={this.props.passwordReset.includes('invalid') ? "danger" : "primary"}
+                                >{this.props.passwordReset}</Alert>
+                            )}
                         </div>
                         </div>
                     )
@@ -94,9 +117,12 @@ class Login extends Component {
     }
     handleFormSubmit(values){
         this.Auth.login(values.username, values.password)
-            .then(() => {
-                this.props.history.replace('/');
-            }).catch(() => this.setState({login_fail: true}));
+            .then(() => {this.props.history.replace('/')})
+            .catch(() => this.setState({login_fail: true}));
+    }
+    toggleLoginHelp(event) {
+        this.props.refreshRegistration();
+        this.setState({show_help: !this.state.show_help, help_topic: event.target.getAttribute('data-field')})
     }
 }
 
@@ -105,6 +131,9 @@ const mapStateToProps = state => {
         registrationData: state.registration.regData,
         isSubmitting: state.registration.isSubmitting,
         submitErrors: state.registration.errors,
+        passwordReset: state.registration.passwordReset,
+        passwordResetSent: state.registration.passwordResetSent,
+        usernameReminderSent: state.registration.usernameReminderSent,
     };
 };
 
@@ -113,6 +142,7 @@ const mapDispatchToProps = dispatch => {
         refreshRegistration: () => dispatch(refreshRegistration()),
         regSubmitBegin: () => dispatch(regSubmitBegin()),
         registrationSubmit: (val, loginOnReg) => dispatch(registrationSubmit(val, loginOnReg)),
+        forgottenLogin: (fType, val) => dispatch(forgottenLogin(fType, val)),
     };
 };
 
