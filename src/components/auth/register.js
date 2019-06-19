@@ -25,7 +25,7 @@ const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, sub
                     return (
                         <div className="card">
                         <form onSubmit={handleSubmit}>
-                            <label htmlFor="username" style={{ display: 'block' }}>Username</label>
+                            <label htmlFor="username" >Username</label>
                             <input
                                 id="username"
                                 placeholder="Enter a username"
@@ -39,7 +39,7 @@ const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, sub
                             {(usernameError || ( errors.username && touched.username )) && (
                                 <div className="auth-errors">{usernameError || errors.username}</div>
                             )}
-                            <label htmlFor="password" style={{ display: 'block' }}>Password</label>
+                            <label htmlFor="password" >Password</label>
                             <input
                                 id="password"
                                 placeholder="Enter a password"
@@ -52,7 +52,7 @@ const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, sub
                             {errors.password && touched.password && (
                                 <div className="auth-errors">{errors.password}</div>
                             )}
-                            <label htmlFor="password_confirm" style={{ display: 'block' }}>Confirm password</label>
+                            <label htmlFor="password_confirm" >Confirm password</label>
                             <input
                                 id="password_confirm"
                                 placeholder="Re-enter password"
@@ -66,7 +66,7 @@ const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, sub
                             {errors.password_confirm && touched.password_confirm && (
                                 <div className="auth-errors">{errors.password_confirm}</div>
                             )}
-                            <label htmlFor="email" style={{ display: 'block' }}>Email</label>
+                            <label htmlFor="email" >Email</label>
                             <input
                                 id="email"
                                 placeholder="Enter an email"

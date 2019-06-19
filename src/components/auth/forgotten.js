@@ -30,7 +30,7 @@ const Forgotten = ({ toggle, isOpen, forgotField, sendEmail, passwordResetSent, 
                     return (
                         <div className="card">
                             <form onSubmit={handleSubmit}>
-                                <label htmlFor="email" style={{ display: 'block' }}>Email</label>
+                                <label htmlFor="email" >Email</label>
                                 <input
                                     id="email"
                                     placeholder="Enter registered email"

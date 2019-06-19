@@ -126,14 +126,14 @@ class Login extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({registration}) => {
     return {
-        registrationData: state.registration.regData,
-        isSubmitting: state.registration.isSubmitting,
-        submitErrors: state.registration.errors,
-        passwordReset: state.registration.passwordReset,
-        passwordResetSent: state.registration.passwordResetSent,
-        usernameReminderSent: state.registration.usernameReminderSent,
+        registrationData: registration.regData,
+        isSubmitting: registration.isSubmitting,
+        submitErrors: registration.errors,
+        passwordReset: registration.passwordReset,
+        passwordResetSent: registration.passwordResetSent,
+        usernameReminderSent: registration.usernameReminderSent,
     };
 };
 
