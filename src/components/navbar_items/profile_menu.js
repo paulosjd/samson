@@ -1,10 +1,11 @@
 import React from 'react';
-import { Modal, ModalHeader } from 'reactstrap';
+import { Modal, ModalHeader, Alert } from 'reactstrap';
 import { Formik, Field } from 'formik';
-import { ProfileInfo } from '../schemas/profile'
+import { ProfileInfo } from '../../schemas/profile'
 
 const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
-    console.log(profileData)
+    const updateSuccess = profileData.profileUpdateSuccess;
+    const updateFailure = profileData.profileUpdateFailure;
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="profile-edit-modal">
             <ModalHeader>{username}</ModalHeader>
@@ -15,7 +16,6 @@ const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
                 onSubmit={handleSave}
             >
                 {props => {
-                    console.log(props.values)
                     const startYear = new Date().getFullYear() - 98;
                     const years = Array.from(new Array(80),(val, index) => index + startYear);
                     return (
@@ -42,6 +42,9 @@ const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
                     );
                 }}
             </Formik>
+            { ( updateSuccess || updateFailure ) && (
+                <Alert className="profile-edit-alert" color={updateSuccess ? "info" : "warning"}
+                >{updateSuccess ? 'Successfully saved!' : 'Sorry, please try again later'}</Alert> ) }
         </Modal>
     );
 };

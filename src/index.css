@@ -1,34 +1,47 @@
 .navbar {
   margin-bottom: 0;
   /*justify-content: flex-end !important;*/
-  height: 52px;
+  height: 44px;
   background-color: #f8f9fa !important;
+  padding: 0 0.5rem 3.0rem 1.2rem !important
 }
 
 .col {
   padding-right: 0 !important;
   padding-left: 0 !important;
-
 }
 
-/*.col-9 {*/
-  /*padding-right: 0 !important;*/
-  /*padding-left: 0 !important;*/
-
-/*}*/
+.col-9 {
+  margin-top: 14px !important;
+}
 
 .container {
   max-width: 100% !important;
 }
 
-.mushroom, .profile-name {
+.nav-item {
   cursor: pointer;
+  font-size: 2rem;
 }
 
-.profile-edit-modal{
+.profile-edit-modal {
   max-width: 320px !important;
 }
-/*text-align: center;*/
-.profile-edit-field{
+
+.profile-edit-field {
   margin-bottom: 14px !important;
+}
+
+.profile-edit-alert {
+  max-width: 300px;
+  margin-top: 12px;
+  margin-left: 18px;
+  margin-right: 18px;
+}
+
+#ttip {
+  background-color: #4A4A4A !important;
+}
+#ttip > .tooltip-arrow {
+  background-color: #4A4A4A !important;
 }

@@ -1,7 +1,7 @@
 import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SHOW_PROFILE_MENU,
-    PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE } from '../constants/profile'
+    PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
+    CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU } from '../constants/profile'
 import axios from "axios";
-import {userConstants as constants} from "../constants/user";
 
 export const fetchProfileSummary = () => {
     let url = `http://127.0.0.1:8000/api/profile/summary`;
@@ -24,6 +24,14 @@ export const showProfileMenu = (value) => ({
     type: SHOW_PROFILE_MENU, value
 });
 
+export const showInterventionsMenu = (value) => ({
+    type: SHOW_INTERVENTIONS_MENU, value
+});
+
+export const showCsvUploadMenu = (value) => ({
+    type: SHOW_CSV_UPLOAD_MENU, value
+});
+
 export const fetchProfileInfo = () => {
     const url = 'http://127.0.0.1:8000/api/profile/info-update';
     return dispatch => {
@@ -36,31 +44,11 @@ export const fetchProfileInfo = () => {
 export const updateProfileInfo = (value) => {
     const url = 'http://127.0.0.1:8000/api/profile/info-update';
     return dispatch => {
-        axios.post(url, JSON.stringify({value}),
-            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token') }})
-            .then(() => { dispatch({ type: PROFILE_MENU_EDIT_SUCCESS, payload: {value}}) } )
-            .catch(() => { dispatch({ type: PROFILE_MENU_EDIT_SUCCESS, payload: {value}}) } )
-    }
-};
-// export const updateProfileMenu2 = () => {
-//     let url = `http://127.0.0.1:8000/api/profile/info-update`;
-//     return dispatch => {
-//         axios.post(url,  JSON.stringify({formData}, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
-//             .then(val => {
-//                 dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: { val } });
-//             })
-//             .catch(error => {
-//                 dispatch({type: FETCH_SUMMARY_DATA_FAILURE, payload: { error }});
-//             });
-//     }
-// };
-
-export const forgottenLogin = (field, email) => {
-    const url = `http://127.0.0.1:8000/api/users/help/${field}`;
-    return dispatch => {
-        axios.post(url, JSON.stringify({email}), {headers: {"Content-Type": "application/json", }})
-            .then(() => {dispatch({type: field === 'password' ? constants.PASSWORD_RESET_SUCCESS :
-                    constants.USERNAME_REMINDER_SUCCESS})
-            })
+        axios.post(url,
+            {birth_year: value.birthYear, gender: value.gender },
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+            .then(() => dispatch({ type: PROFILE_MENU_EDIT_SUCCESS, payload: {value}}) )
+            .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }), 2500))
+            .catch(() => dispatch({ type: PROFILE_MENU_EDIT_FAILURE }) )
     }
 };
