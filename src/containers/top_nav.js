@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, UncontrolledTooltip } from 'reactstrap';
 import {connect } from "react-redux";
-import { fetchProfileInfo, showProfileMenu, showCsvUploadMenu, showInterventionsMenu } from '../store/actions/profile'
+import { fetchProfileInfo, showNavItem } from '../store/actions/profile'
 
 // TODO make dry so
 //         showCsvUploadMenu: () => dispatch(showCsvUploadMenu(true)),  called like:
@@ -25,7 +25,7 @@ class TopNav extends Component {
                 >{'  ' + this.props.username}</span>
 
                 <span role="img" aria-label="upload" className='nav-item' id="upload"
-                      onClick={this.props.showCsvUploadMenu}
+                      onClick={() => this.props.showNavItem('csv_upload')}
                 >&#x1F4E4;</span>
                 <UncontrolledTooltip id="ttip" placement="below" target="upload"
                 >CSV data upload</UncontrolledTooltip>
@@ -52,9 +52,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleProfileClick: () => { dispatch(showProfileMenu(true)); dispatch(fetchProfileInfo()) },
-        showInterventionsMenu: () => dispatch(showInterventionsMenu(true)),
-        showCsvUploadMenu: () => dispatch(showCsvUploadMenu(true)),
+        handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
+        showNavItem: (item) => dispatch(showNavItem(item, true)),
+        showInterventionsMenu: () => dispatch(showNavItem('interventions', true)),
     };
 };
 

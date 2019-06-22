@@ -20,17 +20,16 @@ export const fetchProfileSummaryBegin = () => ({
     type: FETCH_SUMMARY_DATA_BEGIN
 });
 
-export const showProfileMenu = (value) => ({
-    type: SHOW_PROFILE_MENU, value
-});
-
-export const showInterventionsMenu = (value) => ({
-    type: SHOW_INTERVENTIONS_MENU, value
-});
-
-export const showCsvUploadMenu = (value) => ({
-    type: SHOW_CSV_UPLOAD_MENU, value
-});
+export const showNavItem = (item, value) => {
+    switch (item) {
+        case 'interventions':
+            return ({ type: SHOW_INTERVENTIONS_MENU, value });
+        case 'csv_upload':
+            return ({ type: SHOW_CSV_UPLOAD_MENU, value });
+        default:
+            return ({ type: SHOW_PROFILE_MENU, value })
+    }
+};
 
 export const fetchProfileInfo = () => {
     const url = 'http://127.0.0.1:8000/api/profile/info-update';

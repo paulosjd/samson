@@ -28,7 +28,7 @@ class MainBody extends Component {
 
         if ( this.props.showInterventionsMenu ) {
             return <InterventionsMenu
-                toggle={() => this.props.toggleInterventionsMenu(!this.props.showInterventionsMenu)}
+                toggle={() => this.props.toggleNavItem('interventions', !this.props.showInterventionsMenu)}
                 isOpen={this.props.showInterventionsMenu}
                 profileData={this.props.profile}
             />
@@ -36,7 +36,7 @@ class MainBody extends Component {
 
         if ( this.props.showCsvUploadMenu ) {
             return <CsvUploadMenu
-                toggle={() => this.props.toggleCsvUploadMenu(!this.props.showCsvUploadMenu)}
+                toggle={() => this.props.toggleNavItem('csv_upload', !this.props.showCsvUploadMenu)}
                 isOpen={this.props.showCsvUploadMenu}
                 profileData={this.props.profile}
             />
@@ -44,7 +44,7 @@ class MainBody extends Component {
 
         if ( this.props.showProfileMenu ) {
             return <ProfileMenu
-                toggle={() => this.props.toggleProfileMenu(!this.props.showProfileMenu)}
+                toggle={() => this.props.toggleNavItem('profile', !this.props.showProfileMenu)}
                 isOpen={this.props.showProfileMenu}
                 username={this.props.username}
                 handleSave={this.props.updateProfileMenu}
@@ -91,9 +91,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchProfileSummaryBegin: () => dispatch(actionCreator.fetchProfileSummaryBegin()),
         fetchProfileSummary: () => dispatch(actionCreator.fetchProfileSummary()),
-        toggleProfileMenu: (val) => dispatch(actionCreator.showProfileMenu(val)),
-        toggleInterventionsMenu: (val) => dispatch(actionCreator.showInterventionsMenu(val)),
-        toggleCsvUploadMenu: (val) => dispatch(actionCreator.showCsvUploadMenu(val)),
+        toggleNavItem: (item, val) => dispatch(actionCreator.showNavItem(item, val)),
         updateProfileMenu: (val) => dispatch(actionCreator.updateProfileInfo(val)),
     };
 };
