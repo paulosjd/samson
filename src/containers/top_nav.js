@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, UncontrolledTooltip } from 'reactstrap';
 import {connect } from "react-redux";
-import { fetchProfileInfo, showNavItem } from '../store/actions/profile'
-
-// TODO make dry so
-//         showCsvUploadMenu: () => dispatch(showCsvUploadMenu(true)),  called like:
-//                                () => this.props.showModalMenu('csv_upload')   in onclick
-//                                  (val) => dispatch(showModalMenu(val, true))   dispatchtoprops
-//                                              case ... statement in actions
-//                                                      to combine showProfileMenu, show...Menu etc. in to func which dispatches accordingly
+import { fetchProfileInfo, showNavItem, postCsvUpload } from '../store/actions/profile'
 
 class TopNav extends Component {
 
@@ -18,22 +11,28 @@ class TopNav extends Component {
                 <span role="img" aria-label="Mushroom" className='nav-item' id="profile"
                       onClick={this.props.handleProfileClick}
                 >&#x1F344;</span>
-                <UncontrolledTooltip id="ttip" placement="below" target="profile"
+                <UncontrolledTooltip id="ttip" placement="bottom" target="profile"
                 >Profile information</UncontrolledTooltip>
 
                 <span onClick={this.props.handleProfileClick} className="mr-auto nav-item"
                 >{'  ' + this.props.username}</span>
 
+                <span role="img" aria-label="download" className='nav-item' id="download"
+                      onClick={() => this.props.showNavItem('csv_download')}
+                >&#x1F4E5;</span>
+                <UncontrolledTooltip id="ttip" placement="bottom" target="download"
+                >CSV data download</UncontrolledTooltip>
+
                 <span role="img" aria-label="upload" className='nav-item' id="upload"
                       onClick={() => this.props.showNavItem('csv_upload')}
                 >&#x1F4E4;</span>
-                <UncontrolledTooltip id="ttip" placement="below" target="upload"
+                <UncontrolledTooltip id="ttip" placement="bottom" target="upload"
                 >CSV data upload</UncontrolledTooltip>
 
                 <span role="img" aria-label="Panda" className='nav-item' id="effectors"
                       onClick={this.props.showInterventionsMenu}
                 >&#9731;</span>
-                <UncontrolledTooltip id="ttip" placement="below" target="effectors"
+                <UncontrolledTooltip id="ttip" placement="bottom" target="effectors"
                 >Health effectors</UncontrolledTooltip>
 
                 <button type="button" className="form-submit"

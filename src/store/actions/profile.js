@@ -1,6 +1,8 @@
 import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SHOW_PROFILE_MENU,
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
-    CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU } from '../constants/profile'
+    CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
+    SUBMIT_CSV_UPLOAD_SUCCESS, SUBMIT_CSV_UPLOAD_FAILURE,
+} from '../constants/profile'
 import axios from "axios";
 
 export const fetchProfileSummary = () => {
@@ -24,6 +26,8 @@ export const showNavItem = (item, value) => {
     switch (item) {
         case 'interventions':
             return ({ type: SHOW_INTERVENTIONS_MENU, value });
+        case 'csv_download':
+            return ({ type: SHOW_CSV_DOWNLOAD_MENU, value });
         case 'csv_upload':
             return ({ type: SHOW_CSV_UPLOAD_MENU, value });
         default:
@@ -49,5 +53,21 @@ export const updateProfileInfo = (value) => {
             .then(() => dispatch({ type: PROFILE_MENU_EDIT_SUCCESS, payload: {value}}) )
             .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }), 2500))
             .catch(() => dispatch({ type: PROFILE_MENU_EDIT_FAILURE }) )
+    }
+};
+
+export const postCsvUpload = (value) => {
+    console.dir(value)
+    console.log(value)
+    const formData = new FormData();
+    formData.append('file',value.file)
+    const url = 'http://127.0.0.1:8000/api/upload/datapoints';
+    return dispatch => {
+        axios.post(url, formData,
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token'),
+                    'Content-Type': 'multipart/form-data'}} )
+            .then((val) => dispatch({ type: SUBMIT_CSV_UPLOAD_SUCCESS, value: val }) )
+            // .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }), 2500))
+            .catch(() => dispatch({ type: SUBMIT_CSV_UPLOAD_FAILURE }) )
     }
 };

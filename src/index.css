@@ -27,7 +27,9 @@
 .profile-edit-modal {
   max-width: 320px !important;
 }
-
+.csv-upload-modal {
+  max-width: 420px !important;
+}
 .profile-edit-field {
   margin-bottom: 14px !important;
 }

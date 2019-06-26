@@ -7,13 +7,13 @@ import { Provider } from 'react-redux';
 import Login from './components/auth/login';
 import NewPasswordConfirm from './components/auth/new_password';
 
-import { store } from "./store/store";
+import { root } from "./store/root";
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={root}>
         <Router>
             <div>
                 <Route exact path="/" component={App} />
