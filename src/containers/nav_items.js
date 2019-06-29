@@ -17,10 +17,15 @@ const NavItems  = ({ props }) => {
     }
     if ( showCsvUploadMenu ) {
         return <CsvUploadMenu
-            toggle={() => props.toggleNavItem('csv_upload', !showCsvUploadMenu)}
+            toggle={() => {
+                props.toggleNavItem('csv_upload', !showCsvUploadMenu);
+                props.clearCsvUpload()
+            }}
             isOpen={props.menu.showCsvUploadMenu}
             profileData={props.profile}
             postCsvUpload={props.postCsvUpload}
+            csvUploadConfirm={props.csvUploadConfirm}
+            clearCsvUpload={props.clearCsvUpload}
         />
     }
     if ( showInterventionsMenu ) {
