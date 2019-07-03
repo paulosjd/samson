@@ -1,8 +1,8 @@
 import React from 'react';
-import ProfileMenu from '../components/navbar_items/profile_menu'
-import CsvDownloadMenu from '../components/navbar_items/csv_download_menu'
-import CsvUploadMenu from '../components/navbar_items/csv_upload_menu'
-import InterventionsMenu from '../components/navbar_items/interventions_menu'
+import ProfileMenu from '../components/nav_items/profile_menu'
+import CsvDownloadMenu from '../components/nav_items/csv_download_menu'
+import CsvUploadMenu from '../components/nav_items/csv_upload_menu'
+import InterventionsMenu from '../components/nav_items/interventions_menu'
 
 const NavItems  = ({ props }) => {
 

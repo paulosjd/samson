@@ -59,6 +59,8 @@ export const updateProfileInfo = (value) => {
 export const postCsvUpload = (value) => {
     const formData = new FormData();
     formData.set('file',value.file);
+    formData.set('date_format',value.date_fmt);
+    formData.set('param_choice',value.param_choice);
     const url = 'http://127.0.0.1:8000/api/upload/datapoints';
     return dispatch => {
         axios.post(url, formData,
@@ -71,8 +73,6 @@ export const postCsvUpload = (value) => {
 };
 
 export const confirmCsvUpload = (value) => {
-    console.dir(value)
-    console.log(value)
     const url = 'http://127.0.0.1:8000/api/upload/datapoints';
     return dispatch => {
         axios.post(url, value,

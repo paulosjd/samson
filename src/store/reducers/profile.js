@@ -16,6 +16,7 @@ const initialState = {
     username: '',
     uploadData: {},
     uploadError: null,
+    uploadFilename: '',
 };
 
 export default function profile(state = initialState, action) {
@@ -28,13 +29,14 @@ export default function profile(state = initialState, action) {
         case FETCH_SUMMARY_DATA_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
         case SUBMIT_CSV_UPLOAD_SUCCESS:
+            console.log(action.value.data)
             return { ...state, uploadData: action.value.data };
         case SUBMIT_CSV_UPLOAD_FAILURE:
             return { ...state, loading: false, uploadError: action.payload.response.data.error };
         case CSV_UPLOAD_CONFIRM:
-            return { ...state, uploadData: action.value.data };
+            return { ...state, uploadData: action.value.data,  };
         case CSV_UPLOAD_CLEAR:
-            return { ...state, uploadData: {}, uploadError: null };
+            return { ...state, uploadData: {}, uploadError: null, uploadFilename: '',};
 
         default:
             return state
