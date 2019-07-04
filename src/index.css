@@ -65,6 +65,7 @@
 .csv-upload-confirm {
     display: inline-flex;
     width: 100px;
+    margin-left: 26px;
     margin-bottom: 12px;
 }
 
@@ -72,6 +73,7 @@
     display: inline-flex;
     width: 100px;
     margin-bottom: 12px;
+    margin-left: 26px;
 }
 
 .navitem-file-input {
@@ -82,14 +84,12 @@
     cursor: pointer;
 }
 
-.navitem-field-info {
+.navitem-info {
     font-size: small;
     color: cornflowerblue;
     margin-left: 26px;
     display:block;
 }
-/*border: darkgreen !important;*/
-/*border: none !important;*/
 
 .navitem-btn {
     margin-top: 12px;

@@ -11,6 +11,8 @@ import {
 
 const initialState = {
     summaryItems: [],
+    allParams: [],
+    dateFormats: [],
     loading: false,
     error: null,
     username: '',
@@ -25,19 +27,21 @@ export default function profile(state = initialState, action) {
         case FETCH_SUMMARY_DATA_BEGIN:
             return { ...state, loading: true, error: null };
         case FETCH_SUMMARY_DATA_SUCCESS:
-            return { ...state, loading: false, summaryItems: action.payload.profileData.data };
+            return { ...state, loading: false,
+                summaryItems: action.payload.profileData.data.profile_summary,
+                allParams: action.payload.profileData.data.all_params,
+                dateFormats: action.payload.profileData.data.date_formats,
+            };
         case FETCH_SUMMARY_DATA_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
         case SUBMIT_CSV_UPLOAD_SUCCESS:
-            console.log(action.value.data)
-            return { ...state, uploadData: action.value.data };
+            return { ...state, uploadError: null, uploadData: action.value.data };
         case SUBMIT_CSV_UPLOAD_FAILURE:
             return { ...state, loading: false, uploadError: action.payload.response.data.error };
         case CSV_UPLOAD_CONFIRM:
-            return { ...state, uploadData: action.value.data,  };
+            return { ...state, uploadData: action.value.data };
         case CSV_UPLOAD_CLEAR:
-            return { ...state, uploadData: {}, uploadError: null, uploadFilename: '',};
-
+            return { ...state, uploadData: {}, uploadFilename: '',};
         default:
             return state
     }

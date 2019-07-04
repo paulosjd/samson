@@ -13,7 +13,7 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
         return (
             <Modal isOpen={isOpen} toggle={toggle} className="csv-upload-modal">
                 <ModalHeader>Confirm data</ModalHeader>
-                <Table>
+                <Table className='data-table'>
                     <thead>
 
                     {/* api - mandatory: date, value, optional: time, value2  */}
@@ -24,24 +24,22 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
                     </thead>
                     <tbody>{uploadData.data.map((item, key) => {
                         return (
-                            <tr key = {key}>
-
-
-                                <td>{item.date}</td>
+                            <tr key = {key} >
+                                <td >{item.date}</td>
                                 <td>{item.value}</td>
-
-                                item.value2 ? <td>{item.value2}</td> : null
-                                {/*might need put item.value as array and map out - allow more than one val per date*/}
-                                {/* or customize iter so get date, then val, then e.g. val2 etc. - as per field map */}
+                                {item.value2 && <td>{item.value2}</td>}
                             </tr>
                         )
                     })}</tbody>
                 </Table>
-                <button type="submit" className="btn btn-success csv-upload-confirm"
-                    onClick={() => csvUploadConfirm(uploadData)}
-                >Submit</button>
-                <button type="button" onClick={clearCsvUpload} className="btn btn-danger csv-upload-clear">Clear</button>
-                { profileData.uploadError && errorMsg }
+                <div style={{display: 'inline-flex'}}>
+                    <button type="submit" className="btn btn-success csv-upload-confirm"
+                        onClick={() => csvUploadConfirm(uploadData)}
+                    >Submit</button>
+                    <button type="button" className="btn btn-danger csv-upload-clear"
+                            onClick={clearCsvUpload}>Clear</button>
+                    { profileData.uploadError && errorMsg }
+                </div>
             </Modal>
         )
     }
@@ -49,6 +47,8 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
     let modalBody = profileData.summaryItems && profileData.summaryItems.length > 0 ?
         <CsvUploadForm
             handleCsvUploadSubmit={postCsvUpload}
+            allParams={profileData.allParams}
+            dateFormats={profileData.dateFormats}
             summaryItems={profileData.summaryItems}
         /> : <ModalBody>You need to add parameters to track first</ModalBody>;
     return (
