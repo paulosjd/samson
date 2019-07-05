@@ -9,6 +9,7 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
     const errorMsg = <Alert className="navitem-alert" color="warning">
         <span role="img" aria-label="red-cross">&#x274C; {profileData.uploadError}</span></Alert>;
 
+
     if (uploadData.data && uploadData.meta ) {
         return (
             <Modal isOpen={isOpen} toggle={toggle} className="csv-upload-modal">
@@ -34,12 +35,13 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
                 </Table>
                 <div style={{display: 'inline-flex'}}>
                     <button type="submit" className="btn btn-success csv-upload-confirm"
-                        onClick={() => csvUploadConfirm(uploadData)}
+                        onClick={() => csvUploadConfirm(uploadData, uploadData.meta)}
                     >Submit</button>
                     <button type="button" className="btn btn-danger csv-upload-clear"
                             onClick={clearCsvUpload}>Clear</button>
-                    { profileData.uploadError && errorMsg }
                 </div>
+                { profileData.uploadError && errorMsg }
+
             </Modal>
         )
     }

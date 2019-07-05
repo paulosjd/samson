@@ -72,14 +72,14 @@ export const postCsvUpload = (value) => {
     }
 };
 
-export const confirmCsvUpload = (value) => {
+export const confirmCsvUpload = (data, meta) => {
     const url = 'http://127.0.0.1:8000/api/upload/datapoints';
     return dispatch => {
-        axios.post(url, value,
+        axios.post(url, {data: {...data, confirm: true}, meta: meta },
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then((val) => dispatch({ type: CSV_UPLOAD_CONFIRM, value: val }) )
             // .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }), 2500))
-            .catch(() => dispatch({ type: SUBMIT_CSV_UPLOAD_FAILURE }) )
+            .catch((error) => dispatch({ type: SUBMIT_CSV_UPLOAD_FAILURE, payload: error }) )
     }
 };
 
