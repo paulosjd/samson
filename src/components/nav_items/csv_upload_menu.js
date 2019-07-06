@@ -4,7 +4,7 @@ import { toTitleCase } from '../../utils/helpers'
 import CsvUploadForm from '../form/csv_upload'
 
 const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload, csvUploadConfirm,
-                           clearCsvUpload }) => {
+                           clearCsvUpload, showCsvUploadSuccess }) => {
     const uploadData = profileData.uploadData;
     const errorMsg = <Alert className="navitem-alert" color="warning">
         <span role="img" aria-label="red-cross">&#x274C; {profileData.uploadError}</span></Alert>;
@@ -45,7 +45,6 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
             </Modal>
         )
     }
-
     let modalBody = profileData.summaryItems && profileData.summaryItems.length > 0 ?
         <CsvUploadForm
             handleCsvUploadSubmit={postCsvUpload}
@@ -56,8 +55,10 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="csv-upload-modal">
             <ModalHeader>Upload tracking data</ModalHeader>
+            {showCsvUploadSuccess && <Alert className="upload-success-alert" color="info">
+                Data was successfully uploaded!</Alert>}
             {modalBody}
-            { profileData.uploadError && errorMsg }
+            {profileData.uploadError && errorMsg}
         </Modal>
     );
 };

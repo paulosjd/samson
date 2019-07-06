@@ -26,6 +26,7 @@ const NavItems  = ({ props }) => {
             postCsvUpload={props.postCsvUpload}
             csvUploadConfirm={props.csvUploadConfirm}
             clearCsvUpload={props.clearCsvUpload}
+            showCsvUploadSuccess={props.profile.showCsvUploadSuccess}
         />
     }
     if ( showInterventionsMenu ) {

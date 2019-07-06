@@ -6,6 +6,7 @@ import {
     SUBMIT_CSV_UPLOAD_FAILURE,
     CSV_UPLOAD_CONFIRM,
     CSV_UPLOAD_CLEAR,
+    CLEAR_CSV_UPLOAD_CONFIRM,
 
 } from "../constants/profile";
 
@@ -19,6 +20,7 @@ const initialState = {
     uploadData: {},
     uploadError: null,
     uploadFilename: '',
+    showCsvUploadSuccess: false,
 };
 
 export default function profile(state = initialState, action) {
@@ -39,9 +41,11 @@ export default function profile(state = initialState, action) {
         case SUBMIT_CSV_UPLOAD_FAILURE:
             return { ...state, loading: false, uploadError: action.payload.response.data.error };
         case CSV_UPLOAD_CONFIRM:
-            return { ...state, uploadData: action.value.data };
+            return { ...state, uploadData: {}, showCsvUploadSuccess: true };
+        case CLEAR_CSV_UPLOAD_CONFIRM:
+            return { ...state, showCsvUploadSuccess: false, uploadError: null };
         case CSV_UPLOAD_CLEAR:
-            return { ...state, uploadData: {}, uploadFilename: '',};
+            return { ...state, uploadData: {}, uploadFilename: '', uploadError: null};
         default:
             return state
     }
