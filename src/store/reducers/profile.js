@@ -2,10 +2,10 @@ import {
     FETCH_SUMMARY_DATA_BEGIN,
     FETCH_SUMMARY_DATA_SUCCESS,
     FETCH_SUMMARY_DATA_FAILURE,
-    SUBMIT_CSV_UPLOAD_SUCCESS,
-    SUBMIT_CSV_UPLOAD_FAILURE,
-    CSV_UPLOAD_CONFIRM,
-    CSV_UPLOAD_CLEAR,
+    SUBMIT_CSV_LOAD_SUCCESS,
+    SUBMIT_CSV_LOAD_FAILURE,
+    CSV_LOAD_CONFIRM,
+    CSV_LOAD_CLEAR,
     CLEAR_CSV_LOAD_CONFIRM,
 
 } from "../constants/profile";
@@ -18,9 +18,9 @@ const initialState = {
     error: null,
     username: '',
     uploadData: {},
-    uploadError: null,
+    loadError: null,
     uploadFilename: '',
-    showCsvUploadSuccess: false,
+    showCsvLoadSuccess: false,
 };
 
 export default function profile(state = initialState, action) {
@@ -37,16 +37,16 @@ export default function profile(state = initialState, action) {
             };
         case FETCH_SUMMARY_DATA_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
-        case SUBMIT_CSV_UPLOAD_SUCCESS:
-            return { ...state, uploadError: null, uploadData: action.value.data };
-        case SUBMIT_CSV_UPLOAD_FAILURE:
-            return { ...state, loading: false, uploadError: action.payload.response.data.error };
-        case CSV_UPLOAD_CONFIRM:
-            return { ...state, uploadData: {}, showCsvUploadSuccess: true };
+        case SUBMIT_CSV_LOAD_SUCCESS:
+            return { ...state, loadError: null, uploadData: action.value.data };
+        case SUBMIT_CSV_LOAD_FAILURE:
+            return { ...state, loading: false, loadError: action.payload.response.data.error };
+        case CSV_LOAD_CONFIRM:
+            return { ...state, uploadData: {}, showCsvLoadSuccess: true };
         case CLEAR_CSV_LOAD_CONFIRM:
-            return { ...state, showCsvUploadSuccess: false, uploadError: null };
-        case CSV_UPLOAD_CLEAR:
-            return { ...state, uploadData: {}, uploadFilename: '', uploadError: null};
+            return { ...state, showCsvLoadSuccess: false, loadError: null };
+        case CSV_LOAD_CLEAR:
+            return { ...state, uploadData: {}, uploadFilename: '', loadError: null};
         default:
             return state
     }

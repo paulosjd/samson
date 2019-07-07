@@ -1,14 +1,13 @@
 import React from 'react';
-import { Modal, Table, ModalHeader, ModalBody, Alert } from 'reactstrap';
+import { Modal, Table, ModalHeader, Alert } from 'reactstrap';
 import { toTitleCase } from '../../utils/helpers'
 import CsvUploadForm from '../form/csv_upload'
 
 const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload, csvUploadConfirm,
-                           clearCsvUpload, showCsvUploadSuccess }) => {
+                           clearCsvLoad, showCsvLoadSuccess }) => {
     const uploadData = profileData.uploadData;
     const errorMsg = <Alert className="navitem-alert" color="warning">
-        <span role="img" aria-label="red-cross">&#x274C; {profileData.uploadError}</span></Alert>;
-
+        <span role="img" aria-label="red-cross">&#x274C; {profileData.loadError}</span></Alert>;
 
     if (uploadData.data && uploadData.meta ) {
         return (
@@ -16,10 +15,6 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
                 <ModalHeader>Confirm data</ModalHeader>
                 <Table className='data-table'>
                     <thead>
-
-                    {/* api - mandatory: date, value, optional: time, value2  */}
-                    {/* api - parameters must provide these */}
-
                     <tr>{uploadData.meta.field_order.map((item, key) => {
                             return <th key={key}>{toTitleCase(item)}</th>})}</tr>
                     </thead>
@@ -38,27 +33,25 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
                         onClick={() => csvUploadConfirm(uploadData, uploadData.meta)}
                     >Submit</button>
                     <button type="button" className="btn btn-danger csv-upload-clear"
-                            onClick={clearCsvUpload}>Clear</button>
+                            onClick={clearCsvLoad}>Clear</button>
                 </div>
-                { profileData.uploadError && errorMsg }
+                { profileData.loadError && errorMsg }
 
             </Modal>
         )
     }
-    let modalBody = profileData.summaryItems && profileData.summaryItems.length > 0 ?
-        <CsvUploadForm
-            handleCsvUploadSubmit={postCsvUpload}
-            allParams={profileData.allParams}
-            dateFormats={profileData.dateFormats}
-            summaryItems={profileData.summaryItems}
-        /> : <ModalBody>You need to add parameters to track first</ModalBody>;
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="csv-upload-modal">
             <ModalHeader>Upload tracking data</ModalHeader>
-            {showCsvUploadSuccess && <Alert className="upload-success-alert" color="info">
+            {showCsvLoadSuccess && <Alert className="upload-success-alert" color="info">
                 Data was successfully uploaded!</Alert>}
-            {modalBody}
-            {profileData.uploadError && errorMsg}
+            <CsvUploadForm
+                handleCsvUploadSubmit={postCsvUpload}
+                allParams={profileData.allParams}
+                dateFormats={profileData.dateFormats}
+                summaryItems={profileData.summaryItems}
+            />
+            {profileData.loadError && errorMsg}
         </Modal>
     );
 };

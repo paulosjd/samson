@@ -1,7 +1,7 @@
 import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SHOW_PROFILE_MENU,
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
-    SUBMIT_CSV_UPLOAD_SUCCESS, SUBMIT_CSV_UPLOAD_FAILURE, CSV_UPLOAD_CONFIRM, CSV_UPLOAD_CLEAR,
+    SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
     CLEAR_CSV_LOAD_CONFIRM,
 } from '../constants/profile'
 import axios from "axios";
@@ -67,9 +67,9 @@ export const postCsvUpload = (value) => {
         axios.post(url, formData,
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token'),
                     'Content-Type': 'multipart/form-data'}} )
-            .then((val) => dispatch({ type: SUBMIT_CSV_UPLOAD_SUCCESS, value: val }) )
+            .then((val) => dispatch({ type: SUBMIT_CSV_LOAD_SUCCESS, value: val }) )
             // .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }), 2500))
-            .catch((error) => { dispatch({ type: SUBMIT_CSV_UPLOAD_FAILURE, payload: error }) } )
+            .catch((error) => { dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) } )
     }
 };
 
@@ -78,14 +78,14 @@ export const confirmCsvUpload = (data, meta) => {
     return dispatch => {
         axios.post(url, {data: {...data, confirm: true}, meta: meta },
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-            .then(() => dispatch({ type: CSV_UPLOAD_CONFIRM }) )
+            .then(() => dispatch({ type: CSV_LOAD_CONFIRM }) )
             .then(() => setTimeout(() => dispatch({ type: CLEAR_CSV_LOAD_CONFIRM }), 2500))
-            .catch((error) => dispatch({ type: SUBMIT_CSV_UPLOAD_FAILURE, payload: error }) )
+            .catch((error) => dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) )
     }
 };
 
-export const clearCsvUpload = () => ({
-    type: CSV_UPLOAD_CLEAR
+export const clearCsvLoad = () => ({
+    type: CSV_LOAD_CLEAR
 });
 
 

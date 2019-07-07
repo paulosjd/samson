@@ -1,0 +1,106 @@
+.multi-select .arrow {
+    margin: auto;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 12px;
+    width: 20px;
+    /*margin: 0 5px;*/
+    /* float: right; */
+}
+
+.multi-select .options.show {
+    display: block;
+    width: 96%
+}
+
+.multi-select .options {
+    height: 200px;
+    z-index: 10001;
+    overflow-x: auto;
+    background-color: #fff;
+    position: absolute;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top-width: 0;
+    border-radius: 0 0 4px 4px;
+    width: 100%;
+    /* width: inherit; */
+    padding: 0;
+    display: none;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.options li {
+    display: block;
+    font-size: 16px;
+}
+
+.options li .option-list {
+    cursor: default;
+    margin-bottom: 2px;
+    text-transform: capitalize;
+    /*border-bottom: solid 2px #fff;*/
+    padding: 2px 5px;
+}
+
+.multi-select .bg-color-blue {
+    background-color: cornflowerblue;
+    color: #fff;
+}
+
+.multi-select .selected-options {
+    vertical-align: middle;
+    height: inherit;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 5px 0px 5px 10px;
+    width: inherit;
+    /*padding: 0 0 0 10px;*/
+}
+
+.multi-select .selected-options .selected-options-badges-list {
+    font-weight: 400;
+    margin: 0;
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+    width: calc(100% - 20px);
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: hidden;
+    /* float: left; */
+    /*width: calc(100% - 30px);*/
+    /*padding: 2px 0;*/
+    /*line-height: 1.4;*/
+}
+
+.multi-select .selected-options .selected-options-badges:after {
+    content: '×';
+    cursor: pointer;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.multi-select {
+    position: relative;
+    background-color: #fff;
+    border-radius: 4px;
+    width: 96%;
+    outline: none;
+    display: inline-block;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    margin-left: 12px;
+}
+
+.multi-select .selected-options-badges {
+    text-transform: capitalize;
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 0 5px;
+    margin: 0 5px 0 0;
+    border: solid 1px #ddd;
+    display: inline-block;
+}

@@ -8,23 +8,28 @@ const NavItems  = ({ props }) => {
     const { showCsvDownloadMenu, showCsvUploadMenu, showInterventionsMenu } = { ...props.menu };
     if ( showCsvDownloadMenu ) {
         return <CsvDownloadMenu
-            toggle={() => props.toggleNavItem('csv_upload', !showCsvDownloadMenu)}
+            toggle={() => {
+                props.toggleNavItem('csv_upload', !showCsvDownloadMenu);
+                props.clearCsvLoad()
+            }}
             isOpen={props.menu.showCsvDownloadMenu}
-            profileData={props.extras}
+            profileData={props.profile}
+            clearCsvLoad={props.clearCsvLoad}
+            showCsvLoadSuccess={props.profile.showCsvLoadSuccess}
         />
     }
     if ( showCsvUploadMenu ) {
         return <CsvUploadMenu
             toggle={() => {
                 props.toggleNavItem('csv_upload', !showCsvUploadMenu);
-                props.clearCsvUpload()
+                props.clearCsvLoad()
             }}
             isOpen={props.menu.showCsvUploadMenu}
             profileData={props.profile}
             postCsvUpload={props.postCsvUpload}
             csvUploadConfirm={props.csvUploadConfirm}
-            clearCsvUpload={props.clearCsvUpload}
-            showCsvUploadSuccess={props.profile.showCsvUploadSuccess}
+            clearCsvLoad={props.clearCsvLoad}
+            showCsvLoadSuccess={props.profile.showCsvLoadSuccess}
         />
     }
     if ( showInterventionsMenu ) {

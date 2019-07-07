@@ -63,7 +63,7 @@ const mapDispatchToProps = dispatch => {
         updateProfileMenu: (val) => dispatch(actionCreator.updateProfileInfo(val)),
         postCsvUpload: (val) => dispatch(actionCreator.postCsvUpload(val)),
         csvUploadConfirm: (data, meta) => dispatch(actionCreator.confirmCsvUpload(data, meta)),
-        clearCsvUpload: () => dispatch(actionCreator.clearCsvUpload()),
+        clearCsvLoad: () => dispatch(actionCreator.clearCsvLoad()),
     };
 };
 
