@@ -2,7 +2,7 @@ import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DAT
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
     SUBMIT_CSV_UPLOAD_SUCCESS, SUBMIT_CSV_UPLOAD_FAILURE, CSV_UPLOAD_CONFIRM, CSV_UPLOAD_CLEAR,
-    CLEAR_CSV_UPLOAD_CONFIRM,
+    CLEAR_CSV_LOAD_CONFIRM,
 } from '../constants/profile'
 import axios from "axios";
 
@@ -79,7 +79,7 @@ export const confirmCsvUpload = (data, meta) => {
         axios.post(url, {data: {...data, confirm: true}, meta: meta },
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then(() => dispatch({ type: CSV_UPLOAD_CONFIRM }) )
-            .then(() => setTimeout(() => dispatch({ type: CLEAR_CSV_UPLOAD_CONFIRM }), 2500))
+            .then(() => setTimeout(() => dispatch({ type: CLEAR_CSV_LOAD_CONFIRM }), 2500))
             .catch((error) => dispatch({ type: SUBMIT_CSV_UPLOAD_FAILURE, payload: error }) )
     }
 };

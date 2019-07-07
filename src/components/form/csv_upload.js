@@ -5,8 +5,6 @@ import {CsvUpload} from "../../schemas/csv_upload";
 const CsvUploadForm = (props) => {
     const [filename, setFilename] = useState('');
     const [uploadLabels, setuploadLabels] = useState([]);
-    const paramChoices = [...new Set(props.summaryItems.map(item => item.parameter))];
-    console.log(paramChoices)
     return (
         <Formik
             initialValues={{ file: null, param_choice: '', date_fmt: '' }}
@@ -22,7 +20,7 @@ const CsvUploadForm = (props) => {
                                     setuploadLabels(e.target.options[e.target.selectedIndex].dataset.labels.split(', '))
                                 }}>
                             <option value='' disabled>Parameter</option>
-                            {paramChoices.map((val, i) => {
+                            {props.allParams.map((val, i) => {
                                 return <option key={i}
                                                data-fields={val.upload_fields}
                                                data-labels={val.upload_field_labels}
@@ -42,7 +40,7 @@ const CsvUploadForm = (props) => {
                         {(errors.param_choice && touched.param_choice) &&
                         (<span className="navitem-field-err">{errors.param_choice}</span>)}
                         {(errors.date_fmt && touched.date_fmt) &&
-                        (<span style={{float: 'right', marginRight: 158}}
+                        (<span style={{float: 'right', marginRight: 128}}
                                className="navitem-field-err">{errors.date_fmt}</span>)}
                         {uploadLabels.length > 0 &&
                         <div>

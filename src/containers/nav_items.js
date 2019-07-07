@@ -5,9 +5,7 @@ import CsvUploadMenu from '../components/nav_items/csv_upload_menu'
 import InterventionsMenu from '../components/nav_items/interventions_menu'
 
 const NavItems  = ({ props }) => {
-
     const { showCsvDownloadMenu, showCsvUploadMenu, showInterventionsMenu } = { ...props.menu };
-
     if ( showCsvDownloadMenu ) {
         return <CsvDownloadMenu
             toggle={() => props.toggleNavItem('csv_upload', !showCsvDownloadMenu)}
@@ -43,7 +41,6 @@ const NavItems  = ({ props }) => {
             handleSave={props.updateProfileMenu}
             profileData={props.extras}
         />
-
 };
 
 export default NavItems
