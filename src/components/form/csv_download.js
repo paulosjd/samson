@@ -8,24 +8,15 @@ const CsvDownloadForm = (props) => {
         return { ...obj, id: ind, label: obj.name}
     });
     const [uploadLabels, setuploadLabels] = useState([]);
-    const [multiSelect, setMultiSelect] = useState(paramOptions);
+    const [multiSelect, setMultiSelect] = useState(paramOptions);  // contains the selected objects
     const [dropDownClicked, setDropDownClicked] = useState(false);
 
-
-    const selectedOptionsStyles = {
-        color: "#3c763d",
-        backgroundColor: "#dff0d8"
-    };
-    const optionsListStyles = {
-        backgroundColor: "#fcf8e3",
-        color: "#8a6d3b"
-    };
-
+    console.log(multiSelect)
     return (
         <Formik
             initialValues={{ param_choice: '', date_fmt: '' }}
             // onSubmit={props.handleCsvUploadSubmit}
-            onSubmit={() => console.log('sdf')}
+            onSubmit={(val) => console.log(val)}
             validationSchema={CsvDownload}
             render={({ values, handleSubmit, setFieldValue, errors, touched }) => {
                 return (
@@ -48,3 +39,12 @@ const CsvDownloadForm = (props) => {
 };
 
 export default CsvDownloadForm
+
+const selectedOptionsStyles = {
+    color: "#3c763d",
+    backgroundColor: "#dff0d8"
+};
+const optionsListStyles = {
+    backgroundColor: "#fcf8e3",
+    color: "#8a6d3b"
+};

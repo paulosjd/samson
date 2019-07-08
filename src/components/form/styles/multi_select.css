@@ -75,7 +75,7 @@
     /*line-height: 1.4;*/
 }
 
-.multi-select .selected-options .selected-options-badges:after {
+.multi-select .selected-options .selected-badge-cross {
     content: '×';
     cursor: pointer;
     margin-left: 5px;

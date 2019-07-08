@@ -1,61 +1,53 @@
-import React, {useState} from "react";
+import React from "react";
 import "./styles/multi_select.css"
 
 const MultiSelect = (props) => {
-    const selectedOptionsStyles = {color: "#000", backgroundColor: "#fff"};
-    const optionsListStyles = {backgroundColor: "cornflowerblue", color: "#fff"};
+
     let selected = [];
-    props.options.map((obj) => {
+    props.options.forEach(obj => {
         if (obj.value) {
             selected.push({ label: obj.label, id: obj.id });
         }
     });
+
     let selectedList = (
-        <label className="selected-options-badges-list" onClick={() => {
-            console.log('selectedList label on click!!')
-            props.setDropDownClicked(false);
+        <label className="selected-options-badges-list"
+               onClick={(e) => {
+                   if (e.target.className === 'selected-badge-cross') {
+                       // Remove item from selected when cross is clicked
+                       optionsOnchange(e.target.parentElement.dataset.id, false)
+                   }
         }}>
             {selected.map((obj) => {
                 return (
-                    <span style={props.selectedOptionsStyles || selectedOptionsStyles} key={obj.id}
-                          onClick={selectedOptionsClick}
+                    <span style={props.selectedOptionsStyles || selectedOptionsStyles}
+                          key={obj.id} data-id={obj.id}
                           className="selected-options-badges" >{obj.label}
+                          <span className='selected-badge-cross'>×</span>
                     </span>
                 );
             })}
         </label>);
-    const selectedOptionsClick = (id) => {
-        console.log('rain?')
-        console.log('props.options:' )
-        console.log(props.options)
-        let filteredList = props.options.slice();
-        console.log('filteredList:' )
-        console.log(filteredList)
-        // Todo  -- use filter isntead?
-        filteredList.map((obj) => {
-            if (obj.id === id) {
-                obj.value = false;
-            }
-        });
-        props.setDropDownClicked(false)
-        console.log('selectedOptionsClick ran!')
-        props.optionClicked(filteredList);
-    };
+
     const optionsOnchange = (index, value) => {
+        /** Call the parents useState setter function with the updated selected options array.
+         * This causes the component the be re-rendered with this updated array, whose objects are included
+         * in the selected options array if they have a 'value' key which is truthy */
         let dd = props.options.slice();
         dd[index].value = value;
         props.selectedBadgeClicked(dd);
     };
+
     const options = props.options.map((el, i) => {
         return (
             <li key={el.id} value={el.value}  >
                 <div className="option-list"
                      style={el.value ? (props.optionsListStyles || optionsListStyles) : {}}
-                     onClick={optionsOnchange.bind(this, i, !el.value)}>{el.label}
+                     onClick={() => optionsOnchange(i, !el.value)}>{el.label}
                 </div>
             </li>
         );
-    })
+    });
 
     return (
         <div className="multi-select" tabIndex="0"
@@ -66,7 +58,7 @@ const MultiSelect = (props) => {
                  onClick={(e) => {
                      if ('selected-options-badges-list' !== e.target.className || !props.dropDownClicked){
                          props.setDropDownClicked(true)
-                     }
+                     } else props.setDropDownClicked(false)
                  }}
             >{selectedList}
                 <div className="arrow"
@@ -78,6 +70,9 @@ const MultiSelect = (props) => {
             </ul>
         </div>
     )
-}
+};
 
 export default MultiSelect;
+
+const selectedOptionsStyles = {color: "#000", backgroundColor: "#fff"};
+const optionsListStyles = {backgroundColor: "cornflowerblue", color: "#fff"};
