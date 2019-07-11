@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Formik} from "formik";
-import {CsvUpload} from "../../schemas/csv_upload";
+import {CsvUpload} from "../../schemas/csv_load";
 
 const CsvUploadForm = (props) => {
     const [filename, setFilename] = useState('');
@@ -11,6 +11,7 @@ const CsvUploadForm = (props) => {
             onSubmit={props.handleCsvUploadSubmit}
             validationSchema={CsvUpload}
             render={({ values, handleSubmit, setFieldValue, errors, touched }) => {
+                const paleCls = !values.file || !values.param_choice || !values.date_fmt ? "no-val" : "";
                 return (
                     <form onSubmit={handleSubmit}>
                     <div>
@@ -63,7 +64,7 @@ const CsvUploadForm = (props) => {
                         {errors.file && touched.file && (<div className="navitem-field-err">{errors.file}</div>)}
                         </label>
                     </div>
-                    <button type="submit" className="btn btn-primary navitem-btn">Submit</button>
+                    <button type="submit" className={"btn btn-primary navitem-btn ".concat(paleCls)}>Submit</button>
                     </form>
                 );
             }}

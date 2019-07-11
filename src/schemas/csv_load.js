@@ -11,3 +11,7 @@ export const CsvUpload = Yup.object().shape({
     param_choice: Yup.string().required('Required'),
     date_fmt: Yup.string().required('Required')
 });
+
+export const CsvDownload = Yup.object().shape({
+    date_fmt: Yup.string().required('Required')
+}); 

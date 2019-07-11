@@ -24,6 +24,11 @@
     font-size: 2rem;
 }
 
+.no-val {
+    background-color: #a5c5e8 !important;
+    border-color: #a5c5e8 !important;
+}
+
 .profile-edit-modal {
     max-width: 320px !important;
 }
@@ -59,6 +64,12 @@
 .navitem-field-err {
     color: orangered;
     margin-left: 38px;
+}
+
+.date_fmt_error {
+    color: orangered;
+    float: right;
+    margin-right: 156px
 }
 
 #ttip {

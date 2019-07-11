@@ -64,6 +64,7 @@ const mapDispatchToProps = dispatch => {
         postCsvUpload: (val) => dispatch(actionCreator.postCsvUpload(val)),
         csvUploadConfirm: (data, meta) => dispatch(actionCreator.confirmCsvUpload(data, meta)),
         clearCsvLoad: () => dispatch(actionCreator.clearCsvLoad()),
+        getCsvDownload: (val) => dispatch(actionCreator.getCsvDownload(val))
     };
 };
 

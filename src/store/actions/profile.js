@@ -4,6 +4,7 @@ import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DAT
     SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
     CLEAR_CSV_LOAD_CONFIRM,
 } from '../constants/profile'
+import download from 'downloadjs';
 import axios from "axios";
 
 export const fetchProfileSummary = () => {
@@ -68,7 +69,6 @@ export const postCsvUpload = (value) => {
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token'),
                     'Content-Type': 'multipart/form-data'}} )
             .then((val) => dispatch({ type: SUBMIT_CSV_LOAD_SUCCESS, value: val }) )
-            // .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }), 2500))
             .catch((error) => { dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) } )
     }
 };
@@ -87,6 +87,20 @@ export const confirmCsvUpload = (data, meta) => {
 export const clearCsvLoad = () => ({
     type: CSV_LOAD_CLEAR
 });
+
+export const getCsvDownload = (value) => {
+    const url = 'http://127.0.0.1:8000/api/download/datapoints';
+    const fileName = value.fields.join('_').replace(' ', '_').toLowerCase().concat(
+        new Date().toISOString().slice(0,7).replace('-', ''), '.csv')
+    return dispatch => {
+        axios.post(url, value,
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token') }})
+            .then(response => {
+                download(response.data, fileName, 'text/csv'); dispatch({ type: CSV_LOAD_CONFIRM })} )
+            .then(() => setTimeout(() => dispatch({ type: CLEAR_CSV_LOAD_CONFIRM }), 2500))
+            .catch((error) => { dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) } )
+    }
+};
 
 
 // HOW TO MAKE ANY 401 Resp make redirect to login?  ... make so more than hour than not problem

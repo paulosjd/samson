@@ -16,6 +16,7 @@ const NavItems  = ({ props }) => {
             profileData={props.profile}
             clearCsvLoad={props.clearCsvLoad}
             showCsvLoadSuccess={props.profile.showCsvLoadSuccess}
+            getCsvDownload={props.getCsvDownload}
         />
     }
     if ( showCsvUploadMenu ) {

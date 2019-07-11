@@ -10,7 +10,7 @@
 
 .multi-select .options.show {
     display: block;
-    width: 96%
+    width: 94%
 }
 
 .multi-select .options {
@@ -86,13 +86,13 @@
     position: relative;
     background-color: #fff;
     border-radius: 4px;
-    width: 96%;
+    width: 94%;
     outline: none;
     display: inline-block;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    margin-left: 12px;
+    margin-left: 22px;
 }
 
 .multi-select .selected-options-badges {

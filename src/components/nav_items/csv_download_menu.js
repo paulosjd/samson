@@ -7,26 +7,31 @@ import CsvDownloadForm from "../form/csv_download";
 // cats:  Exercise regimen, dietary changes, medidcations, others
 // time-span
 
-const CsvDownloadMenu = ({ toggle, isOpen, profileData, showCsvLoadSuccess, clearCsvLoad }) => {
-    let modalBody ;
-    console.log('profileData.summaryItems')
-    console.log(profileData.summaryItems)
+const CsvDownloadMenu = ({ toggle, isOpen, profileData, showCsvLoadSuccess, getCsvDownload, clearCsvLoad }) => {
+    // console.log('profileData.summaryItems')
+    // console.log(profileData.summaryItems)
+    const [paramChoiceError, setParamChoiceError] = useState(false);
     const paramOptions = profileData.summaryItems.map(val => val.parameter);
+    let modalBody ;
     if (paramOptions.length > 0) {
         modalBody = (
             <CsvDownloadForm
-                // handleCsvUploadSubmit={reqCsvUpload}
+                handleCsvDownloadSubmit={getCsvDownload}
                 allParams={profileData.allParams}
                 dateFormats={profileData.dateFormats}
+                setParamChoiceError={setParamChoiceError}
                 paramOptions={paramOptions}
             />
         )} else  modalBody = <ModalBody>You need to add parameters to track first</ModalBody>;
     return (
-        <Modal isOpen={isOpen} toggle={toggle} className="csv-upload-modal">
+        <Modal className="csv-upload-modal" isOpen={isOpen} toggle={toggle}>
             <ModalHeader>Download tracking data</ModalHeader>
             {showCsvLoadSuccess && <Alert className="upload-success-alert" color="info">Download complete</Alert>}
             {modalBody}
-            {profileData.loadError && 'errorMsg'}
+            {profileData.loadError && <Alert className="upload-success-alert" color="warning" style={{marginTop: 4}}>
+                <span role="img" aria-label="red-cross">&#x274C; {'Error here!!'}</span></Alert>}
+            {paramChoiceError && <Alert className="upload-success-alert" color="warning" style={{marginTop: 4}}>
+                <span role="img" aria-label="red-cross">&#x274C; Tracking parameters required</span></Alert>}
         </Modal>
     );
 };
