@@ -32,11 +32,12 @@ const CsvDownloadForm = (props) => {
                             selectedBadgeClicked={(val) => {setMultiSelect(val); props.setParamChoiceError(false)} }
                             selectedOptionsStyles={selectedOptionsStyles}
                             optionsListStyles={optionsListStyles}
+                            optionsHeight={32 * paramOptions.length}
                         />
                         <label style={{marginLeft: 26}}>Select a date format</label>
                         <select id='date_fmt' className='modal-select' value={values.date_fmt}
                                 onChange={ e => {setFieldValue("date_fmt", e.target.value)}}>
-                            <option value='' disabled>Date format</option>
+                            <option value='' disabled> </option>
                             {props.dateFormats.map((val, i) => {
                                 return <option key={i} value={val}>{val}</option>
                             })}
