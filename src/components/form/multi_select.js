@@ -40,7 +40,7 @@ const MultiSelect = (props) => {
 
     const options = props.options.map((el, i) => {
         return (
-            <li key={el.id} value={el.value}  >
+            <li key={el.id} value={el.value} className="multi-select-item">
                 <div className="option-list"
                      style={el.value ? (props.optionsListStyles || optionsListStyles) : {}}
                      onClick={() => optionsOnchange(i, !el.value)}>{el.label}
@@ -51,22 +51,23 @@ const MultiSelect = (props) => {
 
     return (
         <div className="multi-select" tabIndex="0"
-             onBlur={() => {
-                 props.setDropDownClicked(false);
-             }}>
+             onBlur={ () => props.setDropDownClicked(false) }>
             <div className="selected-options"
                  onClick={(e) => {
                      if ('selected-options-badges-list' !== e.target.className || !props.dropDownClicked){
                          props.setDropDownClicked(true)
                      } else props.setDropDownClicked(false)
                  }}
-            >{selectedList}
+            >
+                {selectedList}
                 <div className="arrow"
-                     onClick={() => {props.setDropDownClicked(!props.dropDownClicked)}}
+                     onClick={ () => props.setDropDownClicked(!props.dropDownClicked) }
                 >&#9660;</div>
             </div>
-            <ul className={"options " + (props.dropDownClicked ? "show" : "")}>
-                {props.dropDownClicked ? options : null}
+            <ul style={props.dropDownClicked ? {height: props.optionsHeight} : {}}
+                className={"options " + (props.dropDownClicked ? "show" : "")}
+            >
+                { props.dropDownClicked ? options : null }
             </ul>
         </div>
     )
