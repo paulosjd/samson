@@ -16,12 +16,13 @@ const Summary = (props) => {
     } else if (true) {
             return <TimeSeriesChart />
     }
+
     else if (props.summaryItems.length > 0) {
-        item = props.summaryItems.map(obj => { return (
+        item = props.summaryItems.map(obj => {return (
             <MenuItemContent
                 key={obj.parameter.name}
                 date={obj.data_point.date}
-                label={obj.parameter.name.concat(': ', obj.data_point.value, '', obj.parameter.default_unit_symbol)}
+                label={obj.parameter.name.concat(': ', obj.data_point.value, '', obj.parameter.unit_symbol)}
                 handleClick={handleCategorySelection}
             /> )
         })

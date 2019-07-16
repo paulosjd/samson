@@ -21,7 +21,7 @@ class MenuItems extends Component {
                         <MenuItemContent
                             date={obj.data_point.date}
                             label={obj.parameter.name.concat(
-                                ': ', obj.data_point.value, '', obj.parameter.default_unit_symbol)}
+                                ': ', obj.data_point.value, ' ', obj.parameter.unit_symbol)}
                             handleClick={this.handleCategorySelection.bind(this)}
                         />
                     </ListGroupItem>)

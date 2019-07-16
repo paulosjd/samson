@@ -90,8 +90,8 @@ export const clearCsvLoad = () => ({
 
 export const getCsvDownload = (value) => {
     const url = 'http://127.0.0.1:8000/api/download/datapoints';
-    const fileName = value.fields.join('_').replace(' ', '_').toLowerCase().concat(
-        new Date().toISOString().slice(0,7).replace('-', ''), '.csv')
+    const fileName = value.fields.join('_').replace(/ /g, '_').toLowerCase().concat(
+        new Date().toISOString().slice(0,7).replace('-', ''), '.csv');
     return dispatch => {
         axios.post(url, value,
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token') }})
@@ -101,6 +101,3 @@ export const getCsvDownload = (value) => {
             .catch((error) => { dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) } )
     }
 };
-
-
-// HOW TO MAKE ANY 401 Resp make redirect to login?  ... make so more than hour than not problem

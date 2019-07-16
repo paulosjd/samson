@@ -30,7 +30,10 @@ export default function profile(state = initialState, action) {
             return { ...state, loading: true, error: null };
         case FETCH_SUMMARY_DATA_SUCCESS:
             return { ...state, loading: false,
-                summaryItems: action.payload.profileData.data.profile_summary,
+                summaryItems: action.payload.profileData.data.profile_summary.map(obj => {
+                    return {parameter: {...obj.parameter, unit_name: obj.unit_name, unit_symbol: obj.unit_symbol},
+                            data_point: obj.data_point}
+                }),
                 allParams: action.payload.profileData.data.all_params,
                 dateFormats: action.payload.profileData.data.date_formats,
             };
