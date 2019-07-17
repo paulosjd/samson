@@ -29,7 +29,9 @@ export default function profile(state = initialState, action) {
         case FETCH_SUMMARY_DATA_BEGIN:
             return { ...state, loading: true, error: null };
         case FETCH_SUMMARY_DATA_SUCCESS:
-            return { ...state, loading: false,
+            return {
+                ...state,
+                loading: false,
                 summaryItems: action.payload.profileData.data.profile_summary.map(obj => {
                     return {parameter: {...obj.parameter, unit_name: obj.unit_name, unit_symbol: obj.unit_symbol},
                             data_point: obj.data_point}

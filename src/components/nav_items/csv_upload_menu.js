@@ -40,6 +40,7 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
             </Modal>
         )
     }
+    console.log(profileData)
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="csv-upload-modal">
             <ModalHeader>Upload tracking data</ModalHeader>
