@@ -27,6 +27,7 @@ const NavItems  = ({ props }) => {
             }}
             isOpen={props.menu.showCsvUploadMenu}
             profileData={props.profile}
+            fetchProfileSummary={props.fetchProfileSummary}
             postCsvUpload={props.postCsvUpload}
             csvUploadConfirm={props.csvUploadConfirm}
             clearCsvLoad={props.clearCsvLoad}

@@ -15,7 +15,7 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
             return item.unit_name.concat(' (', item.unit_symbol, ')')
         }
     };
-    console.log(allParams)
+
     return (
         <Formik
             initialValues={{ file: null, param_choice: '', date_fmt: '', unit_choice: ''}}
@@ -39,8 +39,8 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                     const unitOptions = allParams[paramIndex].available_unit_options.map(x => x.name);
                     unitOptionField = (
                         <React.Fragment>
-                            <label style={{marginLeft: 20}}>Units of measurement:</label>
-                            <select id='unit_choice' className='modal-select' value={values.unit_choice}
+                            <label style={{marginLeft: 26}}>Units of measurement:</label>
+                            <select id='unit_choice' className='unit-opt-select' value={values.unit_choice}
                                     onChange={ e => setFieldValue("unit_choice", e.target.value) }>
                                 {unitOptions.map((val, i) => { return <option key={i} value={val}>{val}</option>})}
                             </select>
@@ -55,12 +55,10 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                             onChange={ e => {
                                 setFieldValue("param_choice", e.target.value);
                                 setuploadLabels(e.target.options[e.target.selectedIndex].dataset.labels.split(', '))
-                                if (!savedUnitOption) {
-                                    const defParamIndex = allParams.findIndex(x => x.name === e.target.value);
-                                    console.log(defParamIndex)
-                                    console.log(("unit_choice :  " + allParams[defParamIndex].available_unit_options[0].name))
-                                    setFieldValue("unit_choice", allParams[defParamIndex].available_unit_options[0].name)
-                                }
+                                if (!unitOptionSaved(e.target.value)) {
+                                    const apInd = allParams.findIndex(x => x.name === e.target.value);
+                                    setFieldValue("unit_choice", allParams[apInd].available_unit_options[0].name)
+                                } else setFieldValue("unit_choice", '')  // unitOptionSaved, so server doesn't need
                             }}>
                             <option value='' disabled>Parameter</option>
                             {allParams.map((val, i) => {
