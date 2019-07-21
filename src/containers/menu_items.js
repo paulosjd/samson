@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import * as actionCreator from "../store/actions/profile";
+import * as bodyActionCreator from "../store/actions/body";
+import * as profileActionCreator from "../store/actions/profile";
 import {connect} from "react-redux";
 import {Col, ListGroup, ListGroupItem, Spinner} from 'reactstrap';
 import MenuItemContent from '../components/menu_item_content'
 
 class MenuItems extends Component {
 
-    handleCategorySelection(value) {
-        console.log(value)
+    handleItemSelection(val) {
+        this.props.setMenuItemIndex(val)
     }
 
     render() {
@@ -15,14 +16,19 @@ class MenuItems extends Component {
         if (this.props.isLoading) {
             items = <Spinner color="secondary"/>
         } else if (this.props.summaryItems.length > 0) {
-            items = this.props.summaryItems.map(obj => {
+            items = this.props.summaryItems.map((obj, ind) => {
                 return (
-                    <ListGroupItem key={obj.parameter.name} action>
+                    <ListGroupItem key={ind} action
+                                   onClick={this.handleItemSelection.bind(this, ind)}
+                                   className={this.props.selItemInd === ind ? 'selected-menu-item' : ''}
+                    >
                         <MenuItemContent
+                            isSelected={this.props.selItemInd === ind}
                             date={obj.data_point.date}
-                            label={obj.parameter.name.concat(
-                                ': ', obj.data_point.value, ' ', obj.parameter.unit_symbol)}
-                            handleClick={this.handleCategorySelection.bind(this)}
+                            label={obj.parameter.name}
+                            value={obj.data_point.value}
+                            value2={obj.data_point.value2}
+                            unit_symbol={' ('.concat(obj.parameter.unit_symbol, ')')}
                         />
                     </ListGroupItem>)
             })
@@ -36,18 +42,13 @@ class MenuItems extends Component {
 
 const mapStateToProps = state => {
     return {
-        // categories: state.categories,
-        // allTopics: state.allTopics,
-
+        selItemInd: state.body.selectedItemIndex,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        // setTopic: (val) => dispatch(actionCreator.setTopic(val)),
-        // setCategory: (val) => dispatch(actionCreator.setCategory(val)),
-        // topicsByCategory: () => dispatch(actionCreator.topicsByCategory()),
-        // setPathname: () => dispatch(actionCreator.setPathname())
+        setMenuItemIndex: (val) => dispatch(bodyActionCreator.setMenuItemIndex(val)),
     };
 };
 

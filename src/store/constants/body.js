@@ -1,0 +1,1 @@
+export const SET_MENU_ITEM_INDEX = 'SET_MENU_ITEM_INDEX';

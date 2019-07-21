@@ -148,3 +148,7 @@ input[type='file'] {
 .unit-opt-select {
     margin: 12px 26px 16px 14px;
 }
+
+.selected-menu-item {
+    background-color: #f8f9fa !important;
+}

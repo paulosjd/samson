@@ -33,6 +33,7 @@ class MainBody extends Component {
                   </Col>
                   <Col xs="9" style={{paddingLeft: 0, paddingRight: 0}}>
                       <Summary
+                          body={this.props.body}
                           isLoading={this.props.loading}
                           summaryItems={this.props.summaryItems || []}/>
                   </Col>
@@ -42,16 +43,15 @@ class MainBody extends Component {
     }
 }
 
-const mapStateToProps = ({auth, extras, menu, profile}) => {
+const mapStateToProps = ({auth, body, extras, menu, profile}) => {
     return {
+        body: body,
         profile: profile,
         extras: extras,
         error: profile.error,
         loading: profile.loading,
         summaryItems: profile.summaryItems,
         menu: menu,
-        user_id: auth.user_id,
-        username: auth.username,
     };
 };
 
