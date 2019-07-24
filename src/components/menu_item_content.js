@@ -12,8 +12,7 @@ export default ({date, label, value, value2, unit_symbol, }) => {
     return (
         <div>
             <h5 className='category_label'><strong>{label}</strong></h5>
-            <h5 className='category_label'>{date}</h5>
-            <h5 className='category_label'>{summaryVal}</h5>
+            <h6 className='category_label '>{date.concat(' -- ', summaryVal)}</h6>
             {val2Line}
         </div>
     )

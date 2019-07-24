@@ -35,7 +35,19 @@ class MenuItems extends Component {
         } else {
             items = <h2>You need to add items</h2>
         }
-        return <ListGroup>{items}</ListGroup>
+        return (
+            <React.Fragment>
+            <ListGroup className='menu-items-list'>
+                {items}
+            </ListGroup>
+            <ListGroup>
+                <ListGroupItem className='hover-background menu-items-list'>
+                    <span role="img" aria-label="plus">&#x2795; Add data points</span>
+                </ListGroupItem>
+                </ListGroup>
+            </React.Fragment>
+        )
+
 
     }
 }

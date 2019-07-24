@@ -4,7 +4,9 @@ import { Container, Row, Col } from 'reactstrap';
 import MenuItems from './menu_items'
 import NavItems from './nav_items'
 import Summary from '../components/summary'
+import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
+import { setFeatItemIndex } from "../store/actions/body";
 
 class MainBody extends Component {
 
@@ -14,6 +16,7 @@ class MainBody extends Component {
     }
 
     render() {
+
         if ( this.props.error ) {
             console.log(this.props.error)
             return <div>{'ERROR!!!  ' + this.props.error}</div>
@@ -24,19 +27,28 @@ class MainBody extends Component {
         return (
             <Container>
                 <Row>
-                  <Col xs="3" style={{paddingLeft: 0, paddingRight: 0}}>
-                      <MenuItems
-                          isLoading={this.props.loading}
-                          summaryItems={this.props.summaryItems || []}
-                      />
-                      <p>Button to add items</p>
-                  </Col>
-                  <Col xs="9" style={{paddingLeft: 0, paddingRight: 0}}>
-                      <Summary
-                          body={this.props.body}
-                          isLoading={this.props.loading}
-                          summaryItems={this.props.summaryItems || []}/>
-                  </Col>
+                    <Col xs="3" style={{paddingLeft: 0, paddingRight: 0}}>
+                        <MenuItems
+                            isLoading={this.props.loading}
+                            summaryItems={this.props.summaryItems}
+                        />
+                    </Col>
+                    <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
+                        <Summary
+                            body={this.props.body}
+                            isLoading={this.props.loading}
+                            summaryItems={this.props.summaryItems}
+                            selectedParameter={this.props.selectedParameter}
+                        />
+                    </Col>
+                    <Col xs="5" style={{paddingLeft: 0, paddingRight: 0}}>
+                        <Feature
+                            dataPoints={this.props.dataPoints}
+                            body={this.props.body}
+                            selectedParameter={this.props.selectedParameter}
+                            setFeatItemIndex={this.props.setFeatItemIndex}
+                        />
+                    </Col>
                 </Row>
             </Container>
         );
@@ -50,7 +62,10 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         extras: extras,
         error: profile.error,
         loading: profile.loading,
-        summaryItems: profile.summaryItems,
+        dataPoints: profile.dataPoints || [],
+        selectedParameter: profile.summaryItems[body.selectedItemIndex]
+            ? profile.summaryItems[body.selectedItemIndex].parameter : '',
+        summaryItems: profile.summaryItems || [],
         menu: menu,
     };
 };
@@ -59,12 +74,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchProfileSummaryBegin: () => dispatch(actionCreator.fetchProfileSummaryBegin()),
         fetchProfileSummary: () => dispatch(actionCreator.fetchProfileSummary()),
-        toggleNavItem: (item, val) => dispatch(actionCreator.showNavItem(item, val)),
-        updateProfileMenu: (val) => dispatch(actionCreator.updateProfileInfo(val)),
-        postCsvUpload: (val) => dispatch(actionCreator.postCsvUpload(val)),
-        csvUploadConfirm: (data, meta) => dispatch(actionCreator.confirmCsvUpload(data, meta)),
-        clearCsvLoad: () => dispatch(actionCreator.clearCsvLoad()),
-        getCsvDownload: (val) => dispatch(actionCreator.getCsvDownload(val))
+        setFeatItemIndex: (val) => {console.log(val); dispatch(setFeatItemIndex(val)) }
     };
 };
 

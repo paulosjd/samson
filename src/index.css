@@ -11,8 +11,8 @@
     padding-left: 0 !important;
 }
 
-.col-9 {
-    margin-top: 14px !important;
+.col-4 {
+    margin-top: 16px;
 }
 
 .container {
@@ -149,6 +149,46 @@ input[type='file'] {
     margin: 12px 26px 16px 14px;
 }
 
+.menu-items-list {
+    margin-top: 16px;
+    margin-left: 14px;
+    cursor: default;
+}
+
+.category_label {
+    text-align: center;
+}
+
+.feat-item {
+    cursor: default;
+    width: 380px
+}
+
+.feat-item-group {
+    margin-top: 20px;
+    margin-left: 60px;
+}
+
 .selected-menu-item {
     background-color: #f8f9fa !important;
+}
+
+.hover-background:hover {
+    background-color: #f8f9fa !important;
+}
+
+.data-points-table {
+    max-width: 380px;
+    margin-left: 60px;
+    margin-top: 30px;
+    cursor: default;
+}
+.data-points-table tbody {
+    text-align: center;
+}
+
+.data-points-unit-label {
+    float: right;
+    margin-right: 12px;
+    font-weight: normal;
 }
