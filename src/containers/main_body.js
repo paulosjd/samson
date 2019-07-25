@@ -6,7 +6,8 @@ import NavItems from './nav_items'
 import Summary from '../components/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
-import { setFeatItemIndex } from "../store/actions/body";
+import { setFeatItemIndex, setEditDataFlag } from "../store/actions/body";
+import OutsideAction from '../utils/outside_action'
 
 class MainBody extends Component {
 
@@ -42,12 +43,15 @@ class MainBody extends Component {
                         />
                     </Col>
                     <Col xs="5" style={{paddingLeft: 0, paddingRight: 0}}>
+                        <OutsideAction action={() => this.props.setEditDataFlag(false)}>
                         <Feature
                             dataPoints={this.props.dataPoints}
                             body={this.props.body}
                             selectedParameter={this.props.selectedParameter}
                             setFeatItemIndex={this.props.setFeatItemIndex}
+                            setEditDataFlag={this.props.setEditDataFlag}
                         />
+                        </OutsideAction>
                     </Col>
                 </Row>
             </Container>
@@ -74,7 +78,8 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchProfileSummaryBegin: () => dispatch(actionCreator.fetchProfileSummaryBegin()),
         fetchProfileSummary: () => dispatch(actionCreator.fetchProfileSummary()),
-        setFeatItemIndex: (val) => {console.log(val); dispatch(setFeatItemIndex(val)) }
+        setFeatItemIndex: val => dispatch(setFeatItemIndex(val)),
+        setEditDataFlag: val => dispatch(setEditDataFlag(val)),
     };
 };
 

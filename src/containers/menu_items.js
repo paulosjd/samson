@@ -47,8 +47,6 @@ class MenuItems extends Component {
                 </ListGroup>
             </React.Fragment>
         )
-
-
     }
 }
 

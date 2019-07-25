@@ -191,4 +191,5 @@ input[type='file'] {
     float: right;
     margin-right: 12px;
     font-weight: normal;
+    cursor: pointer;
 }
