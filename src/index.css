@@ -178,18 +178,32 @@ input[type='file'] {
 }
 
 .data-points-table {
-    max-width: 380px;
-    margin-left: 60px;
-    margin-top: 30px;
-    cursor: default;
+     max-width: 380px;
+     margin-left: 60px;
+     margin-top: 30px;
+     cursor: default;
+ }
+
+.data-points-table input {
+    width: 100px;
+    text-align: center;
 }
+
 .data-points-table tbody {
     text-align: center;
 }
 
-.data-points-unit-label {
+.data-points-header-action {
     float: right;
     margin-right: 12px;
     font-weight: normal;
     cursor: pointer;
+    /*border: 1px solid #888f83;*/
+    /*border-radius: 4px;*/
+    padding: 1px
+}
+.data-points-header-action:hover {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    /*padding: 2px*/
 }
