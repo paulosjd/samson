@@ -45,51 +45,51 @@ const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editDat
 
         return (
             <div onBlur={setEditDataFlag}>
-                <Table className='data-points-table' bordered>
-                    <thead>
-                    <tr>
-                        <th colSpan={2}>
-                            <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
-                            <span onClick={() => setEditDataFlag(true)} className='data-points-header-action'
-                            >&#x2714;&#xFE0F; Save</span>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
                     <Formik
                         initialValues={initial}
                         onSubmit={val => console.log(val)}
-                        validationSchema={CsvUpload}
+                        validationSchema={TableEdit}
                         render={({values, handleSubmit, setFieldValue, errors, touched}) => {
 
-                            bodyRows = dataPoints.map(obj => {
-                                return (
-                                    <tr key={obj.id}>
-                                        <td><input value={editedDates[obj.id] ? editedDates[obj.id] : obj.date}
-                                                   onChange={e => setEditedDates({
-                                                       ...editedDates,
-                                                       [obj.id]: e.target.value
-                                                   })}
-                                        /></td>
-                                        {/*editDataState[ind].date || obj.date  onChange={e => setEditDataState(e.target.value)*/}
-                                        <td><input
-                                            onChange={e => setEditedValues({...editedValues, [obj.id]: e.target.value})}
-                                            value={obj.value}/></td>
-                                    </tr>)
-                            });
-
-                            return (3
+                            return (
+                                    <form onSubmit={handleSubmit}>
+                                    <Table className='data-points-table' bordered>
+                                    <thead>
+                                    <tr>
+                                        <th colSpan={2}>
+                                            <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
+                                            <span onClick={() => setEditDataFlag(true)}
+                                                  className='data-points-header-action'
+                                            >&#x2714;&#xFE0F; Save</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {dataPoints.map(obj => {
+                                        return (
+                                            <tr key={obj.id}>
+                                                <td><input type='text'
+                                                    name='date'
+                                                    value={values[`${obj.id}_date`]}
+                                                    onChange={ e => {setFieldValue(`${obj.id}_date`, e.target.value)}}
+                                                /></td>
+                                                {/*editDataState[ind].date || obj.date  onChange={e => setEditDataState(e.target.value)*/}
+                                                <td><input type='text'
+                                                    name='value'
+                                                    value={values[`${obj.id}_value`]}
+                                                    onChange={ e => {setFieldValue(`${obj.id}_value`, e.target.value)}}
+                                                /></td>
+                                            </tr>)
+                                    })}
+                                    </tbody>
+                                    </Table>
+                                    </form>
 
 
                             )
 
                         }}
                     />
-
-
-                    </tbody>
-                </Table>
             </div>
         )
 
