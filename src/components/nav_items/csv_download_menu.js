@@ -1,18 +1,16 @@
-import React, { useState, useEffect} from 'react';
-import {Modal, ModalHeader, Alert, ModalBody} from 'reactstrap';
-import { Formik, Field } from 'formik';
-import { ProfileInfo } from '../../schemas/profile'
+import React, { useState } from 'react';
+import { Modal, ModalHeader, Alert, ModalBody } from 'reactstrap';
 import CsvDownloadForm from "../form/csv_download";
 
 // cats:  Exercise regimen, dietary changes, medidcations, others
 // time-span
 
 const CsvDownloadMenu = ({ toggle, isOpen, profileData, showCsvLoadSuccess, getCsvDownload, clearCsvLoad }) => {
-    // console.log('profileData.summaryItems')
-    // console.log(profileData.summaryItems)
+
     const [paramChoiceError, setParamChoiceError] = useState(false);
     const paramOptions = profileData.summaryItems.map(val => val.parameter);
     let modalBody ;
+
     if (paramOptions.length > 0) {
         modalBody = (
             <CsvDownloadForm
@@ -23,6 +21,7 @@ const CsvDownloadMenu = ({ toggle, isOpen, profileData, showCsvLoadSuccess, getC
                 paramOptions={paramOptions}
             />
         )} else  modalBody = <ModalBody>You need to add parameters to track first</ModalBody>;
+
     return (
         <Modal className="csv-upload-modal" isOpen={isOpen} toggle={toggle}>
             <ModalHeader>Download tracking data</ModalHeader>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table } from "reactstrap";
-import {CsvUpload} from "../schemas/csv_load";
-import {Formik} from "formik";
+import { TableEdit } from "../schemas/table_edit";
+import { Formik } from "formik";
 
 const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editData}) => {
     let bodyRows;
@@ -33,6 +33,16 @@ const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editDat
             </div>
         )
     } else {
+
+        const initial = {};
+        // dataPoints.forEach(item => {console.log(Object.entries(item))})
+        dataPoints.forEach(item => {
+            selectedParameter.upload_fields.split(', ').forEach(fieldName => {
+                initial[`${item.id}_${fieldName}`] = item[fieldName]
+            })
+        });
+        console.log(initial);
+
         return (
             <div onBlur={setEditDataFlag}>
                 <Table className='data-points-table' bordered>
@@ -48,8 +58,8 @@ const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editDat
                     <tbody>
 
                     <Formik
-                        initialValues={{file: null, param_choice: '', date_fmt: '', unit_choice: ''}}
-                        onSubmit={handleCsvUploadSubmit}
+                        initialValues={initial}
+                        onSubmit={val => console.log(val)}
                         validationSchema={CsvUpload}
                         render={({values, handleSubmit, setFieldValue, errors, touched}) => {
 
