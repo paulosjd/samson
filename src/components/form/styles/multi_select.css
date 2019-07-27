@@ -4,8 +4,6 @@
     cursor: pointer;
     font-size: 12px;
     width: 20px;
-    /*margin: 0 5px;*/
-    /* float: right; */
 }
 
 .multi-select .options.show {
@@ -44,7 +42,6 @@
     cursor: default;
     margin-bottom: 2px;
     text-transform: capitalize;
-    /*border-bottom: solid 2px #fff;*/
     padding: 2px 5px;
 }
 
@@ -61,7 +58,6 @@
     display: inline-block;
     padding: 5px 0px 5px 10px;
     width: inherit;
-    /*padding: 0 0 0 10px;*/
 }
 
 .multi-select .selected-options .selected-options-badges-list {
@@ -74,10 +70,6 @@
     white-space: nowrap;
     text-overflow: clip;
     overflow: hidden;
-    /* float: left; */
-    /*width: calc(100% - 30px);*/
-    /*padding: 2px 0;*/
-    /*line-height: 1.4;*/
 }
 
 .multi-select .selected-options .selected-badge-cross {

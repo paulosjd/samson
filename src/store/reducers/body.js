@@ -4,7 +4,6 @@ const initialState = {
     selectedItemIndex: 0,
     selectedFeatIndex: 0,
     editData: false,
-    // editedValues: {date: ? value: }
 };
 
 export default function profile(state = initialState, action) {
