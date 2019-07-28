@@ -4,9 +4,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { validDate, validNumber } from '../../schemas/constants'
 
-const DataPointTableEdit = ({dataPoints, selectedParameter, setEditDataFlag}) => {
+const DataPointTableEdit = ({dataPoints, selectedParameter, setEditDataFlag, postEditedDataPoints }) => {
 
-    const initial = {};
+    const initial = {delItems: []};
     const schemaShape = {};
     dataPoints.forEach(item => {
         selectedParameter.upload_fields.split(', ').forEach(fieldName => {
@@ -15,55 +15,73 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, setEditDataFlag}) =>
             schemaShape[key] = fieldName === 'date' ? validDate : validNumber
         })
     });
-    const yupSchema = Yup.object().shape(schemaShape);
+    const valSchema = Yup.object().shape(schemaShape);
 
-    console.log(initial);
+    console.log(dataPoints);
 
     return (
         <Formik
             initialValues={initial}
-            onSubmit={val => { console.log(val); setEditDataFlag(false)}}
-            validationSchema={yupSchema}
-            render={({values, handleSubmit, setFieldValue, errors, touched, handleBlur, submitForm}) => {
+            onSubmit={val => postEditedDataPoints({ ...val, parameter: selectedParameter.name })}
+            validationSchema={valSchema}
+            render={({values, handleSubmit, setFieldValue, errors, touched, handleBlur}) => {
+                console.log(values)
                 console.log(errors)
                 return (
                     <form onSubmit={handleSubmit}>
-                        <Table className='data-points-table' bordered>
-                            <thead>
-                            <tr>
-                                <th colSpan={2}>
-                                    <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
-                                    <button type='submit' className='data-points-header-action'
-                                    >&#x2714;&#xFE0F; Save</button>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {dataPoints.map(obj => {
-                                return (
-                                    <tr key={obj.id}>
-                                        <td><input
-                                            type='text' name={`${obj.id}_date`}
-                                            value={values[`${obj.id}_date`]}
+                    <Table className='data-points-table' bordered>
+                        <thead>
+                        <tr>
+                            <th colSpan={2}>
+                                <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
+                                <button type='submit' className='data-points-header-action'
+                                >&#x2714;&#xFE0F; Save</button>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {dataPoints.map((obj, ind) => {
+                            const dateKey = `${obj.id}_date`;
+                            const valKey = `${obj.id}_value`;
+                            const dateError = errors[dateKey] && touched[dateKey];
+                            const valueError = errors[valKey] && touched[valKey];
+                            const objIsPendingDel = values.delItems.includes(obj.id);
+                            const handleDelIconClick = () => {
+                                const delList = [...values.delItems];
+                                if (!objIsPendingDel) delList.push(obj.id);
+                                setFieldValue('delItems', delList);
+                                setFieldValue(valKey, dataPoints[ind].value);
+                                setFieldValue(dateKey, dataPoints[ind].date)
+                            };
+                            return (
+                                <tr key={obj.id} className={objIsPendingDel ? 'pend-del' : ''}>
+                                    <td className={ dateError ? 'td-err' : ''}>
+                                        { !objIsPendingDel ? <span role="img" aria-label="trash" className='del-icon'
+                                              onClick={handleDelIconClick}>&#x274C;</span> : ''}
+                                        <input
+                                            type='text' name={dateKey}
+                                            value={  values[dateKey]}
                                             onBlur={handleBlur}
-                                            onChange={ e => setFieldValue(`${obj.id}_date`, e.target.value) }
+                                            disabled={objIsPendingDel}
+                                            onChange={ e => setFieldValue(dateKey, e.target.value) }
+                                            className={objIsPendingDel ? 'pend-del' : ''}
                                         />
-                                            {errors[`${obj.id}_date`] && touched[`${obj.id}_date`] &&
-                                            <div className='dp-edit-err'>{errors[`${obj.id}_date`]}</div>}
-                                        </td>
-                                        <td><input
-                                            type='text' name={`${obj.id}_value`}
-                                            value={values[`${obj.id}_value`]}
+                                        {dateError && <div className='dp-edit-err'>{errors[dateKey]}</div>}
+                                    </td>
+                                    <td className={ valueError ? 'td-err' : ''}>
+                                        <input
+                                            type='text' className={objIsPendingDel ? 'pend-del dp-edit' : 'dp-edit'}
+                                            value={values[valKey]}
                                             onBlur={handleBlur}
-                                            onChange={ e => {setFieldValue(`${obj.id}_value`, e.target.value)}}
+                                            disabled={objIsPendingDel}
+                                            onChange={ e => {setFieldValue(valKey, e.target.value)}}
                                         />
-                                            {errors[`${obj.id}_value`] && touched[`${obj.id}_value`] &&
-                                            <div className='dp-edit-err'>{errors[`${obj.id}_value`]}</div>}
-                                        </td>
-                                    </tr>)
-                            })}
-                            </tbody>
-                        </Table>
+                                        {valueError && <div className='dp-edit-err'>{errors[valKey]}</div>}
+                                    </td>
+                                </tr>)
+                        })}
+                        </tbody>
+                    </Table>
                     </form>
                 )
             }}

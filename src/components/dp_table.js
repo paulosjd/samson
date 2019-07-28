@@ -1,8 +1,9 @@
 import React from 'react';
 import { Table } from "reactstrap";
 import DataPointTableEdit from "./form/dp_table_edit";
+import {postEditedDataPoints} from "../store/actions/body";
 
-const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editData}) => {
+const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editData, postEditedDataPoints}) => {
     if (!editData) {
         return (
             <div onBlur={setEditDataFlag}>
@@ -36,6 +37,7 @@ const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editDat
                     dataPoints={dataPoints}
                     selectedParameter={selectedParameter}
                     setEditDataFlag={setEditDataFlag}
+                    postEditedDataPoints={postEditedDataPoints}
                 />
             </div>
         )

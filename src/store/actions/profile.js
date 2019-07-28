@@ -62,7 +62,7 @@ export const postCsvUpload = (value) => {
     formData.set('param_choice',value.param_choice);
     formData.set('unit_choice',value.unit_choice);
 
-    const url = 'http://127.0.0.1:8000/api/upload/datapoints';
+    const url = 'http://127.0.0.1:8000/api/datapoints/upload';
     return dispatch => {
         axios.post(url, formData,
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token'),
@@ -73,7 +73,7 @@ export const postCsvUpload = (value) => {
 };
 
 export const confirmCsvUpload = (data, meta) => {
-    const url = 'http://127.0.0.1:8000/api/upload/datapoints';
+    const url = 'http://127.0.0.1:8000/api/datapoints/upload';
     return dispatch => {
         axios.post(url, {data: {...data, confirm: true}, meta: meta },
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
@@ -88,7 +88,7 @@ export const clearCsvLoad = () => ({
 });
 
 export const getCsvDownload = (value) => {
-    const url = 'http://127.0.0.1:8000/api/download/datapoints';
+    const url = 'http://127.0.0.1:8000/api/datapoints/download';
     const fileName = value.fields.join('_').replace(/ /g, '_').toLowerCase().concat(
         new Date().toISOString().slice(0,7).replace('-', ''), '.csv');
     return dispatch => {

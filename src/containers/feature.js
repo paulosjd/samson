@@ -1,8 +1,8 @@
 import React from 'react';
-import { ListGroup, ListGroupItem, Spinner } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 import DataPointTable from '../components/dp_table'
 
-const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEditDataFlag}) => {
+const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints}) => {
     const labels = ['\ud83d\udcc8  Chart', '\t\ud83d\udcc4  Notes', '\ud83d\udcd6  Literature bookmarks'];
     return (
         <React.Fragment>
@@ -31,6 +31,7 @@ const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEdit
                 selectedParameter={selectedParameter}
                 setEditDataFlag={setEditDataFlag}
                 editData={body.editData}
+                postEditedDataPoints={postEditedDataPoints}
             />
         </React.Fragment>
         )

@@ -6,7 +6,7 @@ import NavItems from './nav_items'
 import Summary from '../components/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
-import { setFeatItemIndex, setEditDataFlag } from "../store/actions/body";
+import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 
 class MainBody extends Component {
@@ -50,6 +50,7 @@ class MainBody extends Component {
                             selectedParameter={this.props.selectedParameter}
                             setFeatItemIndex={this.props.setFeatItemIndex}
                             setEditDataFlag={this.props.setEditDataFlag}
+                            postEditedDataPoints={this.props.postEditedDataPoints}
                         />
                         </OutsideAction>
                     </Col>
@@ -80,6 +81,13 @@ const mapDispatchToProps = dispatch => {
         fetchProfileSummary: () => dispatch(actionCreator.fetchProfileSummary()),
         setFeatItemIndex: val => dispatch(setFeatItemIndex(val)),
         setEditDataFlag: val => dispatch(setEditDataFlag(val)),
+        postEditedDataPoints: val => dispatch(postEditedDataPoints(val)),
+        toggleNavItem: (item, val) => dispatch(actionCreator.showNavItem(item, val)),
+        updateProfileMenu: (val) => dispatch(actionCreator.updateProfileInfo(val)),
+        postCsvUpload: (val) => dispatch(actionCreator.postCsvUpload(val)),
+        csvUploadConfirm: (data, meta) => dispatch(actionCreator.confirmCsvUpload(data, meta)),
+        clearCsvLoad: () => dispatch(actionCreator.clearCsvLoad()),
+        getCsvDownload: (val) => dispatch(actionCreator.getCsvDownload(val))
     };
 };
 
