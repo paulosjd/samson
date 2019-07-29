@@ -36,7 +36,6 @@ const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editDat
                 <DataPointTableEdit
                     dataPoints={dataPoints}
                     selectedParameter={selectedParameter}
-                    setEditDataFlag={setEditDataFlag}
                     postEditedDataPoints={postEditedDataPoints}
                 />
             </div>

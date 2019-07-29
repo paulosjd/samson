@@ -18,7 +18,7 @@ export default function profile(state = initialState, action) {
         case SET_EDIT_DATA_FLAG:
             return { ...state, editData: action.value };
         case SET_ADD_DATA_FLAG:
-            return { ...state, editData: action.value };
+            return { ...state, addData: action.value };
         default:
             return state
     }

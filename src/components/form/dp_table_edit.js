@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { validDate, validNumber } from '../../schemas/constants'
 
-const DataPointTableEdit = ({dataPoints, selectedParameter, setEditDataFlag, postEditedDataPoints }) => {
+const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints }) => {
 
     const initial = {delItems: []};
     const schemaShape = {};
@@ -16,17 +16,13 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, setEditDataFlag, pos
         })
     });
     const valSchema = Yup.object().shape(schemaShape);
-
-    console.log(dataPoints);
-
+    
     return (
         <Formik
             initialValues={initial}
             onSubmit={val => postEditedDataPoints({ ...val, parameter: selectedParameter.name })}
             validationSchema={valSchema}
             render={({values, handleSubmit, setFieldValue, errors, touched, handleBlur}) => {
-                console.log(values)
-                console.log(errors)
                 return (
                     <form onSubmit={handleSubmit}>
                     <Table className='data-points-table' bordered>
@@ -55,12 +51,12 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, setEditDataFlag, pos
                             };
                             return (
                                 <tr key={obj.id} className={objIsPendingDel ? 'pend-del' : ''}>
-                                    <td className={ dateError ? 'td-err' : ''}>
+                                    <td className={dateError ? 'td-err' : ''}>
                                         { !objIsPendingDel ? <span role="img" aria-label="trash" className='del-icon'
                                               onClick={handleDelIconClick}>&#x274C;</span> : ''}
                                         <input
                                             type='text' name={dateKey}
-                                            value={  values[dateKey]}
+                                            value={values[dateKey]}
                                             onBlur={handleBlur}
                                             disabled={objIsPendingDel}
                                             onChange={ e => setFieldValue(dateKey, e.target.value) }

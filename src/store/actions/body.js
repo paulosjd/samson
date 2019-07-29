@@ -1,5 +1,6 @@
 import axios from "axios";
-import { SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG
+import {
+    SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG
 } from '../constants/body'
 import { DATA_POINTS_REFRESH } from "../constants/profile";
 
@@ -13,6 +14,10 @@ export const setFeatItemIndex = (value) => ({
 
 export const setEditDataFlag = (value) => ({
     type: SET_EDIT_DATA_FLAG, value
+});
+
+export const setAddDataFlag = (value) => ({
+    type: SET_ADD_DATA_FLAG, value
 });
 
 export const postEditedDataPoints = (value) => {
