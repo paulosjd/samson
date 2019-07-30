@@ -16,7 +16,7 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
         })
     });
     const valSchema = Yup.object().shape(schemaShape);
-    
+
     return (
         <Formik
             initialValues={initial}
@@ -74,7 +74,8 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
                                         />
                                         {valueError && <div className='dp-edit-err'>{errors[valKey]}</div>}
                                     </td>
-                                </tr>)
+                                </tr>
+                            )
                         })}
                         </tbody>
                     </Table>

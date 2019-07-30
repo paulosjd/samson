@@ -5,18 +5,16 @@ import DataPointTableAdd from '../components/form/dp_table_add'
 
 
 const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
-                     setAddDataFlag}) => {
-    const labels = ['\ud83d\udcc8  Chart', '\t\ud83d\udcc4  Notes', '\ud83d\udcd6  Literature bookmarks'];
-    console.log(body.addData)
-    console.log(body.addData)
+                     setAddDataFlag, postAddedDataPoints}) => {
 
+    const labels = ['\ud83d\udcc8  Chart', '\t\ud83d\udcc4  Notes', '\ud83d\udcd6  Literature bookmarks'];
     let featTable;
     if (body.addData) {
         featTable = (
             <DataPointTableAdd
                 dataPoints={dataPoints.filter(obj => obj.parameter === selectedParameter.name)}
                 selectedParameter={selectedParameter}
-                // setAddDataFlag={setAddDataFlag}
+                postAddedDataPoints={postAddedDataPoints}
                 postEditedDataPoints={postEditedDataPoints}
             />
         )
@@ -47,14 +45,15 @@ const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEdit
                     )
                 })}
             </ListGroup>
-
             <ListGroup className='feat-item-group'>
-                <ListGroupItem className='hover-background feat-item' onClick={() => setAddDataFlag(true)}>
-                    <span role="img" aria-label="plus">&#x2795; Add data points</span>
-                </ListGroupItem>
+                { !body.addData ?
+                    <ListGroupItem className='hover-background feat-item short-row'
+                               onClick={() => setAddDataFlag(true)}>
+                    <span role="img" aria-label="plus" style={{float: 'right'}}
+                    >&#x2795; Add data points</span>
+                    </ListGroupItem> : null }
+                {featTable}
             </ListGroup>
-
-            {featTable}
         </React.Fragment>
         )
 };
