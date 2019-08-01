@@ -1,19 +1,35 @@
 import React from 'react';
 import { Table } from "reactstrap";
 import DataPointTableEdit from "./form/dp_table_edit";
-import {postEditedDataPoints} from "../store/actions/body";
+import DataPointTableAdd from '../components/form/dp_table_add'
 
-const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editData, postEditedDataPoints}) => {
-    if (!editData) {
-        return (
-            <div onBlur={setEditDataFlag}>
+
+const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditDataFlag, editData, postEditedDataPoints,
+                         postAddedDataPoints, addData}) => {
+    if (editData) return (
+                <DataPointTableEdit
+                    dataPoints={dataPoints}
+                    selectedParameter={selectedParameter}
+                    postEditedDataPoints={postEditedDataPoints}
+                />
+    );
+    else if (addData) return (
+                <DataPointTableAdd
+                    dataPoints={dataPoints.filter(obj => obj.parameter === selectedParameter.name)}
+                    selectedParameter={selectedParameter}
+                    postAddedDataPoints={postAddedDataPoints}
+                />
+    );
+    else return (
+            <div>
                 <Table className='data-points-table' bordered>
                     <thead>
-                    <tr>
+                    <tr className='short-row'>
                         <th colSpan={2}>
                             <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
-                            <span onClick={() => setEditDataFlag(true)} className='data-points-header-action'
-                            >&#x270F;&#xFE0F; Edit records</span>
+                            <span className='data-points-header-action' onClick={() => setEditDataFlag(true)} >
+                                &#x270F;&#xFE0F; Edit records
+                            </span>
                         </th>
                     </tr>
                     </thead>
@@ -21,7 +37,7 @@ const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editDat
                     {dataPoints.map(obj => {
                         return (
                             <tr key={obj.id}>
-                                <td>{obj.date}</td>
+                                <td className='dp-date'>{obj.date}</td>
                                 <td>{obj.value}</td>
                             </tr>
                         )
@@ -29,18 +45,7 @@ const DataPointTable = ({dataPoints, selectedParameter, setEditDataFlag, editDat
                     </tbody>
                 </Table>
             </div>
-        )
-    } else {
-        return (
-            <div onBlur={setEditDataFlag}>
-                <DataPointTableEdit
-                    dataPoints={dataPoints}
-                    selectedParameter={selectedParameter}
-                    postEditedDataPoints={postEditedDataPoints}
-                />
-            </div>
-        )
-    }
+    )
 };
 
 export default DataPointTable

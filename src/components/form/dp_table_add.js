@@ -8,7 +8,7 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }
     return (
         <Formik
             initialValues={{items: 1}}
-            onSubmit={val => console.log({ ...val, parameter: selectedParameter.name })}
+            onSubmit={val => postAddedDataPoints({ ...val, parameter: selectedParameter.name })}
             validate={(values) => {
                 const errors = {};
                 Object.entries(values).forEach(item => {
@@ -52,7 +52,6 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }
                                     <span role="img" aria-label="trash" className='del-icon'
                                           onClick={handleDelClick}>&#x274C;</span> : null;
                                 return (
-                                    // TODO make following DRY
                                     <tr key={ind}>
                                         <td className={errors['date'] ? 'td-err' : ''}>
                                             {delIcon}
@@ -78,7 +77,7 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }
                             })}
                             <tr className='short-row'>
                                 <td colSpan={2}>
-                                    <button className='dp-add'
+                                    <button type='button' className='dp-add'
                                             onClick={() => {
                                                 setFieldValue('items', ++values['items']);
                                                 ['date', 'value', 'value2'].forEach(str => {
@@ -98,5 +97,4 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }
         />
     )
 };
-
 export default DataPointTableAdd

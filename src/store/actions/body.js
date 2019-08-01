@@ -20,14 +20,13 @@ export const setAddDataFlag = (value) => ({
     type: SET_ADD_DATA_FLAG, value
 });
 
-export const postEditedDataPoints = (value) => {
-    const url = 'http://127.0.0.1:8000/api/datapoints/edit';
-    setEditDataFlag(false);
+export const postEditedDataPoints = (value, action='edit') => {
     return dispatch => {
-        axios.post(url,
-            {value},
+        axios.post(`http://127.0.0.1:8000/api/datapoints/${action}`, {value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
             .then(profileData => dispatch({ type: DATA_POINTS_REFRESH, payload: {profileData} }))
-            // .catch(() => dispatch({ type: PROFILE_MENU_EDIT_FAILURE }) )
     }
 };
+
+
+

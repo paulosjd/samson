@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export default function profile(state = initialState, action) {
-    state = { ... state, editData: false};
+    state = { ... state, editData: false, addData: false};
     switch(action.type) {
         case SET_MENU_ITEM_INDEX:
             return { ...state, selectedItemIndex: action.value };

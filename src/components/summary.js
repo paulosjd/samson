@@ -5,7 +5,6 @@ import TimeSeriesChart from './ts_chart'
 
 const Summary = ({isLoading, body, summaryItems}) => {
 
-    console.log(summaryItems)
     const handleCategorySelection = (value) => {
         // this.props.setCategory(catName);
         // this.props.topicsByCategory()

@@ -10,7 +10,7 @@
     padding-left: 0 !important;
 }
 
-.col-4 {
+.col-5 {
     margin-top: 16px;
 }
 
@@ -160,7 +160,7 @@ input[type='file'] {
 
 .feat-item {
     cursor: default;
-    width: 380px
+    width: 362px
 }
 
 .feat-item-group {
@@ -177,7 +177,7 @@ input[type='file'] {
 }
 
 .data-points-table {
-    max-width: 380px;
+    max-width: 362px;
     cursor: default;
     font-weight: normal !important;
 }
@@ -253,4 +253,14 @@ input[type='file'] {
 .short-row {
     line-height: 0.5;
     font-size: small;
+}
+
+.short-row span {
+    margin-left: 10px;
+    color: #4A4A4A;
+}
+
+.dp-date {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }

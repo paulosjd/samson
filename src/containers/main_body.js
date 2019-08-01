@@ -6,7 +6,8 @@ import NavItems from './nav_items'
 import Summary from '../components/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
-import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag } from "../store/actions/body";
+import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag
+} from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 
 class MainBody extends Component {
@@ -34,7 +35,7 @@ class MainBody extends Component {
                             summaryItems={this.props.summaryItems}
                         />
                     </Col>
-                    <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
+                    <Col xs="5" style={{paddingLeft: 0, paddingRight: 0}}>
                         <Summary
                             body={this.props.body}
                             isLoading={this.props.loading}
@@ -42,7 +43,7 @@ class MainBody extends Component {
                             selectedParameter={this.props.selectedParameter}
                         />
                     </Col>
-                    <Col xs="5" style={{paddingLeft: 0, paddingRight: 0}}>
+                    <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
                         <OutsideAction
                             action={() => {this.props.setEditDataFlag(false); this.props.setAddDataFlag(false)}}
                         >
@@ -54,6 +55,7 @@ class MainBody extends Component {
                             setEditDataFlag={this.props.setEditDataFlag}
                             postEditedDataPoints={this.props.postEditedDataPoints}
                             setAddDataFlag={this.props.setAddDataFlag}
+                            postAddedDataPoints={this.props.postAddedDataPoints}
                         />
                         </OutsideAction>
                     </Col>
@@ -86,12 +88,13 @@ const mapDispatchToProps = dispatch => {
         setEditDataFlag: val => dispatch(setEditDataFlag(val)),
         setAddDataFlag: val => dispatch(setAddDataFlag(val)),
         postEditedDataPoints: val => dispatch(postEditedDataPoints(val)),
+        postAddedDataPoints: val => dispatch(postEditedDataPoints(val, 'add')),
         toggleNavItem: (item, val) => dispatch(actionCreator.showNavItem(item, val)),
         updateProfileMenu: (val) => dispatch(actionCreator.updateProfileInfo(val)),
         postCsvUpload: (val) => dispatch(actionCreator.postCsvUpload(val)),
         csvUploadConfirm: (data, meta) => dispatch(actionCreator.confirmCsvUpload(data, meta)),
         clearCsvLoad: () => dispatch(actionCreator.clearCsvLoad()),
-        getCsvDownload: (val) => dispatch(actionCreator.getCsvDownload(val))
+        getCsvDownload: (val) => dispatch(actionCreator.getCsvDownload(val)),
     };
 };
 
