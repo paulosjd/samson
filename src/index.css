@@ -201,6 +201,11 @@ input[type='file'] {
     text-align: center;
 }
 
+.data-points-table tbody td {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em
+}
+
 .data-points-header-action {
     float: right;
     margin-right: 6px;
@@ -263,4 +268,8 @@ input[type='file'] {
 .dp-date {
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+.val2-header {
+    text-align: center;
 }
