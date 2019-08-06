@@ -6,7 +6,7 @@ import NavItems from './nav_items'
 import Summary from '../components/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
-import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag
+import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
 } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 
@@ -18,7 +18,6 @@ class MainBody extends Component {
     }
 
     render() {
-
         if ( this.props.error ) {
             console.log(this.props.error)
             return <div>{'ERROR!!!  ' + this.props.error}</div>
@@ -45,11 +44,16 @@ class MainBody extends Component {
                     </Col>
                     <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
                         <OutsideAction
-                            action={() => {this.props.setEditDataFlag(false); this.props.setAddDataFlag(false)}}
+                            action={() => {
+                                this.props.setEditDataFlag(false);
+                                this.props.setAddDataFlag(false);
+                                this.props.clearEditDataFailure();
+                            }}
                         >
                         <Feature
                             dataPoints={this.props.dataPoints}
                             body={this.props.body}
+                            clearEditDataFailure={this.props.clearEditDataFailure}
                             selectedParameter={this.props.selectedParameter}
                             setFeatItemIndex={this.props.setFeatItemIndex}
                             setEditDataFlag={this.props.setEditDataFlag}
@@ -95,6 +99,7 @@ const mapDispatchToProps = dispatch => {
         csvUploadConfirm: (data, meta) => dispatch(actionCreator.confirmCsvUpload(data, meta)),
         clearCsvLoad: () => dispatch(actionCreator.clearCsvLoad()),
         getCsvDownload: (val) => dispatch(actionCreator.getCsvDownload(val)),
+        clearEditDataFailure: () => dispatch(clearEditDataFailure()),
     };
 };
 

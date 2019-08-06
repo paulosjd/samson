@@ -3,8 +3,7 @@ import { Table } from "reactstrap";
 import { Formik } from "formik";
 import { isValidDate, isNumeric } from "../../utils/validation";
 
-const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }) => {
-
+const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, val2headers }) => {
     return (
         <Formik
             initialValues={{items: 1}}
@@ -25,19 +24,24 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }
                 return errors
             }}
             render={({ values, handleSubmit, setFieldValue, errors, touched, handleBlur }) => {
+                console.log(val2headers)
                 return (
                     <form onSubmit={handleSubmit}>
                         <Table className='data-points-table' bordered>
                             <tbody>
-                            <tr className='short-row'>
-                                <td>Date (YYYY-MM-DD)</td>
-                                <td>{selectedParameter.name.concat(' ', '(' , selectedParameter.unit_symbol, ')')}</td>
+                            <tr style={{fontSize: 'small'}}>
+                                <td className='dp-date'>Date (YYYY-MM-DD)</td>
+                                <td>{val2headers[1].concat(' ', '(' , selectedParameter.unit_symbol, ')')}</td>
+                                { val2headers.length > 2 ? <td>
+                                    {val2headers[2].concat(' ', '(' , selectedParameter.unit_symbol, ')')}</td> : null }
                             </tr>
                             {[...Array(values['items'])].map((obj, ind) => {
                                 const dateKey = `${ind}_date`;
                                 const valKey = `${ind}_value`;
+                                const val2Key = `${ind}_value2`;
                                 const dateError = errors[dateKey] && touched[dateKey];
                                 const valueError = errors[valKey] && touched[valKey];
+                                const value2Error = errors[valKey] && touched[valKey];
                                 const handleDelClick = () => {
                                     setFieldValue('items', --values['items']);
                                     Object.entries(values).forEach((item) => {
@@ -46,6 +50,7 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }
                                             const fieldLabel = item[0].split('_')[1];
                                             setFieldValue(`${firstChar - 1}_${fieldLabel}`, item[1])
                                         }
+
                                     })
                                 };
                                 const delIcon = values['items'] > 1 ?
@@ -53,7 +58,7 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }
                                           onClick={handleDelClick}>&#x274C;</span> : null;
                                 return (
                                     <tr key={ind}>
-                                        <td className={errors['date'] ? 'td-err' : ''}>
+                                        <td className={errors['date'] ? 'td-err dp-edit' : 'dp-edit'}>
                                             {delIcon}
                                             <input
                                                 type='text' name={dateKey}
@@ -63,20 +68,31 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints }
                                             />
                                             {dateError && <div className='dp-edit-err'>{errors[dateKey]}</div>}
                                         </td>
-                                        <td className={valueError ? 'td-err' : ''}>
+                                        <td className={valueError ? 'td-err dp-edit' : 'dp-edit'}>
                                             <input
                                                 type='text' name={valKey} className='dp-edit'
                                                 value={values[valKey] || ''}
                                                 onBlur={handleBlur}
-                                                onChange={ e => { setFieldValue(valKey, e.target.value) }}
+                                                onChange={e => setFieldValue(valKey, e.target.value)}
                                             />
                                             {valueError && <div className='dp-edit-err'>{errors[valKey]}</div>}
                                         </td>
+                                        { val2headers && val2headers.length > 2 ?
+                                            <td className={valueError ? 'td-err' : 'dp-edit'}>
+                                            <input
+                                                type='text' name={val2Key} className='dp-edit'
+                                                value={values[val2Key] || ''}
+                                                onBlur={handleBlur}
+                                                onChange={e => setFieldValue(val2Key, e.target.value)}
+                                            />
+                                            {value2Error && <div className='dp-edit-err'>{errors[val2Key]}</div>}
+                                        </td> : null }
+
                                     </tr>
                                 )
                             })}
                             <tr className='short-row'>
-                                <td colSpan={2}>
+                                <td colSpan={val2headers && val2headers.length > 2 ? 3 : 2}>
                                     <button type='button' className='dp-add'
                                             onClick={() => {
                                                 setFieldValue('items', ++values['items']);

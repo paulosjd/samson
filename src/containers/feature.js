@@ -3,8 +3,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import DataPointTable from '../components/dp_table'
 
 const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
-                     setAddDataFlag, postAddedDataPoints}) => {
-
+                     setAddDataFlag, postAddedDataPoints, clearEditDataFailure }) => {
     const labels = ['\ud83d\udcc8  Chart', '\t\ud83d\udcc4  Notes', '\ud83d\udcd6  Literature bookmarks'];
     let featTable = (
             <DataPointTable
@@ -14,8 +13,10 @@ const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEdit
                 setAddDataFlag={setAddDataFlag}
                 editData={body.editData}
                 addData={body.addData}
+                loadError={body.loadError}
                 postEditedDataPoints={postEditedDataPoints}
                 postAddedDataPoints={postAddedDataPoints}
+                clearEditDataFailure={clearEditDataFailure}
             />
         );
 

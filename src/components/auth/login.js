@@ -93,6 +93,10 @@ class Login extends Component {
                             <div className="login-error">Invalid credentials</div> )}
                         <button type="submit" className="form-submit login-submit">Submit</button>
                         </form>
+                            <button
+                                onClick={this.toggleRegister.bind(this)}
+                                className="form-submit reg-modal-button"
+                            >Register</button>
                         <button
                             onClick={this.toggleRegister.bind(this)}
                             className="form-submit reg-modal-button"

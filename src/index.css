@@ -160,12 +160,12 @@ input[type='file'] {
 
 .feat-item {
     cursor: default;
-    width: 362px
+    max-width: 384px
 }
 
 .feat-item-group {
     margin-top: 20px;
-    margin-left: 60px;
+    margin-left: 30px;
 }
 
 .selected-menu-item {
@@ -177,7 +177,7 @@ input[type='file'] {
 }
 
 .data-points-table {
-    max-width: 362px;
+    max-width: 384px;
     cursor: default;
     font-weight: normal !important;
 }
@@ -243,7 +243,6 @@ input[type='file'] {
 }
 
 .dp-add {
-    /*background-color: powderblue !important;*/
     size: 50pc;
     float: left;
     cursor: pointer;
@@ -263,6 +262,11 @@ input[type='file'] {
 .short-row span {
     margin-left: 10px;
     color: #4A4A4A;
+}
+
+.date-error {
+    line-height: 1 !important;
+    color: orangered;
 }
 
 .dp-date {

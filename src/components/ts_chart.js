@@ -33,7 +33,7 @@ export default class TimeSeriesChart extends PureComponent {
     render() {
         return (
             <LineChart
-                width={615}
+                width={560}
                 height={300}
                 data={data}
                 margin={{

@@ -4,10 +4,8 @@ import DataPointTableEdit from "./form/dp_table_edit";
 import DataPointTableAdd from '../components/form/dp_table_add'
 import { toTitleCase } from '../utils/helpers'
 
-
 const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditDataFlag, editData, postEditedDataPoints,
-                         postAddedDataPoints, addData}) => {
-
+                         postAddedDataPoints, addData, loadError, clearEditDataFailure }) => {
     let value2;
     let val2headers;
     if (selectedParameter) {
@@ -17,47 +15,52 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
 
     if (editData) return (
                 <DataPointTableEdit
+                    loadError={loadError}
                     dataPoints={dataPoints}
                     selectedParameter={selectedParameter}
                     postEditedDataPoints={postEditedDataPoints}
+                    val2headers={val2headers}
+                    value2={value2}
                 />
     );
-    else if (addData) return (
+
+    if (addData) return (
                 <DataPointTableAdd
                     dataPoints={dataPoints.filter(obj => obj.parameter === selectedParameter.name)}
                     selectedParameter={selectedParameter}
                     postAddedDataPoints={postAddedDataPoints}
+                    val2headers={val2headers}
                 />
     );
-    else return (
-            <div>
-                <Table className='data-points-table' bordered>
-                    <thead>
-                    <tr className='short-row'>
-                        <th colSpan={value2 ? 3 : 2}>
-                            <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
-                            <span className='data-points-header-action' onClick={() => setEditDataFlag(true)} >
-                                &#x270F;&#xFE0F; Edit records
-                            </span>
-                        </th>
-                    </tr>
-                    { value2 ? <tr className='short-row val2-header'>
-                        <th> </th><th>{val2headers[1]}</th><th>{val2headers[2]}</th>
-                    </tr> : null  }
-                    </thead>
-                    <tbody>
-                    {dataPoints.map(obj => {
-                        return (
-                            <tr key={obj.id}>
-                                <td className='dp-date'>{obj.date}</td>
-                                <td>{obj.value}</td>
-                                { value2 ? <td>{obj.value2}</td> : null }
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </Table>
-            </div>
+    return (
+        <div>
+            <Table className='data-points-table' bordered>
+                <thead>
+                <tr className='short-row'>
+                    <th colSpan={value2 ? 3 : 2}>
+                        <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
+                        <span className='data-points-header-action'
+                              onClick={() => {clearEditDataFailure(); setEditDataFlag(true) }} >
+                            &#x270F;&#xFE0F; Edit records
+                        </span>
+                    </th>
+                </tr>
+                { value2 ? <tr className='short-row val2-header'><th> </th>
+                    <th>{val2headers[1]}</th><th>{val2headers[2]}</th></tr> : null  }
+                </thead>
+                <tbody>
+                {dataPoints.map(obj => {
+                    return (
+                        <tr key={obj.id}>
+                            <td className='dp-date'>{obj.date}</td>
+                            <td style={value2 ? {width : 114} : {}}>{obj.value}</td>
+                            { value2 ? <td style={value2 ? {width : 114} : {}}>{obj.value2}</td> : null }
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </Table>
+        </div>
     )
 };
 
