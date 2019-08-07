@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from "reactstrap";
+import {ListGroupItem, Table} from "reactstrap";
 import DataPointTableEdit from "./form/dp_table_edit";
 import DataPointTableAdd from '../components/form/dp_table_add'
 import { toTitleCase } from '../utils/helpers'
@@ -14,23 +14,23 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
     }
 
     if (editData) return (
-                <DataPointTableEdit
-                    loadError={loadError}
-                    dataPoints={dataPoints}
-                    selectedParameter={selectedParameter}
-                    postEditedDataPoints={postEditedDataPoints}
-                    val2headers={val2headers}
-                    value2={value2}
-                />
+        <DataPointTableEdit
+            loadError={loadError}
+            dataPoints={dataPoints}
+            selectedParameter={selectedParameter}
+            postEditedDataPoints={postEditedDataPoints}
+            val2headers={val2headers}
+            value2={value2}
+        />
     );
 
     if (addData) return (
-                <DataPointTableAdd
-                    dataPoints={dataPoints.filter(obj => obj.parameter === selectedParameter.name)}
-                    selectedParameter={selectedParameter}
-                    postAddedDataPoints={postAddedDataPoints}
-                    val2headers={val2headers}
-                />
+        <DataPointTableAdd
+            dataPoints={dataPoints.filter(obj => obj.parameter === selectedParameter.name)}
+            selectedParameter={selectedParameter}
+            postAddedDataPoints={postAddedDataPoints}
+            val2headers={val2headers}
+        />
     );
     return (
         <div>
@@ -39,9 +39,13 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
                 <tr className='short-row'>
                     <th colSpan={value2 ? 3 : 2}>
                         <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
-                        <span className='data-points-header-action'
+                        { !addData ?
+                            <span className='data-points-header-action' role="img" aria-label="plus"
+                                           onClick={() => setAddDataFlag(true)}>
+                   &#x2795; Add</span> : null }
+                        <span className='data-points-header-action' role="img" aria-label="pencil"
                               onClick={() => {clearEditDataFailure(); setEditDataFlag(true) }} >
-                            &#x270F;&#xFE0F; Edit records
+                            &#x270F;&#xFE0F; Edit
                         </span>
                     </th>
                 </tr>

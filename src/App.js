@@ -8,22 +8,19 @@ const Auth = new AuthService();
 
 class App extends Component {
 
-    handleLogout(){
+    handleLogout(action, actionCreator){
         Auth.logout();
+        if (action === 'redirect_register') actionCreator();
         this.props.history.replace('/login');
     }
 
     render() {
-        console.log('App props:');
-        console.log(this.props);
         return (
           <div className="App">
               <TopNav
                   handleLogout={this.handleLogout.bind(this)}
-
               />
               <MainBody
-
               />
           </div>
         );

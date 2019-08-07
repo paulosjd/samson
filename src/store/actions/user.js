@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { userConstants as constants } from '../../store/constants/user';
-import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS } from "../constants/user";
+import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS
+} from "../constants/user";
 
 export const loginSuccess = (user) => {
     return { type: constants.LOGIN_SUCCESS, user }
@@ -33,6 +34,10 @@ export const refreshRegistration = () => {
     return { type: CLEAR_EXT_FORM_ERRORS }
 };
 
+export const setShowRegForm = (value) => {
+    return { type: constants.SET_SHOW_REG_FORM, value  }
+};
+
 export const registrationSubmit = (data, loginFunc) => {
     const url = 'http://127.0.0.1:8000/api/users/registration';
     return dispatch => {
@@ -48,5 +53,16 @@ export const registrationSubmit = (data, loginFunc) => {
                     dispatch({ type: REGISTER_FAILURE, errors: {miscError: true} })
                 }
             });
+    }
+};
+
+export const demoRegistrationSubmit = (loginFunc) => {
+    const url = 'http://127.0.0.1:8000/api/users/demo/registration';
+    return dispatch => {
+        axios.get(url, {headers: {"Content-Type": "application/json", }})
+            .then(value => {
+                dispatch({ type: REGISTER_SUCCESS, value });
+                loginFunc()
+            })
     }
 };

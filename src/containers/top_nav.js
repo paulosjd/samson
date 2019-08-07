@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Navbar, UncontrolledTooltip } from 'reactstrap';
 import {connect } from "react-redux";
-import { fetchProfileInfo, showNavItem, postCsvUpload } from '../store/actions/profile'
+import { fetchProfileInfo, showNavItem } from '../store/actions/profile'
+import { setShowRegForm } from '../store/actions/user'
+
 
 class TopNav extends Component {
-
     render() {
         return (
             <Navbar>
@@ -35,6 +36,11 @@ class TopNav extends Component {
                 <UncontrolledTooltip id="ttip" placement="bottom" target="effectors"
                 >Health effectors</UncontrolledTooltip>
 
+                {this.props.isDemo && (
+                    <button type="button" className="form-submit"
+                            onClick={() => this.props.handleLogout('redirect_register', this.props.setShowRegForm)}
+                    >Register</button>
+                )}
                 <button type="button" className="form-submit"
                         onClick={this.props.handleLogout}
                 >Logout</button>
@@ -44,8 +50,10 @@ class TopNav extends Component {
 }
 
 const mapStateToProps = state => {
+    const isDemo = state.auth.username.startsWith('demo_')
     return {
-        username: state.auth.username,
+        isDemo: isDemo,
+        username: isDemo ? 'Guest' : state.auth.username,
     };
 };
 
@@ -54,6 +62,7 @@ const mapDispatchToProps = dispatch => {
         handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
         showNavItem: (item) => dispatch(showNavItem(item, true)),
         showInterventionsMenu: () => dispatch(showNavItem('interventions', true)),
+        setShowRegForm: () => dispatch(setShowRegForm(true)),
     };
 };
 

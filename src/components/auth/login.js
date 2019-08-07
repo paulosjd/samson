@@ -5,7 +5,9 @@ import { Alert } from 'reactstrap';
 import AuthService from '../../utils/auth_service';
 import Register from './register'
 import Forgotten from './forgotten'
-import { regSubmitBegin, registrationSubmit, refreshRegistration, forgottenLogin } from "../../store/actions/user";
+import { demoRegistrationSubmit, regSubmitBegin, registrationSubmit, refreshRegistration, forgottenLogin,
+    setShowRegForm,
+} from "../../store/actions/user";
 import { LoginSchema } from '../../schemas/auth'
 import './login.css';
 
@@ -13,7 +15,7 @@ class Login extends Component {
     constructor(props){
         super(props);
         this.state = {
-            show_register: false,
+            show_register: this.props.showRegForm || false,
             login_fail: false,
             show_help: false,
         };
@@ -28,6 +30,7 @@ class Login extends Component {
     toggleRegister() {
         this.props.refreshRegistration();
         this.setState({show_register: !this.state.show_register});
+        this.props.setShowRegFormFalse()
     }
     loginOnRegistration() {
         this.Auth.setToken(this.props.registrationData.data.token);
@@ -93,25 +96,28 @@ class Login extends Component {
                             <div className="login-error">Invalid credentials</div> )}
                         <button type="submit" className="form-submit login-submit">Submit</button>
                         </form>
-                            <button
-                                onClick={this.toggleRegister.bind(this)}
-                                className="form-submit reg-modal-button"
-                            >Register</button>
+                        <button
+                            onClick={() => {
+                                this.props.regSubmitBegin();
+                                this.props.demoAccessSubmit(this.loginOnRegistration.bind(this))}
+                            }
+                            className="form-submit reg-modal-button"
+                        >Demo</button>
                         <button
                             onClick={this.toggleRegister.bind(this)}
                             className="form-submit reg-modal-button"
                         >Register</button>
-                            <div className="forgot-links">
-                                {['username', 'password'].map(str => {
-                                    return <h6 data-field={str} onClick={this.toggleLoginHelp.bind(this)} key={str}
-                                               className="forgot-field">Forgot {str}</h6>
-                                })}
-                            </div>
-                            { this.props.passwordReset && (
-                                <Alert className="password-reset-done"
-                                       color={this.props.passwordReset.includes('invalid') ? "danger" : "primary"}
-                                >{this.props.passwordReset}</Alert>
-                            )}
+                        <div className="forgot-links">
+                            {['username', 'password'].map(str => {
+                                return <h6 data-field={str} onClick={this.toggleLoginHelp.bind(this)} key={str}
+                                           className="forgot-field">Forgot {str}</h6>
+                            })}
+                        </div>
+                        { this.props.passwordReset && (
+                            <Alert className="password-reset-done"
+                                   color={this.props.passwordReset.includes('invalid') ? "danger" : "primary"}
+                            >{this.props.passwordReset}</Alert>
+                        )}
                         </div>
                         </div>
                     )
@@ -138,6 +144,7 @@ const mapStateToProps = ({registration}) => {
         passwordReset: registration.passwordReset,
         passwordResetSent: registration.passwordResetSent,
         usernameReminderSent: registration.usernameReminderSent,
+        showRegForm: registration.showRegistrationForm,
     };
 };
 
@@ -146,7 +153,9 @@ const mapDispatchToProps = dispatch => {
         refreshRegistration: () => dispatch(refreshRegistration()),
         regSubmitBegin: () => dispatch(regSubmitBegin()),
         registrationSubmit: (val, loginOnReg) => dispatch(registrationSubmit(val, loginOnReg)),
+        demoAccessSubmit: (loginOnReg) => dispatch(demoRegistrationSubmit(loginOnReg)),
         forgottenLogin: (fType, val) => dispatch(forgottenLogin(fType, val)),
+        setShowRegFormFalse: () => dispatch(setShowRegForm(false)),
     };
 };
 

@@ -11,7 +11,7 @@
 }
 
 .col-5 {
-    margin-top: 16px;
+    margin-top: 10px;
 }
 
 .container {
@@ -149,7 +149,7 @@ input[type='file'] {
 }
 
 .menu-items-list {
-    margin-top: 16px;
+    margin-top: 10px;
     margin-left: 14px;
     cursor: default;
 }
@@ -164,7 +164,7 @@ input[type='file'] {
 }
 
 .feat-item-group {
-    margin-top: 20px;
+    margin-top: 14px;
     margin-left: 30px;
 }
 
@@ -180,6 +180,7 @@ input[type='file'] {
     max-width: 384px;
     cursor: default;
     font-weight: normal !important;
+    margin-top: 6px;
 }
 
 .data-points-table th {
