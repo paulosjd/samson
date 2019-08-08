@@ -10,7 +10,7 @@ class App extends Component {
 
     handleLogout(action, actionCreator){
         Auth.logout();
-        if (action === 'redirect_register') actionCreator();
+        if (action === 'register') actionCreator();
         this.props.history.replace('/login');
     }
 

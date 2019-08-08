@@ -9,7 +9,7 @@ import { ProfileInfo } from '../../schemas/profile'
 const InterventionsMenu = ({ toggle, isOpen,  profileData }) => {
 
     return (
-        <Modal isOpen={isOpen} toggle={toggle} className="profile-edit-modal">
+        <Modal isOpen={isOpen} toggle={toggle} className="max-width-320">
             Foo!
         </Modal>
     );

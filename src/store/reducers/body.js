@@ -1,5 +1,5 @@
 import { SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
-    CLEAR_EDIT_DATA_FAILURE,
+    CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC
 } from '../constants/body'
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
     editData: false,
     addData: false,
     editDataError: null,
+    showAddMetric: false
 };
 
 export default function profile(state = initialState, action) {
@@ -25,6 +26,8 @@ export default function profile(state = initialState, action) {
             return { ...state, loadError: action.payload.response.data.error, editData: true };
         case CLEAR_EDIT_DATA_FAILURE:
             return { ...state, loadError: null };
+        case SET_SHOW_ADD_METRIC:
+            return { ...state, showAddMetric: action.value };
         default:
             return state
     }

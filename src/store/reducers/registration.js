@@ -1,7 +1,6 @@
 import { userConstants } from '../constants/user';
 
 export default function registration(state = {}, action) {
-    console.log(action.type)
     switch (action.type) {
         case userConstants.REGISTER_REQUEST:
             return { isSubmitting: true };

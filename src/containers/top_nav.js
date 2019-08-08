@@ -38,7 +38,7 @@ class TopNav extends Component {
 
                 {this.props.isDemo && (
                     <button type="button" className="form-submit"
-                            onClick={() => this.props.handleLogout('redirect_register', this.props.setShowRegForm)}
+                            onClick={() => this.props.handleLogout('register', this.props.setShowRegForm)}
                     >Register</button>
                 )}
                 <button type="button" className="form-submit"

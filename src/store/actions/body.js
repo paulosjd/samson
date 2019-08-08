@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
     SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
-    CLEAR_EDIT_DATA_FAILURE,
+    CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC
 } from '../constants/body'
 import {DATA_POINTS_REFRESH } from "../constants/profile";
 
@@ -23,6 +23,10 @@ export const clearEditDataFailure = () => ({
 
 export const setAddDataFlag = (value) => ({
     type: SET_ADD_DATA_FLAG, value
+});
+
+export const setShowAddMetric = (value) => ({
+    type: SET_SHOW_ADD_METRIC, value
 });
 
 export const postEditedDataPoints = (value, action='edit') => {

@@ -6,7 +6,8 @@ import NavItems from './nav_items'
 import Summary from '../components/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
-import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
+import {
+    setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure, setShowAddMetric,
 } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 
@@ -19,8 +20,7 @@ class MainBody extends Component {
 
     render() {
         if ( this.props.error ) {
-            console.log(this.props.error)
-            return <div>{'ERROR!!!  ' + this.props.error}</div>
+            return <div>{'Something has gone wrong' + this.props.error}</div>
         }
         if (Object.values(this.props.menu).includes(true)) {
             return <NavItems props={this.props}/>
@@ -74,6 +74,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         body: body,
         profile: profile,
         extras: extras,
+        allParams: profile.allParams,
         error: profile.error,
         loading: profile.loading,
         dataPoints: profile.dataPoints || [],
@@ -100,6 +101,7 @@ const mapDispatchToProps = dispatch => {
         clearCsvLoad: () => dispatch(actionCreator.clearCsvLoad()),
         getCsvDownload: (val) => dispatch(actionCreator.getCsvDownload(val)),
         clearEditDataFailure: () => dispatch(clearEditDataFailure()),
+        setShowAddMetric: (val) => dispatch(setShowAddMetric(val)),
     };
 };
 

@@ -7,7 +7,7 @@ const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
     const updateSuccess = profileData.profileUpdateSuccess;
     const updateFailure = profileData.profileUpdateFailure;
     return (
-        <Modal isOpen={isOpen} toggle={toggle} className="profile-edit-modal">
+        <Modal isOpen={isOpen} toggle={toggle} className="max-width-320">
             <ModalHeader>{username}</ModalHeader>
             <Formik
                 enableReinitialize
