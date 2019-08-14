@@ -1,57 +1,47 @@
-import React, {useState} from 'react';
-import { Modal, ModalHeader } from 'reactstrap';
+import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from "yup";
-// import { RegisterSchema } from '../../schemas/auth'
 
-const MenuItemAdd = ({ toggle, isOpen, availParams, summaryItems }) => {
-
-    const [uploadLabels, setuploadLabels] = useState([]);
-
-    console.log(availParams)
-// available_unit_options: Array [ {…} ]  { name: "kilograms", symbol: "kg", conversion_factor: 1 }
-// name: "Body weight"
-// upload_field_labels: "dates, weight measurements"
-// upload_fields: "date, value"
-
-    // For units of measurement values or options
-    const unitOptionSaved = (param) => {
-        const savedParamInd = summaryItems.findIndex(x => x.parameter.name === param);
-        if (savedParamInd > -1) {
-            const item = summaryItems[savedParamInd].parameter;
-            return item.unit_name.concat(' (', item.unit_symbol, ')')
-        }
-    };
+const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd, setShowAddMetric }) => {
 
     const Schema = Yup.object().shape({
         param_choice: Yup.string().required('Required'),
+        unit_choice: Yup.string().required('Required'),
     });
 
     return (
         <Formik
             initialValues={{param_choice: '', unit_choice: ''}}
             validationSchema={Schema}
-            onSubmit={(values) => {console.log(values)}}
+            onSubmit={postMenuItemAdd}
         >
             {props => {
-                const {values, touched, errors, handleChange, handleBlur, handleSubmit, setFieldValue} = props;
-                // const handleFieldChange = val => {handleChange(val); clearErr()};
-                // will need to make call to refresh summary data now
+                const {values, touched, errors, handleSubmit, setFieldValue} = props;
+
+                const getUnitOptions = (param_choice) => {
+                    const paramIndex = availParams.findIndex(x => x.name === param_choice);
+                    return availParams[paramIndex].available_unit_options;
+
+                };
+
+                const getUnitChoiceField = () => {
+                    const unitOptions = getUnitOptions(values.param_choice);
+                    return(
+                        <select id='unit_choice' className='unit-opt-select' value={values.unit_choice}
+                                onChange={ e => setFieldValue("unit_choice", e.target.value) }
+                        >{unitOptions.map((val, i) => {
+                            return <option key={i} value={val.name}>{val.name.concat(' (', val.symbol, ')')}</option>})}
+                        </select>
+                    )
+                };
+
                 return (
                     <div className="card">
                         <form onSubmit={handleSubmit}>
-                            <select id='param_choice' className='modal-select' value={values.param_choice}
+                            <select id='param_choice' className='item-add-sel' value={values.param_choice}
                                 onChange={ e => {
                                     setFieldValue("param_choice", e.target.value);
-                                    setuploadLabels(
-                                        e.target.options[e.target.selectedIndex].dataset.labels.split(', ')
-                                    );
-                                    if (!unitOptionSaved(e.target.value)) {
-                                        const apInd = availParams.findIndex(x => x.name === e.target.value);
-                                        setFieldValue(
-                                            "unit_choice", availParams[apInd].available_unit_options[0].name
-                                        )
-                                    } else setFieldValue("unit_choice", '')  // unitOptionSaved, server doesn't need
+                                    setFieldValue("unit_choice", getUnitOptions(e.target.value)[0].name);
                                 }}>
                                 <option value='' disabled>Parameter</option>
                                 {availParams.map((val, i) => {
@@ -60,12 +50,15 @@ const MenuItemAdd = ({ toggle, isOpen, availParams, summaryItems }) => {
                                                    value={val.name}>{val.name}</option>
                                 })}
                             </select>
+                            {(errors.param_choice && touched.param_choice) &&
+                            (<span className="item-field-err">{errors.param_choice}</span>)}
 
-                            <button
-                                type="submit"
-                                className="form-submit reg-submit"
-                            >
-                                Submit
+                            { values.param_choice && getUnitChoiceField() }
+
+                            <button type='submit' className='item-add-btn'
+                                    style={!values.param_choice || !values.unit_choice
+                                        ? {backgroundColor: '#c8d8df'} : {}}
+                            >&#x2714;&#xFE0F; Save
                             </button>
                         </form>
                     </div>

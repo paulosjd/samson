@@ -4,7 +4,7 @@ import DataPointTable from '../components/dp_table'
 
 const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, postAddedDataPoints, clearEditDataFailure }) => {
-    const labels = ['\ud83d\udcc8  Chart', '\t\ud83d\udcc4  Notes', '\ud83d\udcd6  Literature bookmarks'];
+    const labels = ['\ud83d\udcc8  Chart', '\t\ud83d\udcc4  Notes and info', '\ud83d\udcd6  Literature bookmarks'];
     return (
         <React.Fragment>
             <ListGroup className='feat-item-group'>

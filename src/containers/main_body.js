@@ -70,6 +70,9 @@ class MainBody extends Component {
 }
 
 const mapStateToProps = ({auth, body, extras, menu, profile}) => {
+    const blankItems = profile.blankParams.map(x => {return {
+        parameter: x, data_point: {date: '', value: '', value2: ''}
+    }});
     return {
         body: body,
         profile: profile,
@@ -78,8 +81,8 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         error: profile.error,
         loading: profile.loading,
         dataPoints: profile.dataPoints || [],
-        selectedParameter: profile.summaryItems[body.selectedItemIndex]
-            ? profile.summaryItems[body.selectedItemIndex].parameter : '',
+        selectedParameter: profile.summaryItems.concat(blankItems)[body.selectedItemIndex]
+            ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
         summaryItems: profile.summaryItems || [],
         menu: menu,
     };

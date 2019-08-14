@@ -1,11 +1,12 @@
+import axios from "axios";
+import download from 'downloadjs';
 import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SHOW_PROFILE_MENU,
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
     SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
-    CLEAR_CSV_LOAD_CONFIRM,
+    CLEAR_CSV_LOAD_CONFIRM, ADD_BLANK_PARAM
 } from '../constants/profile'
-import download from 'downloadjs';
-import axios from "axios";
+import { SET_SHOW_ADD_METRIC } from "../constants/body";
 
 export const fetchProfileSummary = () => {
     let url = `http://127.0.0.1:8000/api/profile/summary`;
@@ -69,6 +70,16 @@ export const postCsvUpload = (value) => {
                     'Content-Type': 'multipart/form-data'}} )
             .then((val) => dispatch({ type: SUBMIT_CSV_LOAD_SUCCESS, value: val }) )
             .catch((error) => dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) )
+    }
+};
+
+export const postMenuItemAdd = (value) => {
+    const url = 'http://127.0.0.1:8000/api/profile/menu-item-add';
+    return dispatch => {
+        axios.post(url, {data: { param_choice: value.param_choice, unit_choice: value.unit_choice }},
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+            .then((resp) => dispatch({ type: ADD_BLANK_PARAM, value: resp}) )
+            .then(() => dispatch({ type: SET_SHOW_ADD_METRIC, value: false}) )
     }
 };
 

@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import * as bodyActionCreator from "../store/actions/body";
 import { connect } from "react-redux";
-import {Col, ListGroup, ListGroupItem, Spinner} from 'reactstrap';
+import { ListGroup, ListGroupItem, Spinner} from 'reactstrap';
+import { postMenuItemAdd } from "../store/actions/profile";
 import MenuItemContent from '../components/menu_item_content'
-import { setShowAddMetric } from "../store/actions/body";
 import MenuItemAdd from '../components/form/menu_item_add'
 import OutsideAction from '../utils/outside_action'
-import {setEditDataFlag} from "../store/actions/body";
-import {setAddDataFlag} from "../store/actions/body";
-import {clearEditDataFailure} from "../store/actions/body";
+import * as bodyActionCreator from "../store/actions/body";
 
 class MenuItems extends Component {
 
@@ -17,12 +14,17 @@ class MenuItems extends Component {
     }
 
     render() {
-        const addedParams = this.props.summaryItems.map(val => val.parameter.name);
+        const blankItems = this.props.blankParams.map(x => {return {
+            parameter: x, data_point: {date: '', value: '', value2: ''}
+        }});
+        const menuItems = this.props.summaryItems.concat(blankItems);
+        const addedParams = menuItems.map(val => val.parameter.name);
+        const availParams = this.props.allParams.filter(x => !addedParams.includes(x.name));
         let items;
         if (this.props.isLoading) {
             items = <Spinner color="secondary"/>
-        } else if (this.props.summaryItems.length > 0) {
-            items = this.props.summaryItems.map((obj, ind) => {
+        } else if (menuItems.length > 0) {
+            items = menuItems.map((obj, ind) => {
                 return (
                     <ListGroupItem key={ind} action
                                    onClick={this.handleItemSelection.bind(this, ind)}
@@ -44,26 +46,21 @@ class MenuItems extends Component {
         return (
             <ListGroup className='menu-items-list'>
                 {items}
+                { !this.props.showAddMetric && availParams.length > 0 && (
                 <ListGroupItem className='hover-background short-row'
                                onClick={() => this.props.setShowAddMetric(true)}>
                     <span role="img" aria-label="plus">&#x2795; Add metrics to track</span>
-                </ListGroupItem>
-                { this.props.showAddMetric ?
-                    (<ListGroupItem className='hover-background'
-                        // onClick={() => this.props.setShowAddMetric(true)}
-                    >
-                        <OutsideAction
-                            action={() => {
-                                this.props.setShowAddMetric(false);
-                                // this.props.clearEditDataFailure();
-                            }}
-                        >
-                        <MenuItemAdd
-                            toggle={() => {this.props.setShowAddMetric(!this.props.body.showAddMetric)}}
-                            isOpen={this.props.showAddMetric}
-                            availParams={this.props.allParams.filter(x => !addedParams.includes(x.name))}
-                            summaryItems={this.props.summaryItems}
-                        />
+                </ListGroupItem>)}
+                { this.props.showAddMetric && availParams.length > 0 ?
+                    (<ListGroupItem className='hover-background'>
+                        <OutsideAction action={() => {this.props.setShowAddMetric(false)}}>
+                            <MenuItemAdd
+                                toggle={() => {this.props.setShowAddMetric(!this.props.body.showAddMetric)}}
+                                isOpen={this.props.showAddMetric}
+                                availParams={availParams}
+                                postMenuItemAdd={this.props.postMenuItemAdd}
+                                setShowAddMetric={this.props.setShowAddMetric}
+                            />
                         </OutsideAction>
                 </ListGroupItem>) : null}
             </ListGroup>
@@ -76,6 +73,7 @@ const mapStateToProps = state => {
         selItemInd: state.body.selectedItemIndex,
         showAddMetric: state.body.showAddMetric,
         allParams: state.profile.allParams,
+        blankParams: state.profile.blankParams,
         summaryItems: state.profile.summaryItems,
     };
 };
@@ -83,7 +81,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setMenuItemIndex: (val) => dispatch(bodyActionCreator.setMenuItemIndex(val)),
-        setShowAddMetric: (val) => dispatch(setShowAddMetric(val)),
+        setShowAddMetric: (val) => dispatch(bodyActionCreator.setShowAddMetric(val)),
+        postMenuItemAdd: (val) => dispatch(postMenuItemAdd(val)),
     };
 };
 

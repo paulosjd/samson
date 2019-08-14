@@ -2,50 +2,76 @@ import React, { PureComponent } from 'react';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import * as bodyActionCreator from "../store/actions/body";
+import {postMenuItemAdd} from "../store/actions/profile";
+import {connect} from "react-redux";
+import {setAddDataFlag} from "../store/actions/body";
+import DataPointTableAdd from "./dp_table";
 
-const data = [
-    {
-        name: 'Page A', uv: 4000, pv: 2400, amt: 2400,
-    },
-    {
-        name: 'Page B', uv: 3000, pv: 1398, amt: 2210,
-    },
-    {
-        name: 'Page C', uv: 2000, pv: 9800, amt: 2290,
-    },
-    {
-        name: 'Page D', uv: 2780, pv: 3908, amt: 2000,
-    },
-    {
-        name: 'Page E', uv: 1890, pv: 4800, amt: 2181,
-    },
-    {
-        name: 'Page F', uv: 2390, pv: 3800, amt: 2500,
-    },
-    {
-        name: 'Page G', uv: 3490, pv: 4300, amt: 2100,
-    },
-];
 
-export default class TimeSeriesChart extends PureComponent {
-    static jsfiddleUrl = 'https://jsfiddle.net/alidingling/xqjtetw0/';
+class TimeSeriesChart extends PureComponent {
 
     render() {
+        let hasValue2;
+        if (this.props.selectedParameter.upload_fields)
+            hasValue2 = this.props.selectedParameter.upload_fields.split(', ').includes('value2');
+        const values = [];
+        const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === this.props.selectedParameter.name);
+        const chartData = dataPoints.map(obj => {
+            // if
+            return { date: obj.date, value: obj.value, value2: obj.value2 }
+        });
+        chartData.forEach(obj => {
+            values.push(obj.value);
+            if (hasValue2 && obj.value2){
+                values.push(obj.value2)
+            }
+        });
+        const valMin = Math.min(...values);
+        const valMax = Math.max(...values);
+        const offset = (valMax - valMin) / 2.6;
+
+        console.log(chartData)
+
         return (
             <LineChart
-                width={560}
+                width={520}
                 height={300}
-                data={data}
-                margin={{
-                    top: 5, right: 30, left: 20, bottom: 5,
-                }}
+                data={chartData.reverse()}
+                margin={{top: 5, right: 16, left: 22, bottom: 5, }}
             >
-                <XAxis dataKey="name" />
-                <YAxis />
+                <XAxis dataKey="date" />
+                <YAxis type="number" domain={[dataMin => (dataMin - offset), dataMax => (dataMax + offset)]}
+                       tickFormatter={
+                           number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
+                       }
+                />
                 <Tooltip />
-                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+                <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
+                {hasValue2 && (<Line type="monotone" dataKey="value2" stroke="#82ca9d" />)}
             </LineChart>
         );
     }
 }
+
+const mapStateToProps = ({auth, body, extras, menu, profile}) => {
+    const blankItems = profile.blankParams.map(x => {return {
+        parameter: x, data_point: {date: '', value: '', value2: ''}
+    }});
+    return {
+        dataPoints: profile.dataPoints || [],
+        selectedParameter: profile.summaryItems.concat(blankItems)[body.selectedItemIndex]
+            ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        // setAddDataFlag: val => dispatch(setAddDataFlag(val)),
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TimeSeriesChart);

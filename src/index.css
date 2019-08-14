@@ -65,6 +65,12 @@
     margin-left: 38px;
 }
 
+.item-field-err {
+    color: orangered;
+    margin-left: 26px;
+    margin-top: 6px;
+}
+
 .date_fmt_error {
     color: orangered;
     float: right;
@@ -121,6 +127,25 @@
 
 }
 
+.item-add-btn {
+    background-color: #71a0b2;
+    border-radius: 4px;
+    border: none;
+    width: 120px;
+    display: inline-block;
+    margin-left: 24px;
+    margin-top: 12px;
+    color: white;
+}
+
+.item-add-sel {
+    border-radius: 4px;
+    border-width: 1px;
+    margin-left: 24px;
+    margin-top: 18px;
+    margin-right: 24px;
+}
+
 input[type='file'] {
     cursor: pointer;
     display: block;
@@ -142,10 +167,16 @@ input[type='file'] {
 
 .modal-select {
     margin: 26px 26px 12px ;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border-width: 1px;
 }
 
 .unit-opt-select {
-    margin: 12px 26px 16px 14px;
+    border-radius: 4px;
+    border-width: 1px;
+    margin: 18px 26px 12px 24px;
 }
 
 .menu-items-list {
@@ -156,6 +187,13 @@ input[type='file'] {
 
 .category_label {
     text-align: center;
+}
+
+.category_label span {
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 7px;
+    vertical-align: 2px
 }
 
 .feat-item {

@@ -50,7 +50,7 @@ class TopNav extends Component {
 }
 
 const mapStateToProps = state => {
-    const isDemo = state.auth.username.startsWith('demo_')
+    const isDemo = state.auth.username ?  state.auth.username.startsWith('demo_') : false;
     return {
         isDemo: isDemo,
         username: isDemo ? 'Guest' : state.auth.username,

@@ -1,12 +1,14 @@
 import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SUBMIT_CSV_LOAD_SUCCESS,
-    SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH
+    SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH,
+    ADD_BLANK_PARAM
 } from "../constants/profile";
 
 
 const initialState = {
     summaryItems: [],
     allParams: [],
+    blankParams: [],
     dateFormats: [],
     loading: false,
     error: null,
@@ -35,8 +37,15 @@ export default function profile(state = initialState, action) {
                 }),
                 allParams: action.payload.profileData.data.all_params,
                 dateFormats: action.payload.profileData.data.date_formats,
-                dataPoints: action.payload.profileData.data.datapoints
+                dataPoints: action.payload.profileData.data.datapoints,
+                blankParams: action.payload.profileData.data.blank_params,
             };
+        case ADD_BLANK_PARAM:
+            let blankParams = [ ...state.blankParams ];
+            if (!blankParams.includes(action.value.data)) {
+                blankParams.push(action.value.data);
+            }
+            return { ...state, blankParams };
         case DATA_POINTS_REFRESH:
             return { ...state, dataPoints: action.payload.profileData.data };
         case FETCH_SUMMARY_DATA_FAILURE:

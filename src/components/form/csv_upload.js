@@ -8,13 +8,19 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
     const [uploadLabels, setuploadLabels] = useState([]);
 
     // For units of measurement values or options
-    const unitOptionSaved = (param) => {
+    const unitOptionSaved = (param, checkValue2=false) => {
         const savedParamInd = summaryItems.findIndex(x => x.parameter.name === param);
         if (savedParamInd > -1) {
             const item = summaryItems[savedParamInd].parameter;
-            return item.unit_name.concat(' (', item.unit_symbol, ')')
+            let hasValue2;
+            if (checkValue2) {
+                console.log(item)
+                // return
+            }
+            return [item.unit_name.concat(' (', item.unit_symbol, ')'), hasValue2]
         }
     };
+
 
     return (
         <Formik
@@ -25,8 +31,10 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
 
                 // Units of measurement values or options
                 let unitOptionField = null;
+                let checkValue2;
                 const savedUnitOption = unitOptionSaved(values.param_choice);
                 if (savedUnitOption){
+                    checkValue2 = unitOptionSaved(values.param_choice, true);
                     // Saved unit of measurement for parameter found, so show this for expected input
                     unitOptionField = (
                         <React.Fragment>
@@ -54,10 +62,12 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                         <select id='param_choice' className='modal-select' value={values.param_choice}
                             onChange={ e => {
                                 setFieldValue("param_choice", e.target.value);
-                                setuploadLabels(e.target.options[e.target.selectedIndex].dataset.labels.split(', '))
+                                setuploadLabels(
+                                    e.target.options[e.target.selectedIndex].dataset.labels.split(', ')
+                                );
                                 if (!unitOptionSaved(e.target.value)) {
                                     const apInd = allParams.findIndex(x => x.name === e.target.value);
-                                    setFieldValue("unit_choice", allParams[apInd].available_unit_options[0].name)
+                                    setFieldValue("unit_choice", allParams[apInd].available_unit_options.name)
                                 } else setFieldValue("unit_choice", '')  // unitOptionSaved, so server doesn't need
                             }}>
                             <option value='' disabled>Parameter</option>
@@ -88,7 +98,8 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                             <span className="navitem-info">
                                 {uploadLabels.map((val, i) => {
                                     const letter = String.fromCharCode(97 + i).toUpperCase();
-                                    return `Column ${letter}: ${val}`}).join(".  ")}</span>
+                                    return `Column ${letter}: ${val.concat(i > 0 ? ' values' : '')}`}).join(" | ")}
+                            </span>
                             <span className="navitem-info">Headers are optional</span>
                         </div>}
                     </div>
