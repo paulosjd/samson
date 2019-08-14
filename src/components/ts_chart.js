@@ -1,30 +1,34 @@
 import React, { PureComponent } from 'react';
-import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-} from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import * as bodyActionCreator from "../store/actions/body";
 import {postMenuItemAdd} from "../store/actions/profile";
 import {connect} from "react-redux";
-import {setAddDataFlag} from "../store/actions/body";
-import DataPointTableAdd from "./dp_table";
 
 
 class TimeSeriesChart extends PureComponent {
 
     render() {
         let hasValue2;
-        if (this.props.selectedParameter.upload_fields)
-            hasValue2 = this.props.selectedParameter.upload_fields.split(', ').includes('value2');
+        let line1Label = 'value';
+        let line2Label;
+        if (this.props.selectedParameter)
+            hasValue2 = this.props.selectedParameter.num_values > 1;
+            if (hasValue2) {
+                line1Label = this.props.selectedParameter.value2_short_label_1;
+                line2Label = this.props.selectedParameter.value2_short_label_2
+            }
         const values = [];
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === this.props.selectedParameter.name);
         const chartData = dataPoints.map(obj => {
-            // if
-            return { date: obj.date, value: obj.value, value2: obj.value2 }
+            if (hasValue2 && line1Label && line2Label) return {
+                date: obj.date, [line1Label]: obj.value, [line2Label]: obj.value2
+            };
+            return { date: obj.date, value: obj.value }
         });
         chartData.forEach(obj => {
-            values.push(obj.value);
-            if (hasValue2 && obj.value2){
-                values.push(obj.value2)
+            values.push(obj[line1Label]);
+            if (hasValue2 && obj[line2Label]){
+                values.push(obj[line2Label])
             }
         });
         const valMin = Math.min(...values);
@@ -32,6 +36,7 @@ class TimeSeriesChart extends PureComponent {
         const offset = (valMax - valMin) / 2.6;
 
         console.log(chartData)
+        console.log(this.props.selectedParameter)
 
         return (
             <LineChart
@@ -47,8 +52,8 @@ class TimeSeriesChart extends PureComponent {
                        }
                 />
                 <Tooltip />
-                <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
-                {hasValue2 && (<Line type="monotone" dataKey="value2" stroke="#82ca9d" />)}
+                <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 8 }} />
+                {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" />)}
             </LineChart>
         );
     }

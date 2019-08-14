@@ -12,15 +12,11 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
         const savedParamInd = summaryItems.findIndex(x => x.parameter.name === param);
         if (savedParamInd > -1) {
             const item = summaryItems[savedParamInd].parameter;
-            let hasValue2;
-            if (checkValue2) {
-                console.log(item)
-                // return
-            }
-            return [item.unit_name.concat(' (', item.unit_symbol, ')'), hasValue2]
+            if (checkValue2)
+                return item.num_values > 1;
+            return item.unit_name.concat(' (', item.unit_symbol, ')')
         }
     };
-
 
     return (
         <Formik
@@ -31,10 +27,10 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
 
                 // Units of measurement values or options
                 let unitOptionField = null;
-                let checkValue2;
+                let hasValue2;
                 const savedUnitOption = unitOptionSaved(values.param_choice);
                 if (savedUnitOption){
-                    checkValue2 = unitOptionSaved(values.param_choice, true);
+                    hasValue2 = unitOptionSaved(values.param_choice, true);
                     // Saved unit of measurement for parameter found, so show this for expected input
                     unitOptionField = (
                         <React.Fragment>
@@ -98,7 +94,8 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                             <span className="navitem-info">
                                 {uploadLabels.map((val, i) => {
                                     const letter = String.fromCharCode(97 + i).toUpperCase();
-                                    return `Column ${letter}: ${val.concat(i > 0 ? ' values' : '')}`}).join(" | ")}
+                                    return `Column ${letter}: ${val.concat(
+                                        i > 0 && hasValue2 ? ' values' : '')}`}).join(" | ")}
                             </span>
                             <span className="navitem-info">Headers are optional</span>
                         </div>}
