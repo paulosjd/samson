@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import DataPointTable from '../components/dp_table'
+import DataPointTable from '../components/body/dp_table'
 
 const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, postAddedDataPoints, clearEditDataFailure }) => {

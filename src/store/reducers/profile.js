@@ -25,6 +25,7 @@ export default function profile(state = initialState, action) {
         case FETCH_SUMMARY_DATA_BEGIN:
             return { ...state, loading: true, error: null };
         case FETCH_SUMMARY_DATA_SUCCESS:
+            console.log(action.payload.profileData.data.datapoints)
             return {
                 ...state,
                 loading: false,

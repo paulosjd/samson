@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table} from "reactstrap";
-import DataPointTableEdit from "./form/dp_table_edit";
-import DataPointTableAdd from '../components/form/dp_table_add'
-import { toTitleCase } from '../utils/helpers'
+import DataPointTableEdit from "../form/dp_table_edit";
+import DataPointTableAdd from '../form/dp_table_add'
+import { toTitleCase } from '../../utils/helpers'
 
 const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditDataFlag, editData, postEditedDataPoints,
                          postAddedDataPoints, addData, loadError, clearEditDataFailure }) => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { ListGroup, ListGroupItem, Spinner} from 'reactstrap';
 import { postMenuItemAdd } from "../store/actions/profile";
-import MenuItemContent from '../components/menu_item_content'
+import MenuItemContent from '../components/body/menu_item_content'
 import MenuItemAdd from '../components/form/menu_item_add'
 import OutsideAction from '../utils/outside_action'
 import * as bodyActionCreator from "../store/actions/body";

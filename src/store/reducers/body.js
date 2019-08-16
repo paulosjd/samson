@@ -8,7 +8,8 @@ const initialState = {
     editData: false,
     addData: false,
     editDataError: null,
-    showAddMetric: false
+    showAddMetric: false,
+    showAddQualifier: false
 };
 
 export default function profile(state = initialState, action) {

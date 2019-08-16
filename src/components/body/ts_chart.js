@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import * as bodyActionCreator from "../store/actions/body";
-import {postMenuItemAdd} from "../store/actions/profile";
+import * as bodyActionCreator from "../../store/actions/body";
 import {connect} from "react-redux";
+import CustomTooltipContent from "./tooltip_content";
 
 
 class TimeSeriesChart extends PureComponent {
+
+    foo = (e) => {console.log(e)}
 
     render() {
         let hasValue2;
@@ -21,9 +23,9 @@ class TimeSeriesChart extends PureComponent {
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === this.props.selectedParameter.name);
         const chartData = dataPoints.map(obj => {
             if (hasValue2 && line1Label && line2Label) return {
-                date: obj.date, [line1Label]: obj.value, [line2Label]: obj.value2
+                date: obj.date, id: obj.id, [line1Label]: obj.value, [line2Label]: obj.value2, text: obj.qualifier
             };
-            return { date: obj.date, value: obj.value }
+            return { date: obj.date, value: obj.value, id: obj.id, text: obj.qualifier }
         });
         chartData.forEach(obj => {
             values.push(obj[line1Label]);
@@ -44,6 +46,7 @@ class TimeSeriesChart extends PureComponent {
                 height={300}
                 data={chartData.reverse()}
                 margin={{top: 5, right: 16, left: 22, bottom: 5, }}
+                onClick ={this.foo}
             >
                 <XAxis dataKey="date" />
                 <YAxis type="number" domain={[dataMin => (dataMin - offset), dataMax => (dataMax + offset)]}
@@ -51,9 +54,9 @@ class TimeSeriesChart extends PureComponent {
                            number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
                        }
                 />
-                <Tooltip />
-                <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 8 }} />
-                {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" />)}
+                <Tooltip fontSize={8} content={<CustomTooltipContent />}/>
+                <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 6 }}/>
+                {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" activeDot={{ r: 6 }} />)}
             </LineChart>
         );
     }

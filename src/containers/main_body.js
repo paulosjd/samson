@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import { Container, Row, Col } from 'reactstrap';
 import MenuItems from './menu_items'
 import NavItems from './nav_items'
-import Summary from '../components/summary'
+import Summary from '../components/body/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
 import {
