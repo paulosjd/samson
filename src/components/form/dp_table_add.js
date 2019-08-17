@@ -24,7 +24,6 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, 
                 return errors
             }}
             render={({ values, handleSubmit, setFieldValue, errors, touched, handleBlur }) => {
-                console.log(val2headers)
                 return (
                     <form onSubmit={handleSubmit}>
                         <Table className='data-points-table' bordered>

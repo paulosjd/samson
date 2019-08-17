@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import * as bodyActionCreator from "../../store/actions/body";
+import { setShowAddQualifier } from "../../store/actions/body";
 import {connect} from "react-redux";
+import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
-
 
 class TimeSeriesChart extends PureComponent {
 
-    foo = (e) => {console.log(e)}
-
     render() {
+        console.log(this.props.showAddQualifier);
+
         let hasValue2;
         let line1Label = 'value';
         let line2Label;
@@ -41,12 +41,13 @@ class TimeSeriesChart extends PureComponent {
         console.log(this.props.selectedParameter)
 
         return (
+            <React.Fragment>
             <LineChart
                 width={520}
                 height={300}
                 data={chartData.reverse()}
                 margin={{top: 5, right: 16, left: 22, bottom: 5, }}
-                onClick ={this.foo}
+                onClick ={() => this.props.setShowAddQualifier(true)}
             >
                 <XAxis dataKey="date" />
                 <YAxis type="number" domain={[dataMin => (dataMin - offset), dataMax => (dataMax + offset)]}
@@ -54,10 +55,12 @@ class TimeSeriesChart extends PureComponent {
                            number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
                        }
                 />
-                <Tooltip fontSize={8} content={<CustomTooltipContent />}/>
+                <Tooltip content={<CustomTooltipContent dataPoints={dataPoints}/>}/>
                 <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 6 }}/>
                 {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" activeDot={{ r: 6 }} />)}
             </LineChart>
+            {this.props.showAddQualifier && ( <QualifyTextAdd /> ) }
+            </React.Fragment>
         );
     }
 }
@@ -67,6 +70,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         parameter: x, data_point: {date: '', value: '', value2: ''}
     }});
     return {
+        showAddQualifier: body.showAddQualifier,
         dataPoints: profile.dataPoints || [],
         selectedParameter: profile.summaryItems.concat(blankItems)[body.selectedItemIndex]
             ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
@@ -75,7 +79,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        // setAddDataFlag: val => dispatch(setAddDataFlag(val)),
+        setShowAddQualifier: val => dispatch(setShowAddQualifier(val)),
     };
 };
 

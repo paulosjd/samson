@@ -1,18 +1,13 @@
 import React from 'react';
 import { Formik } from 'formik';
-import * as Yup from "yup";
+import { MenuItemAddSchema } from "../../schemas/dp_detail";
 
-const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd, setShowAddMetric }) => {
-
-    const Schema = Yup.object().shape({
-        param_choice: Yup.string().required('Required'),
-        unit_choice: Yup.string().required('Required'),
-    });
+const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd }) => {
 
     return (
         <Formik
             initialValues={{param_choice: '', unit_choice: ''}}
-            validationSchema={Schema}
+            validationSchema={MenuItemAddSchema}
             onSubmit={postMenuItemAdd}
         >
             {props => {
@@ -20,8 +15,9 @@ const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd, setShowAddM
 
                 const getUnitOptions = (param_choice) => {
                     const paramIndex = availParams.findIndex(x => x.name === param_choice);
-                    return availParams[paramIndex].available_unit_options;
-
+                    if (paramIndex > -1) {
+                        return availParams[paramIndex].available_unit_options;
+                    } return []
                 };
 
                 const getUnitChoiceField = () => {
@@ -40,8 +36,9 @@ const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd, setShowAddM
                         <form onSubmit={handleSubmit}>
                             <select id='param_choice' className='item-add-sel' value={values.param_choice}
                                 onChange={ e => {
+                                    const unitOpts = getUnitOptions(e.target.value)[0];
                                     setFieldValue("param_choice", e.target.value);
-                                    setFieldValue("unit_choice", getUnitOptions(e.target.value)[0].name);
+                                    setFieldValue("unit_choice", unitOpts ? unitOpts.name : '');
                                 }}>
                                 <option value='' disabled>Parameter</option>
                                 {availParams.map((val, i) => {
