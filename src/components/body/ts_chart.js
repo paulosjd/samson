@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import { setShowAddQualifier } from "../../store/actions/body";
+import { setShowAddQualifier, postQualifyingText } from "../../store/actions/body";
 import {connect} from "react-redux";
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
@@ -8,7 +8,14 @@ import CustomTooltipContent from "./tooltip_content";
 class TimeSeriesChart extends PureComponent {
 
     render() {
-        console.log(this.props.showAddQualifier);
+
+        console.log(this.props.activeLabel);
+        console.log(this.props.activeLabel);
+        console.log(this.props.activeLabel);
+
+        const dpIndex = this.props.dataPoints.findIndex(x => x.date === this.props.activeLabel);
+        const qualifyingText = dpIndex > -1 ? this.props.dataPoints[dpIndex].qualifier || '' : '';
+        console.log(qualifyingText)
 
         let hasValue2;
         let line1Label = 'value';
@@ -37,9 +44,6 @@ class TimeSeriesChart extends PureComponent {
         const valMax = Math.max(...values);
         const offset = (valMax - valMin) / 2.6;
 
-        console.log(chartData)
-        console.log(this.props.selectedParameter)
-
         return (
             <React.Fragment>
             <LineChart
@@ -47,7 +51,11 @@ class TimeSeriesChart extends PureComponent {
                 height={300}
                 data={chartData.reverse()}
                 margin={{top: 5, right: 16, left: 22, bottom: 5, }}
-                onClick ={() => this.props.setShowAddQualifier(true)}
+                onClick ={(val) => {
+                    if (val) this.props.setActiveLabel(val.activeLabel);
+                    this.props.setShowAddQualifier(true);
+                    this.props.setHideQualifyText(false)}
+                }
             >
                 <XAxis dataKey="date" />
                 <YAxis type="number" domain={[dataMin => (dataMin - offset), dataMax => (dataMax + offset)]}
@@ -55,11 +63,16 @@ class TimeSeriesChart extends PureComponent {
                            number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
                        }
                 />
-                <Tooltip content={<CustomTooltipContent dataPoints={dataPoints}/>}/>
+                <Tooltip content={<CustomTooltipContent dataPoints={this.props.dataPoints}/>} />
                 <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 6 }}/>
                 {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" activeDot={{ r: 6 }} />)}
             </LineChart>
-            {this.props.showAddQualifier && ( <QualifyTextAdd /> ) }
+            {this.props.showAddQualifier && !this.props.hideQualifyText && (
+                <QualifyTextAdd
+                    postQualifyingText={this.props.postQualifyingText}
+                    qualifyingText={qualifyingText}
+                />
+            )}
             </React.Fragment>
         );
     }
@@ -80,6 +93,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
 const mapDispatchToProps = dispatch => {
     return {
         setShowAddQualifier: val => dispatch(setShowAddQualifier(val)),
+        postQualifyingText: val => dispatch(postQualifyingText(val)),
     };
 };
 

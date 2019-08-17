@@ -2,12 +2,14 @@ import React from 'react';
 import { Formik } from "formik";
 import {QualifyTextAddSchema} from "../../schemas/dp_detail";
 
-const QualifyTextAdd = ({dataPoints, selectedParameter, postAddedDataPoints, val2headers }) => {
+const QualifyTextAdd = ({postQualifyingText, qualifyingText, }) => {
+
     return (
         <Formik
-            initialValues={{qualify_text: ''}}
+            enableReinitialize
+            initialValues={{qualify_text: qualifyingText}}
             validationSchema={QualifyTextAddSchema}
-            onSubmit={val => console.log(val)}
+            onSubmit={postQualifyingText}
         >
             {props => {
                 const {values, touched, handleBlur, errors, handleSubmit, setFieldValue} = props;

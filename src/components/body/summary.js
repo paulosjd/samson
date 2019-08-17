@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ListGroup, ListGroupItem, Spinner } from 'reactstrap';
-import MenuItemContent from './menu_item_content'
 import TimeSeriesChart from './ts_chart'
+import OutsideAction from '../../utils/outside_action'
 
 const Summary = ({isLoading, body, summaryItems}) => {
+    const [ hideQualifyText, setHideQualifyText] = useState(false);
+    const [ activeLabel, setActiveLabel] = useState('');
+
 
     const handleCategorySelection = (value) => {
         // this.props.setCategory(catName);
@@ -20,7 +23,17 @@ const Summary = ({isLoading, body, summaryItems}) => {
             </ListGroup>
         )
     } else {
-        return <TimeSeriesChart body={body}/>
+        return (
+            <OutsideAction action={() => setHideQualifyText(true)}>
+                <TimeSeriesChart
+                    body={body}
+                    hideQualifyText={hideQualifyText}
+                    setHideQualifyText={setHideQualifyText}
+                    activeLabel={activeLabel}
+                    setActiveLabel={setActiveLabel}
+                />
+            </OutsideAction>
+        )
     }
 };
 
