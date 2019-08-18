@@ -45,7 +45,7 @@ export const postEditedDataPoints = (value, action='edit') => {
 export const postQualifyingText = (value) => {
     const url = 'http://127.0.0.1:8000/api/datapoints/qualifying-text';
     return dispatch => {
-        axios.post(url, {data: { qualifying_text: value.qualifying_text }},
+        axios.post(url,{value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then(profileData => dispatch({ type: DATA_POINTS_REFRESH, payload: {profileData} }))
     }

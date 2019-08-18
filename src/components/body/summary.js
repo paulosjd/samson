@@ -6,6 +6,7 @@ import OutsideAction from '../../utils/outside_action'
 const Summary = ({isLoading, body, summaryItems}) => {
     const [ hideQualifyText, setHideQualifyText] = useState(false);
     const [ activeLabel, setActiveLabel] = useState('');
+    const [ activeObjId, setActiveObjId] = useState('');
 
 
     const handleCategorySelection = (value) => {
@@ -31,6 +32,8 @@ const Summary = ({isLoading, body, summaryItems}) => {
                     setHideQualifyText={setHideQualifyText}
                     activeLabel={activeLabel}
                     setActiveLabel={setActiveLabel}
+                    activeObjId={activeObjId}
+                    setActiveObjId={setActiveObjId}
                 />
             </OutsideAction>
         )

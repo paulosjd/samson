@@ -8,15 +8,15 @@ import CustomTooltipContent from "./tooltip_content";
 class TimeSeriesChart extends PureComponent {
 
     render() {
-
-        console.log(this.props.activeLabel);
-        console.log(this.props.activeLabel);
-        console.log(this.props.activeLabel);
-
-        const dpIndex = this.props.dataPoints.findIndex(x => x.date === this.props.activeLabel);
-        const qualifyingText = dpIndex > -1 ? this.props.dataPoints[dpIndex].qualifier || '' : '';
-        console.log(qualifyingText)
-
+        console.log(this.props)
+        const dpIndex = this.props.dataPoints.findIndex(x => x.id === this.props.activeObjId);
+        let qualifyingText = '';
+        console.log(this.props.activeObjId)
+        console.log(dpIndex)
+        console.log(this.props.dataPoints)
+        if (dpIndex > -1) {
+            qualifyingText = this.props.dataPoints[dpIndex].qualifier || ''
+        }
         let hasValue2;
         let line1Label = 'value';
         let line2Label;
@@ -52,7 +52,11 @@ class TimeSeriesChart extends PureComponent {
                 data={chartData.reverse()}
                 margin={{top: 5, right: 16, left: 22, bottom: 5, }}
                 onClick ={(val) => {
-                    if (val) this.props.setActiveLabel(val.activeLabel);
+                    console.log(val)
+                    if (val) {
+                        this.props.setActiveLabel(val.activeLabel);
+                        this.props.setActiveObjId(val.activePayload[0].payload.id);
+                    }
                     this.props.setShowAddQualifier(true);
                     this.props.setHideQualifyText(false)}
                 }
@@ -63,7 +67,14 @@ class TimeSeriesChart extends PureComponent {
                            number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
                        }
                 />
-                <Tooltip content={<CustomTooltipContent dataPoints={this.props.dataPoints}/>} />
+                <Tooltip content={
+                    <CustomTooltipContent
+                        dataPoints={this.props.dataPoints}
+                        activeObjId={this.props.activeObjId}
+                        setActiveObjId={this.props.setActiveObjId}
+                        qualifyingText={qualifyingText}
+                    />}
+                />
                 <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 6 }}/>
                 {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" activeDot={{ r: 6 }} />)}
             </LineChart>
@@ -71,6 +82,9 @@ class TimeSeriesChart extends PureComponent {
                 <QualifyTextAdd
                     postQualifyingText={this.props.postQualifyingText}
                     qualifyingText={qualifyingText}
+                    activeObjId={this.props.activeObjId}
+                    activeLabel={this.props.activeLabel}
+                    setHideText={this.props.setHideQualifyText}
                 />
             )}
             </React.Fragment>

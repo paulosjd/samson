@@ -2,14 +2,17 @@ import React from 'react';
 import { Formik } from "formik";
 import {QualifyTextAddSchema} from "../../schemas/dp_detail";
 
-const QualifyTextAdd = ({postQualifyingText, qualifyingText, }) => {
+const QualifyTextAdd = ({postQualifyingText, qualifyingText, activeObjId, activeLabel, setHideText}) => {
 
     return (
         <Formik
             enableReinitialize
             initialValues={{qualify_text: qualifyingText}}
             validationSchema={QualifyTextAddSchema}
-            onSubmit={postQualifyingText}
+            onSubmit={(val) => {
+                postQualifyingText({...val, objId: activeObjId});
+                setHideText(true)
+            }}
         >
             {props => {
                 const {values, touched, handleBlur, errors, handleSubmit, setFieldValue} = props;
@@ -17,6 +20,7 @@ const QualifyTextAdd = ({postQualifyingText, qualifyingText, }) => {
                 return (
                     <div className="card qualify-text">
                         <form onSubmit={handleSubmit}>
+                            <label style={{marginBottom: 0, lineHeight: 0.5}}>{activeLabel}</label>
                             <div className='display-inline'>
                                 <label>Notes: </label>
                             <input

@@ -48,6 +48,8 @@ export default function profile(state = initialState, action) {
             }
             return { ...state, blankParams };
         case DATA_POINTS_REFRESH:
+            console.log('payload!!')
+            console.log(action.payload.profileData.data)
             return { ...state, dataPoints: action.payload.profileData.data };
         case FETCH_SUMMARY_DATA_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
