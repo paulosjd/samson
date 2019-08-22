@@ -6,6 +6,7 @@ const initialState = {
     profileUpdateSuccess: false,
     profileUpdateFailure: false,
     birthYear: '',
+    height: '',
     gender: '',
 };
 

@@ -11,7 +11,11 @@ const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
             <ModalHeader>{username}</ModalHeader>
             <Formik
                 enableReinitialize
-                initialValues={{birthYear: profileData.birth_year, gender: profileData.gender}}
+                initialValues={{
+                    birthYear: profileData.birth_year,
+                    gender: profileData.gender,
+                    height: profileData.height
+                }}
                 validationSchema={ProfileInfo}
                 onSubmit={handleSave}
             >

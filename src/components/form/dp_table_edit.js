@@ -79,6 +79,7 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
                                             type='text' className={objIsPendingDel ? 'pend-del dp-edit' : 'dp-edit'}
                                             value={values[valKey]}
                                             onBlur={handleBlur}
+                                            maxLength="6"
                                             disabled={objIsPendingDel}
                                             onChange={e => setFieldValue(valKey, e.target.value)}
                                         />
@@ -90,6 +91,7 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
                                                 type='text' className={objIsPendingDel ? 'pend-del dp-edit' : 'dp-edit'}
                                                 value={values[val2Key]}
                                                 onBlur={handleBlur}
+                                                maxLength="6"
                                                 disabled={objIsPendingDel}
                                                 onChange={e => setFieldValue(val2Key, e.target.value)}
                                             />

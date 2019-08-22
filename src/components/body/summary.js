@@ -25,6 +25,7 @@ const Summary = ({isLoading, body, summaryItems}) => {
         )
     } else {
         return (
+            <React.Fragment>
             <OutsideAction action={() => setHideQualifyText(true)}>
                 <TimeSeriesChart
                     body={body}
@@ -36,6 +37,8 @@ const Summary = ({isLoading, body, summaryItems}) => {
                     setActiveObjId={setActiveObjId}
                 />
             </OutsideAction>
+            <h5>Ideas: </h5>
+            </React.Fragment>
         )
     }
 };

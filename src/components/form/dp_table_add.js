@@ -72,6 +72,7 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, 
                                                 type='text' name={valKey} className='dp-edit'
                                                 value={values[valKey] || ''}
                                                 onBlur={handleBlur}
+                                                maxLength="6"
                                                 onChange={e => setFieldValue(valKey, e.target.value)}
                                             />
                                             {valueError && <div className='dp-edit-err'>{errors[valKey]}</div>}
@@ -82,6 +83,7 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, 
                                                 type='text' name={val2Key} className='dp-edit'
                                                 value={values[val2Key] || ''}
                                                 onBlur={handleBlur}
+                                                maxLength="6"
                                                 onChange={e => setFieldValue(val2Key, e.target.value)}
                                             />
                                             {value2Error && <div className='dp-edit-err'>{errors[val2Key]}</div>}

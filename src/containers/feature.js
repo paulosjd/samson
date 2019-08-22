@@ -1,10 +1,51 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import DataPointTable from '../components/body/dp_table'
+import ParamInfo from "../components/body/param_info";
+
 
 const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, postAddedDataPoints, clearEditDataFailure }) => {
-    const labels = ['\ud83d\udcc8  Chart', '\t\ud83d\udcc4  Notes and info', '\ud83d\udcd6  Literature bookmarks'];
+    const labels = ['\ud83d\udcc8  Chart data', '\t\ud83d\udcc4  Notes and info', '\ud83d\udcd6  Literature bookmarks'];
+
+    console.log(selectedParameter)
+    const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
+    const latestDp = paramDps.length > 0 ? paramDps[0] : {};
+    console.log(latestDp)
+
+
+    let mainItem;
+    const dpTable = (
+        <DataPointTable
+            dataPoints={paramDps}
+            selectedParameter={selectedParameter}
+            setEditDataFlag={setEditDataFlag}
+            setAddDataFlag={setAddDataFlag}
+            editData={body.editData}
+            addData={body.addData}
+            loadError={body.loadError}
+            postEditedDataPoints={postEditedDataPoints}
+            postAddedDataPoints={postAddedDataPoints}
+            clearEditDataFailure={clearEditDataFailure}
+        />
+    );
+
+    const paramInfo = (
+        <ParamInfo
+            selectedParameter={selectedParameter}
+            latestDp={latestDp}
+        />
+    );
+
+    switch(body.selectedFeatIndex) {
+        case 1:
+            mainItem = paramInfo;
+            break;
+        default:
+            mainItem = dpTable
+    }
+
+
     return (
         <React.Fragment>
             <ListGroup className='feat-item-group'>
@@ -21,18 +62,7 @@ const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEdit
                 })}
             </ListGroup>
             <ListGroup className='feat-item-group'>
-                <DataPointTable
-                    dataPoints={dataPoints.filter(obj => obj.parameter === selectedParameter.name)}
-                    selectedParameter={selectedParameter}
-                    setEditDataFlag={setEditDataFlag}
-                    setAddDataFlag={setAddDataFlag}
-                    editData={body.editData}
-                    addData={body.addData}
-                    loadError={body.loadError}
-                    postEditedDataPoints={postEditedDataPoints}
-                    postAddedDataPoints={postAddedDataPoints}
-                    clearEditDataFailure={clearEditDataFailure}
-                />
+                {mainItem}
             </ListGroup>
         </React.Fragment>
         )
