@@ -25,7 +25,6 @@ export default function profile(state = initialState, action) {
         case FETCH_SUMMARY_DATA_BEGIN:
             return { ...state, loading: true, error: null };
         case FETCH_SUMMARY_DATA_SUCCESS:
-            console.log(action.payload.profileData.data.datapoints)
             return {
                 ...state,
                 loading: false,
@@ -40,6 +39,7 @@ export default function profile(state = initialState, action) {
                 dateFormats: action.payload.profileData.data.date_formats,
                 dataPoints: action.payload.profileData.data.datapoints,
                 blankParams: action.payload.profileData.data.blank_params,
+                ideals: action.payload.profileData.data.ideals
             };
         case ADD_BLANK_PARAM:
             let blankParams = [ ...state.blankParams ];

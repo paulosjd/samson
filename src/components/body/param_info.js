@@ -7,20 +7,24 @@ import { toTitleCase } from '../../utils/helpers'
 // const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditDataFlag, editData, postEditedDataPoints,
 //                             postAddedDataPoints, addData, loadError, clearEditDataFailure }) => {
 
-const ParamInfo = ({latestDp, selectedParameter}) => {
+const ParamInfo = ({latestDp, selectedParameter, ideals}) => {
+    console.log(ideals)
     const paramName = selectedParameter.name || '';
+    const ideal = ideals[paramName];
+    console.log(ideal)
+
     const unitSymbol = selectedParameter.unit_symbol || '';
     const dPvalue = latestDp.value || '';
-    const header = paramName ?
-        <th>{paramName + ' '}<span>&#x2796;</span>{' '.concat(dPvalue, ' ', unitSymbol)}</th> : null;
 
     return (
         <div>
             <Table className='param-info-table' bordered>
                 <thead>
-                    {header}
+                { paramName && (<tr><td>{paramName + ' '}<span>&#x2796;</span>{' '.concat(
+                    dPvalue, ' ', unitSymbol)}</td></tr>)}
                 </thead>
                 <tbody>
+                { ideal && (<tr className="no-border"><td>{'Recommended value: ' + ideal.ideal}</td></tr>)  }
                     <tr className="no-border"><td>Bar!22</td></tr>
                     <tr className="no-border"><td>Bar!22</td></tr>
                     <tr className="no-border"><td>Bar!22</td></tr>
@@ -31,3 +35,7 @@ const ParamInfo = ({latestDp, selectedParameter}) => {
 };
 
 export default ParamInfo
+
+
+
+

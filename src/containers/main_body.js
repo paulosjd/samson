@@ -53,6 +53,7 @@ class MainBody extends Component {
                         <Feature
                             dataPoints={this.props.dataPoints}
                             body={this.props.body}
+                            ideals={this.props.profile.ideals}
                             clearEditDataFailure={this.props.clearEditDataFailure}
                             selectedParameter={this.props.selectedParameter}
                             setFeatItemIndex={this.props.setFeatItemIndex}

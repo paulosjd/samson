@@ -4,9 +4,9 @@ import DataPointTable from '../components/body/dp_table'
 import ParamInfo from "../components/body/param_info";
 
 
-const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
+const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, postAddedDataPoints, clearEditDataFailure }) => {
-    const labels = ['\ud83d\udcc8  Chart data', '\t\ud83d\udcc4  Notes and info', '\ud83d\udcd6  Literature bookmarks'];
+    const labels = ['\ud83d\udcc8  Chart data', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Literature bookmarks'];
 
     console.log(selectedParameter)
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
@@ -34,6 +34,7 @@ const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEdit
         <ParamInfo
             selectedParameter={selectedParameter}
             latestDp={latestDp}
+            ideals={ideals}
         />
     );
 
@@ -44,7 +45,6 @@ const Feature = ({dataPoints, body, selectedParameter, setFeatItemIndex, setEdit
         default:
             mainItem = dpTable
     }
-
 
     return (
         <React.Fragment>
