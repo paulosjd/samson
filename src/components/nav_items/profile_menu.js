@@ -22,6 +22,7 @@ const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
                 {props => {
                     const startYear = new Date().getFullYear() - 98;
                     const years = Array.from(new Array(80),(val, index) => index + startYear);
+                    const heights = Array.from(new Array(90),(val, index) => index + 130);
                     return (
                         <div className="card">
                             <form onSubmit={props.handleSubmit}>
@@ -39,6 +40,14 @@ const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
                                     <option value=""> </option>
                                     <option value="m">Male</option>
                                     <option value="f">Female</option>
+                                </Field>
+                                <label htmlFor="height" >Height (cm)</label>
+                                <Field component="select" selected={props.values.height} name="height"
+                                       className="profile-edit-field">
+                                    <option value="0"> </option>
+                                    {heights.map((height, index) => {
+                                        return <option key={`height${index}`} value={height}>{height}</option>
+                                    })}
                                 </Field>
                                 <button type="submit" className="form-submit reg-submit">Save changes</button>
                             </form>

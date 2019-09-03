@@ -47,7 +47,7 @@ export const updateProfileInfo = (value) => {
     const url = 'http://127.0.0.1:8000/api/profile/info-update';
     return dispatch => {
         axios.post(url,
-            {birth_year: value.birthYear, gender: value.gender },
+            {birth_year: value.birthYear, gender: value.gender, height: value.height },
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
             .then(() => dispatch({ type: PROFILE_MENU_EDIT_SUCCESS, payload: {value} }))
             .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }),2500))

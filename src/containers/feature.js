@@ -13,6 +13,8 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
     const latestDp = paramDps.length > 0 ? paramDps[0] : {};
     console.log(latestDp)
 
+    const paramIdeals = ideals ? ideals[body.selectedItemIndex] : {}
+
 
     let mainItem;
     const dpTable = (
@@ -34,7 +36,7 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
         <ParamInfo
             selectedParameter={selectedParameter}
             latestDp={latestDp}
-            ideals={ideals}
+            ideals={paramIdeals}
         />
     );
 
