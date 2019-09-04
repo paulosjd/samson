@@ -1,10 +1,15 @@
 import React from 'react';
-import { Table} from "reactstrap";
+import {Table, UncontrolledTooltip} from "reactstrap";
 
 const ParamInfo = ({latestDp, selectedParameter, ideals}) => {
+    const paramIdealInfo = selectedParameter.ideal_info || '';
     const paramName = selectedParameter.name || '';
     const unitSymbol = selectedParameter.unit_symbol || '';
     const dPvalue = latestDp.value || '';
+
+    // TODO Use saved ideal
+    // TODO Use saved ideal 
+
     return (
         <div>
             <Table className='param-info-table' bordered>
@@ -14,7 +19,9 @@ const ParamInfo = ({latestDp, selectedParameter, ideals}) => {
                 </thead>
                 <tbody>
                 { ideals.ideal && (<tr className="no-border"><td>{'Recommended value: '.concat(
-                    ideals.ideal, ' ', unitSymbol, ' ')}<span>&#x2139;</span></td></tr>) }
+                    ideals.ideal, ' ', unitSymbol, ' ')}<span role="img" aria-label="info" id="info">&#x2139;</span>
+                    <UncontrolledTooltip id="ttip" placement="bottom" target="info"
+                    >{paramIdealInfo}</UncontrolledTooltip></td></tr>) }
                 { ideals.misc_info && ideals.misc_info.map((obj, ind) => {
                     return <tr className="no-border" key={ind}><td>{obj}</td></tr>})
                 }

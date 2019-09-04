@@ -7,15 +7,9 @@ import ParamInfo from "../components/body/param_info";
 const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, postAddedDataPoints, clearEditDataFailure }) => {
     const labels = ['\ud83d\udcc8  Chart data', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Literature bookmarks'];
-
-    console.log(selectedParameter)
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
     const latestDp = paramDps.length > 0 ? paramDps[0] : {};
-    console.log(latestDp)
-
     const paramIdeals = ideals ? ideals[body.selectedItemIndex] : {}
-
-
     let mainItem;
     const dpTable = (
         <DataPointTable
