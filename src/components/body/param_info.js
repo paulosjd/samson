@@ -6,9 +6,9 @@ const ParamInfo = ({latestDp, selectedParameter, ideals}) => {
     const paramName = selectedParameter.name || '';
     const unitSymbol = selectedParameter.unit_symbol || '';
     const dPvalue = latestDp.value || '';
-
-    // TODO Use saved ideal
-    // TODO Use saved ideal 
+    // TODO Use saved ideal - and form to enable add/edit
+    // TODO Handle no ideal available - e.g. height not saved for body weight  (e.g. user message and link to bring up profile menu)
+    const savedTarget = ideals ? ideals.saved : '';
 
     return (
         <div>

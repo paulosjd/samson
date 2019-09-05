@@ -8,14 +8,12 @@ import CustomTooltipContent from "./tooltip_content";
 class TimeSeriesChart extends PureComponent {
 
     render() {
-        console.log(this.props)
         const dpIndex = this.props.dataPoints.findIndex(x => x.id === this.props.activeObjId);
         let qualifyingText = '';
-        console.log(this.props.activeObjId)
-        console.log(dpIndex)
-        console.log(this.props.dataPoints)
+        let qualifyingTextLabel = '';
         if (dpIndex > -1) {
-            qualifyingText = this.props.dataPoints[dpIndex].qualifier || ''
+            qualifyingText = this.props.dataPoints[dpIndex].qualifier || '';
+            qualifyingTextLabel = this.props.dataPoints[dpIndex].date || ''
         }
         let hasValue2;
         let line1Label = 'value';
@@ -52,7 +50,6 @@ class TimeSeriesChart extends PureComponent {
                 data={chartData.reverse()}
                 margin={{top: 5, right: 16, left: 22, bottom: 5, }}
                 onClick ={(val) => {
-                    console.log(val)
                     if (val) {
                         this.props.setActiveLabel(val.activeLabel);
                         this.props.setActiveObjId(val.activePayload[0].payload.id);
@@ -83,7 +80,7 @@ class TimeSeriesChart extends PureComponent {
                     postQualifyingText={this.props.postQualifyingText}
                     qualifyingText={qualifyingText}
                     activeObjId={this.props.activeObjId}
-                    activeLabel={this.props.activeLabel}
+                    activeLabel={qualifyingTextLabel}
                     setHideText={this.props.setHideQualifyText}
                 />
             )}
