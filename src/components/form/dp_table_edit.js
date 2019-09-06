@@ -4,14 +4,12 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { validDate, validNumber } from '../../schemas/constants'
 
-const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints, val2headers, value2, loadError,
-                                }) => {
+const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints, val2headers, value2, loadError}) => {
     const initial = {delItems: []};
     const schemaShape = {};
     dataPoints.forEach(item => {
         selectedParameter.upload_fields.split(', ').forEach(fieldName => {
             const key = `${item.id}_${fieldName}`;
-            console.log(key)
             initial[key] = item[fieldName];
             schemaShape[key] = fieldName === 'date' ? validDate : validNumber
         })

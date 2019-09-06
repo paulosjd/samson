@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { MenuItemAddSchema } from "../../schemas/dp_detail";
+import { MenuItemAddSchema } from "../../schemas/body_inputs";
 
 const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd }) => {
 

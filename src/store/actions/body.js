@@ -51,3 +51,11 @@ export const postQualifyingText = (value) => {
     }
 };
 
+export const postTargetValue = (value) => {
+    const url = 'http://127.0.0.1:8000/api/profile/target-update';
+    return dispatch => {
+        axios.post(url,{value},
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+            .then(profileData => dispatch({ type: DATA_POINTS_REFRESH, payload: {profileData} }))
+    }
+};

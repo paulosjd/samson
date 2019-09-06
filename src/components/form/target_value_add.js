@@ -1,46 +1,47 @@
 import React from 'react';
 import { Formik } from "formik";
-import {QualifyTextAddSchema} from "../../schemas/dp_detail";
+import { TargetValueSchema } from "../../schemas/body_inputs";
 
-const QualifyTextAdd = ({postQualifyingText, qualifyingText, activeObjId, activeLabel, setHideText}) => {
-
+const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue}) => {
+    console.log(targetValue)
     return (
         <Formik
             enableReinitialize
-            initialValues={{qualify_text: qualifyingText}}
-            validationSchema={QualifyTextAddSchema}
+            initialValues={{target_value: targetValue}}
+            validationSchema={TargetValueSchema}
             onSubmit={(val) => {
-                postQualifyingText({...val, objId: activeObjId});
-                setHideText(true)
+                // postTargetValue({...val, paramName});
+                console.log(val)
+                postTargetValue(val);
+                setShowTargetForm(false)
             }}
         >
             {props => {
                 const {values, touched, handleBlur, errors, handleSubmit, setFieldValue} = props;
                 console.log(errors)
                 return (
-                    <div className="card qualify-text">
                         <form onSubmit={handleSubmit}>
-                            <label style={{marginBottom: 0, lineHeight: 0.5}}>{activeLabel}</label>
-                            <div className='display-inline'>
-                                <label>Notes: </label>
-                                <input
-                                    type='text' name='qualify_text'
-                                    value={values.qualify_text}
-                                    onBlur={handleBlur}
-                                    onChange={ e => { setFieldValue('qualify_text', e.target.value) }}
-                                />
-                                <button type='submit' className='qualify-add-btn'
-                                        style={!values.qualify_text ? {backgroundColor: '#c8d8df'} : {}}
-                                >&#x2714;&#xFE0F; Save
-                                </button>
-                            </div>
-                            {touched.qualify_text && errors.qualify_text &&
-                            <div className='dp-edit-err left-62'>{errors.qualify_text}</div>}
+                            <label>Target value: </label>
+                            <input
+                                className='target-val-input'
+                                type='text' name='target_value'
+                                value={values.target_value}
+                                maxLength="6"
+                                onBlur={handleBlur}
+                                onChange={ e => { setFieldValue('target_value', e.target.value) }}
+                            />
+                            <button type='submit' className='qualify-add-btn margin-top-initial'
+                                    style={!values.target_value ? {backgroundColor: '#c8d8df'} : {}}
+                            >&#x2714;&#xFE0F; Save
+                            </button>
+                        {touched.target_value && errors.target_value &&
+                        <div className='dp-edit-err left-62'>{errors.target_value}</div>}
+
+
                         </form>
-                    </div>
                 );
             }}
         </Formik>
     );
 };
-export default QualifyTextAdd
+export default TargetValueAdd

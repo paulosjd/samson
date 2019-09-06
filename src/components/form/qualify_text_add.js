@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from "formik";
-import {QualifyTextAddSchema} from "../../schemas/dp_detail";
+import {QualifyTextAddSchema} from "../../schemas/body_inputs";
 
 const QualifyTextAdd = ({postQualifyingText, qualifyingText, activeObjId, activeLabel, setHideText}) => {
 

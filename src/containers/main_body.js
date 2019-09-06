@@ -6,9 +6,8 @@ import NavItems from './nav_items'
 import Summary from '../components/body/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
-import {
-    setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure, setShowAddMetric,
-} from "../store/actions/body";
+import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
+    setShowAddMetric, postTargetValue } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 
 class MainBody extends Component {
@@ -61,6 +60,7 @@ class MainBody extends Component {
                             postEditedDataPoints={this.props.postEditedDataPoints}
                             setAddDataFlag={this.props.setAddDataFlag}
                             postAddedDataPoints={this.props.postAddedDataPoints}
+                            postTargetValue={this.props.postTargetValue}
                         />
                         </OutsideAction>
                     </Col>
@@ -106,6 +106,7 @@ const mapDispatchToProps = dispatch => {
         getCsvDownload: (val) => dispatch(actionCreator.getCsvDownload(val)),
         clearEditDataFailure: () => dispatch(clearEditDataFailure()),
         setShowAddMetric: (val) => dispatch(setShowAddMetric(val)),
+        postTargetValue: (val) => dispatch(postTargetValue(val)),
     };
 };
 
