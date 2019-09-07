@@ -5,7 +5,8 @@ import ParamInfo from "../components/body/param_info";
 
 
 const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
-                     setAddDataFlag, postAddedDataPoints, clearEditDataFailure, postTargetValue }) => {
+                     setAddDataFlag, setEditTargetFlag,
+                     postAddedDataPoints, clearEditDataFailure, postTargetValue }) => {
     const labels = ['\ud83d\udcc8  Chart data', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Literature bookmarks'];
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
     const latestDp = paramDps.length > 0 ? paramDps[0] : {};
@@ -31,7 +32,9 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
             selectedParameter={selectedParameter}
             postTargetValue={postTargetValue}
             latestDp={latestDp}
+            editTarget={body.editTarget}
             ideals={paramIdeals}
+            setEditTargetFlag={setEditTargetFlag}
         />
     );
 

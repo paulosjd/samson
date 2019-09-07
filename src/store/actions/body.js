@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
     SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
-    CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER,
+    CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG
 } from '../constants/body'
 import { ADD_BLANK_PARAM, DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH } from "../constants/profile";
 
@@ -15,6 +15,10 @@ export const setFeatItemIndex = (value) => ({
 
 export const setEditDataFlag = (value) => ({
     type: SET_EDIT_DATA_FLAG, value
+});
+
+export const setEditTargetFlag = (value) => ({
+    type: SET_EDIT_TARGET_FLAG, value
 });
 
 export const clearEditDataFailure = () => ({

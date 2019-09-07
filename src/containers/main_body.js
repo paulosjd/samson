@@ -7,7 +7,7 @@ import Summary from '../components/body/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
 import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
-    setShowAddMetric, postTargetValue } from "../store/actions/body";
+    setShowAddMetric, postTargetValue, setEditTargetFlag } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 
 class MainBody extends Component {
@@ -46,6 +46,7 @@ class MainBody extends Component {
                             action={() => {
                                 this.props.setEditDataFlag(false);
                                 this.props.setAddDataFlag(false);
+                                this.props.setEditTargetFlag(false);
                                 this.props.clearEditDataFailure();
                             }}
                         >
@@ -57,6 +58,7 @@ class MainBody extends Component {
                             selectedParameter={this.props.selectedParameter}
                             setFeatItemIndex={this.props.setFeatItemIndex}
                             setEditDataFlag={this.props.setEditDataFlag}
+                            setEditTargetFlag={this.props.setEditTargetFlag}
                             postEditedDataPoints={this.props.postEditedDataPoints}
                             setAddDataFlag={this.props.setAddDataFlag}
                             postAddedDataPoints={this.props.postAddedDataPoints}
@@ -96,6 +98,7 @@ const mapDispatchToProps = dispatch => {
         setFeatItemIndex: val => dispatch(setFeatItemIndex(val)),
         setEditDataFlag: val => dispatch(setEditDataFlag(val)),
         setAddDataFlag: val => dispatch(setAddDataFlag(val)),
+        setEditTargetFlag: val => dispatch(setEditTargetFlag(val)),
         postEditedDataPoints: val => dispatch(postEditedDataPoints(val)),
         postAddedDataPoints: val => dispatch(postEditedDataPoints(val, 'add')),
         toggleNavItem: (item, val) => dispatch(actionCreator.showNavItem(item, val)),

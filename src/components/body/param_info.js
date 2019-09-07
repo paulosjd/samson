@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Table, UncontrolledTooltip } from "reactstrap";
 import TargetValueAdd from "../form/target_value_add"
 
-const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals}) => {
-    const [ showTargetForm, setShowTargetForm] = useState(false);
+const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTarget, setEditTargetFlag}) => {
     const paramIdealInfo = selectedParameter.ideal_info || '';
     const paramIdealInfoUrl = selectedParameter.ideal_info_url || '';
     const paramName = selectedParameter.name || '';
     const unitSymbol = selectedParameter.unit_symbol || '';
     const dPvalue = latestDp.value || '';
-
-    console.log(selectedParameter)
+    const dPvalue2 = latestDp.value2 || '';
 
     // TODO Use saved ideal - and form to enable add/edit
     // TODO Handle no ideal available - e.g. height not saved for body weight  (e.g. user message and link to bring up profile menu)
@@ -18,12 +16,14 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals}) => {
 
     const savedTarget = ideals ? ideals.saved : '';
 
+    console.log(editTarget)
+
     let targetRow;
-    if (savedTarget && !showTargetForm) {
+    if (savedTarget && !editTarget) {
         targetRow = (
             <tr className="no-border">
                 <td>{'Target value: '.concat(savedTarget, ' ', unitSymbol, ' ')}
-                    <span onClick={() => setShowTargetForm(true)}
+                    <span onClick={() => setEditTargetFlag(true)}
                           role="img" aria-label="info" id="target-edit-icon">&#x270F;</span>
                     <UncontrolledTooltip id="ttip" target="target-edit-icon">Edit</UncontrolledTooltip>
                 </td>
@@ -33,7 +33,7 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals}) => {
         targetRow = (
             <tr className="no-border"><td>
                 <TargetValueAdd
-                    setShowTargetForm={setShowTargetForm}
+                    setShowTargetForm={setEditTargetFlag}
                     targetValue={savedTarget}
                     postTargetValue={postTargetValue}
                     paramName={paramName}
@@ -47,7 +47,7 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals}) => {
             <Table className='param-info-table' bordered>
                 <thead>
                 { paramName && (<tr><td>{paramName + ' '}<span>&#x2796;</span>{' '.concat(
-                    dPvalue, ' ', unitSymbol)}</td></tr>)}
+                    dPvalue2 ? dPvalue + '/' + dPvalue2 : dPvalue, ' ', unitSymbol)}</td></tr>)}
                 </thead>
                 <tbody>
                 { targetRow }

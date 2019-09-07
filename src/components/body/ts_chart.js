@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
 import { setShowAddQualifier, postQualifyingText } from "../../store/actions/body";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
+import Feature from "../../containers/main_body";
 
 class TimeSeriesChart extends PureComponent {
 
@@ -41,7 +42,19 @@ class TimeSeriesChart extends PureComponent {
         const valMin = Math.min(...values);
         const valMax = Math.max(...values);
         const offset = (valMax - valMin) / 2.6;
-
+        const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
+        const savedTarget = paramIdeals ? paramIdeals.saved : '';
+        let targetLineVal;
+        let yAxisDomain;
+        if ( savedTarget && (savedTarget < valMax * 2) &&  (savedTarget > valMin / 2)) {
+            targetLineVal = savedTarget;
+            yAxisDomain = [dataMin => {let min = Math.min((dataMin - offset), targetLineVal - offset);
+                if (!min || min < 0) return 0; return min},
+                    dataMax => Math.max((dataMax + offset), targetLineVal + 5) || 100]
+        } else {
+            yAxisDomain = [dataMin => (dataMin - offset), dataMax => (dataMax + offset)]
+        }
+        console.log('targetLineVal: ' + targetLineVal)
         return (
             <React.Fragment>
             <LineChart
@@ -59,11 +72,13 @@ class TimeSeriesChart extends PureComponent {
                 }
             >
                 <XAxis dataKey="date" />
-                <YAxis type="number" domain={[dataMin => (dataMin - offset), dataMax => (dataMax + offset)]}
+                <YAxis type="number"
+                       domain={yAxisDomain}
                        tickFormatter={
                            number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
                        }
                 />
+                <ReferenceLine y={targetLineVal} label="Target" stroke="#ffb600" />
                 <Tooltip content={
                     <CustomTooltipContent
                         dataPoints={this.props.dataPoints}
@@ -98,6 +113,8 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         dataPoints: profile.dataPoints || [],
         selectedParameter: profile.summaryItems.concat(blankItems)[body.selectedItemIndex]
             ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
+        selItemInd: body.selectedItemIndex,
+        ideals: profile.ideals
     };
 };
 
