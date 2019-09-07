@@ -1,7 +1,7 @@
 import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SUBMIT_CSV_LOAD_SUCCESS,
     SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH,
-    ADD_BLANK_PARAM, SUMMARY_ITEMS_REFRESH
+    ADD_BLANK_PARAM, TARGETS_DATA_REFRESH
 } from "../constants/profile";
 
 
@@ -28,7 +28,7 @@ export default function profile(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                summaryItems: summaryItemsFromPayload(action.payload),
+                summaryItems: summaryItemsFromPayload(action.payload.profileData.data.profile_summary),
                 allParams: action.payload.profileData.data.all_params,
                 dateFormats: action.payload.profileData.data.date_formats,
                 dataPoints: action.payload.profileData.data.datapoints,
@@ -41,12 +41,10 @@ export default function profile(state = initialState, action) {
                 blankParams.push(action.value.data);
             }
             return { ...state, blankParams };
+        case TARGETS_DATA_REFRESH:
+            return {...state, ideals: action.payload.targetsData.data};
         case DATA_POINTS_REFRESH:
             return { ...state, dataPoints: action.payload.profileData.data };
-        case SUMMARY_ITEMS_REFRESH:
-            console.log(action.payload);
-            // payload.profileData.data.profile_summary.map(obj => {
-            return {...state, summaryItems: summaryItemsFromPayload(action.payload)};
         case FETCH_SUMMARY_DATA_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
         case SUBMIT_CSV_LOAD_SUCCESS:
@@ -64,8 +62,8 @@ export default function profile(state = initialState, action) {
     }
 }
 
-const summaryItemsFromPayload = (payload) => {
-    return payload.profileData.data.profile_summary.map(obj => {
+const summaryItemsFromPayload = (summary_data) => {
+    return summary_data.map(obj => {
         return {
             parameter: {
                 ...obj.parameter, unit_name: obj.parameter.unit_name, unit_symbol: obj.parameter.unit_symbol

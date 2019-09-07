@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik } from "formik";
 import { TargetValueSchema } from "../../schemas/body_inputs";
 
-const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue}) => {
+const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue, paramName}) => {
     console.log(targetValue)
     return (
         <Formik
@@ -10,9 +10,9 @@ const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue}) => {
             initialValues={{target_value: targetValue}}
             validationSchema={TargetValueSchema}
             onSubmit={(val) => {
-                // postTargetValue({...val, paramName});
-                console.log(val)
-                postTargetValue(val);
+                postTargetValue({...val, param_name: paramName});
+                // console.log(val)
+                // postTargetValue(val);
                 setShowTargetForm(false)
             }}
         >

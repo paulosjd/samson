@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Table, UncontrolledTooltip } from "reactstrap";
 import TargetValueAdd from "../form/target_value_add"
 
-const ParamInfo = ({latestDp, selectedParameter, ideals}) => {
+const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals}) => {
     const [ showTargetForm, setShowTargetForm] = useState(false);
     const paramIdealInfo = selectedParameter.ideal_info || '';
     const paramIdealInfoUrl = selectedParameter.ideal_info_url || '';
     const paramName = selectedParameter.name || '';
     const unitSymbol = selectedParameter.unit_symbol || '';
     const dPvalue = latestDp.value || '';
+
+    console.log(selectedParameter)
 
     // TODO Use saved ideal - and form to enable add/edit
     // TODO Handle no ideal available - e.g. height not saved for body weight  (e.g. user message and link to bring up profile menu)
@@ -33,6 +35,8 @@ const ParamInfo = ({latestDp, selectedParameter, ideals}) => {
                 <TargetValueAdd
                     setShowTargetForm={setShowTargetForm}
                     targetValue={savedTarget}
+                    postTargetValue={postTargetValue}
+                    paramName={paramName}
                 />
             </td></tr>
         )

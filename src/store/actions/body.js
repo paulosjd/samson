@@ -1,9 +1,9 @@
 import axios from "axios";
 import {
     SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
-    CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER
+    CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER,
 } from '../constants/body'
-import {ADD_BLANK_PARAM, DATA_POINTS_REFRESH} from "../constants/profile";
+import { ADD_BLANK_PARAM, DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH } from "../constants/profile";
 
 export const setMenuItemIndex = (value) => ({
     type: SET_MENU_ITEM_INDEX, value
@@ -56,6 +56,6 @@ export const postTargetValue = (value) => {
     return dispatch => {
         axios.post(url,{value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-            .then(profileData => dispatch({ type: DATA_POINTS_REFRESH, payload: {profileData} }))
+            .then(targetsData => dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
     }
 };
