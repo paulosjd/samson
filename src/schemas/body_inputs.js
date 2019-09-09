@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { validNumber } from './constants'
+import { validNumberNullable } from './constants'
 
 export const MenuItemAddSchema = Yup.object().shape({
     param_choice: Yup.string().required('Required'),
@@ -11,5 +11,5 @@ export const QualifyTextAddSchema = Yup.object().shape({
 });
 
 export const TargetValueSchema = Yup.object().shape({
-    target_value: validNumber
+    target_value: validNumberNullable
 });

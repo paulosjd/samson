@@ -19,11 +19,13 @@ class TimeSeriesChart extends PureComponent {
         let hasValue2;
         let line1Label = 'value';
         let line2Label;
+        let target1Label = 'Target';
         if (this.props.selectedParameter)
             hasValue2 = this.props.selectedParameter.num_values > 1;
             if (hasValue2) {
                 line1Label = this.props.selectedParameter.value2_short_label_1;
                 line2Label = this.props.selectedParameter.value2_short_label_2
+                target1Label += ' (' + this.props.selectedParameter.upload_field_labels.split(', ')[1] + ')'
             }
         const values = [];
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === this.props.selectedParameter.name);
@@ -46,7 +48,7 @@ class TimeSeriesChart extends PureComponent {
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
         let targetLineVal;
         let yAxisDomain;
-        if ( savedTarget && (savedTarget < valMax * 2) &&  (savedTarget > valMin / 2)) {
+        if ( this.props.selFeatInd === 1 && savedTarget && (savedTarget < valMax * 2) &&  (savedTarget > valMin / 2)) {
             targetLineVal = savedTarget;
             yAxisDomain = [dataMin => {let min = Math.min((dataMin - offset), targetLineVal - offset);
                 if (!min || min < 0) return 0; return min},
@@ -54,7 +56,6 @@ class TimeSeriesChart extends PureComponent {
         } else {
             yAxisDomain = [dataMin => (dataMin - offset), dataMax => (dataMax + offset)]
         }
-        console.log('targetLineVal: ' + targetLineVal)
         return (
             <React.Fragment>
             <LineChart
@@ -78,7 +79,13 @@ class TimeSeriesChart extends PureComponent {
                            number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
                        }
                 />
-                <ReferenceLine y={targetLineVal} label="Target" stroke="#ffb600" />
+                { this.props.selFeatInd === 1 && (
+                    <ReferenceLine y={targetLineVal} label={target1Label} stroke="#ffb600" />) }
+                { this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved2 && (
+                    <ReferenceLine y={paramIdeals.saved2} label={'Target'.concat(
+                        ' (', this.props.selectedParameter.upload_field_labels.split(', ')[2], ')')} stroke="#ffb600" />
+                )}
+                {/*{ this.props.selectedParameter && this.props.selectedParameter.data}*/}
                 <Tooltip content={
                     <CustomTooltipContent
                         dataPoints={this.props.dataPoints}
@@ -114,6 +121,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         selectedParameter: profile.summaryItems.concat(blankItems)[body.selectedItemIndex]
             ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
         selItemInd: body.selectedItemIndex,
+        selFeatInd: body.selectedFeatIndex,
         ideals: profile.ideals
     };
 };

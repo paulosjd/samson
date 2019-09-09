@@ -2,27 +2,31 @@ import React from 'react';
 import { Table, UncontrolledTooltip } from "reactstrap";
 import TargetValueAdd from "../form/target_value_add"
 
-const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTarget, setEditTargetFlag}) => {
+const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTarget, editTarget2, setEditTargetFlag,
+                       setEditTarget2Flag}) => {
     const paramIdealInfo = selectedParameter.ideal_info || '';
     const paramIdealInfoUrl = selectedParameter.ideal_info_url || '';
     const paramName = selectedParameter.name || '';
     const unitSymbol = selectedParameter.unit_symbol || '';
+    const hasVal2 = selectedParameter.num_values > 1;
     const dPvalue = latestDp.value || '';
     const dPvalue2 = latestDp.value2 || '';
-
+    console.log(selectedParameter)
     // TODO Use saved ideal - and form to enable add/edit
     // TODO Handle no ideal available - e.g. height not saved for body weight  (e.g. user message and link to bring up profile menu)
     // todO Handling ideal value and target values for value2's e.g. bp
 
     const savedTarget = ideals ? ideals.saved : '';
-
-    console.log(editTarget)
+    const savedTarget2 = ideals ? ideals.saved2 : '';
+    console.log('savedTarget2: ' + savedTarget2)
 
     let targetRow;
     if (savedTarget && !editTarget) {
         targetRow = (
             <tr className="no-border">
-                <td>{'Target value: '.concat(savedTarget, ' ', unitSymbol, ' ')}
+                <td>{'Target value'.concat(
+                    hasVal2 ? ' (' + selectedParameter.upload_field_labels.split(', ')[1] + ') ' : '' ,
+                    ': ', savedTarget, ' ', unitSymbol, ' ')}
                     <span onClick={() => setEditTargetFlag(true)}
                           role="img" aria-label="info" id="target-edit-icon">&#x270F;</span>
                     <UncontrolledTooltip id="ttip" target="target-edit-icon">Edit</UncontrolledTooltip>
@@ -34,9 +38,36 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
             <tr className="no-border"><td>
                 <TargetValueAdd
                     setShowTargetForm={setEditTargetFlag}
-                    targetValue={savedTarget}
+                    targetValue={savedTarget || ''}
                     postTargetValue={postTargetValue}
                     paramName={paramName}
+                />
+            </td></tr>
+        )
+    }
+    // todo  --- LIKE above but elif savedTarget2 then else null
+    let targetRow2 = null;
+    if (savedTarget2 && !editTarget2) {
+        targetRow2 = (
+            <tr className="no-border">
+                <td>{'Target value'.concat(
+                    hasVal2 ? ' (' + selectedParameter.upload_field_labels.split(', ')[2] + ') ' : '' ,
+                    ': ', savedTarget2, ' ', unitSymbol, ' ')}
+                    <span onClick={() => setEditTarget2Flag(true)}
+                          role="img" aria-label="info" id="target-edit-icon">&#x270F;</span>
+                    <UncontrolledTooltip id="ttip" target="target-edit-icon">Edit</UncontrolledTooltip>
+                </td>
+            </tr>
+        )
+    } else if (hasVal2) {
+        targetRow2 = (
+            <tr className="no-border"><td>
+                <TargetValueAdd
+                    setShowTargetForm={setEditTarget2Flag}
+                    targetValue={savedTarget2 || ''}
+                    postTargetValue={postTargetValue}
+                    paramName={paramName}
+                    isVal2={true}
                 />
             </td></tr>
         )
@@ -51,6 +82,7 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
                 </thead>
                 <tbody>
                 { targetRow }
+                { targetRow2 }
                 { ideals.ideal && (
                     <tr className="no-border">
                         <td>{'Recommended value: '.concat(ideals.ideal, ' ', unitSymbol, ' ')}

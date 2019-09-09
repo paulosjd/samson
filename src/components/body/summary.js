@@ -3,17 +3,12 @@ import { ListGroup, ListGroupItem, Spinner } from 'reactstrap';
 import TimeSeriesChart from './ts_chart'
 import OutsideAction from '../../utils/outside_action'
 
-const Summary = ({isLoading, body, summaryItems}) => {
+const Summary = ({isLoading, body, dataPoints}) => {
+
     const [ hideQualifyText, setHideQualifyText] = useState(false);
     const [ activeLabel, setActiveLabel] = useState('');
     const [ activeObjId, setActiveObjId] = useState('');
 
-
-    const handleCategorySelection = (value) => {
-        // this.props.setCategory(catName);
-        // this.props.topicsByCategory()
-        console.log(value)
-    };
     if (isLoading){
         return (
             <ListGroup>
@@ -23,7 +18,7 @@ const Summary = ({isLoading, body, summaryItems}) => {
                 </ListGroupItem>
             </ListGroup>
         )
-    } else {
+    } else if (dataPoints[body.selectedItemIndex]) {
         return (
             <React.Fragment>
             <OutsideAction action={() => setHideQualifyText(true)}>
@@ -37,10 +32,9 @@ const Summary = ({isLoading, body, summaryItems}) => {
                     setActiveObjId={setActiveObjId}
                 />
             </OutsideAction>
-            <h5>Ideas: </h5>
             </React.Fragment>
         )
-    }
+    } else return null
 };
 
 export default Summary

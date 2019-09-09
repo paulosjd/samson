@@ -7,7 +7,7 @@ import Summary from '../components/body/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
 import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
-    setShowAddMetric, postTargetValue, setEditTargetFlag } from "../store/actions/body";
+    setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 
 class MainBody extends Component {
@@ -37,8 +37,7 @@ class MainBody extends Component {
                         <Summary
                             body={this.props.body}
                             isLoading={this.props.loading}
-                            summaryItems={this.props.summaryItems}
-                            selectedParameter={this.props.selectedParameter}
+                            dataPoints={this.props.dataPoints}
                         />
                     </Col>
                     <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
@@ -47,6 +46,7 @@ class MainBody extends Component {
                                 this.props.setEditDataFlag(false);
                                 this.props.setAddDataFlag(false);
                                 this.props.setEditTargetFlag(false);
+                                this.props.setEditTarget2Flag(false);
                                 this.props.clearEditDataFailure();
                             }}
                         >
@@ -59,6 +59,7 @@ class MainBody extends Component {
                             setFeatItemIndex={this.props.setFeatItemIndex}
                             setEditDataFlag={this.props.setEditDataFlag}
                             setEditTargetFlag={this.props.setEditTargetFlag}
+                            setEditTarget2Flag={this.props.setEditTarget2Flag}
                             postEditedDataPoints={this.props.postEditedDataPoints}
                             setAddDataFlag={this.props.setAddDataFlag}
                             postAddedDataPoints={this.props.postAddedDataPoints}
@@ -99,6 +100,7 @@ const mapDispatchToProps = dispatch => {
         setEditDataFlag: val => dispatch(setEditDataFlag(val)),
         setAddDataFlag: val => dispatch(setAddDataFlag(val)),
         setEditTargetFlag: val => dispatch(setEditTargetFlag(val)),
+        setEditTarget2Flag: val => dispatch(setEditTarget2Flag(val)),
         postEditedDataPoints: val => dispatch(postEditedDataPoints(val)),
         postAddedDataPoints: val => dispatch(postEditedDataPoints(val, 'add')),
         toggleNavItem: (item, val) => dispatch(actionCreator.showNavItem(item, val)),

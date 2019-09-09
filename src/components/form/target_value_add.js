@@ -2,42 +2,37 @@ import React from 'react';
 import { Formik } from "formik";
 import { TargetValueSchema } from "../../schemas/body_inputs";
 
-const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue, paramName}) => {
-    console.log(targetValue)
+const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue, paramName, isVal2}) => {
+    const valKey = isVal2 ? 'target_value2' : 'target_value';
     return (
         <Formik
             enableReinitialize
-            initialValues={{target_value: targetValue}}
+            initialValues={{[valKey]: targetValue}}
             validationSchema={TargetValueSchema}
             onSubmit={(val) => {
                 postTargetValue({...val, param_name: paramName});
-                // console.log(val)
-                // postTargetValue(val);
                 setShowTargetForm(false)
             }}
         >
             {props => {
                 const {values, touched, handleBlur, errors, handleSubmit, setFieldValue} = props;
-                console.log(errors)
                 return (
                         <form onSubmit={handleSubmit}>
                             <label>Target value: </label>
                             <input
                                 className='target-val-input'
                                 type='text' name='target_value'
-                                value={values.target_value}
+                                value={values[valKey]}
                                 maxLength="6"
                                 onBlur={handleBlur}
-                                onChange={ e => { setFieldValue('target_value', e.target.value) }}
+                                onChange={ e => { setFieldValue(valKey, e.target.value) }}
                             />
                             <button type='submit' className='qualify-add-btn margin-top-initial'
-                                    style={!values.target_value ? {backgroundColor: '#c8d8df'} : {}}
+                                    style={!values[valKey] ? {backgroundColor: '#c8d8df'} : {}}
                             >&#x2714;&#xFE0F; Save
                             </button>
-                        {touched.target_value && errors.target_value &&
-                        <div className='dp-edit-err left-62'>{errors.target_value}</div>}
-
-
+                        {touched[valKey] && errors[valKey] &&
+                        <div className='dp-edit-err left-62'>{errors[valKey]}</div>}
                         </form>
                 );
             }}

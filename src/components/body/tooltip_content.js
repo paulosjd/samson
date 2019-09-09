@@ -2,6 +2,7 @@ import React from 'react';
 import DefaultTooltipContent from 'recharts/lib/component/DefaultTooltipContent';
 
 const CustomTooltipContent = (props) => {
+    console.log(props)
 
     if (!props.active || props.dataPoints.length < 1) {
         return null
