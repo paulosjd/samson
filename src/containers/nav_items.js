@@ -23,7 +23,7 @@ const NavItems  = ({ props }) => {
         return <CsvUploadMenu
             toggle={() => {
                 props.toggleNavItem('csv_upload', !showCsvUploadMenu);
-                props.clearCsvLoad()
+                props.clearCsvLoad();
             }}
             isOpen={props.menu.showCsvUploadMenu}
             profileData={props.profile}
@@ -47,6 +47,7 @@ const NavItems  = ({ props }) => {
             username={props.username}
             handleSave={props.updateProfileMenu}
             profileData={props.extras}
+            targetDataRefresh={props.targetDataRefresh}
         />
 };
 

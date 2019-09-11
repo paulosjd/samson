@@ -3,7 +3,7 @@ import { Modal, ModalHeader, Alert } from 'reactstrap';
 import { Formik, Field } from 'formik';
 import { ProfileInfo } from '../../schemas/profile'
 
-const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
+const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData, targetDataRefresh }) => {
     const updateSuccess = profileData.profileUpdateSuccess;
     const updateFailure = profileData.profileUpdateFailure;
     return (
@@ -17,7 +17,10 @@ const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
                     height: profileData.height
                 }}
                 validationSchema={ProfileInfo}
-                onSubmit={handleSave}
+                onSubmit={(val) => {
+                    handleSave(val);
+                    targetDataRefresh()}
+                }
             >
                 {props => {
                     const startYear = new Date().getFullYear() - 98;

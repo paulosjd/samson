@@ -9,6 +9,8 @@ import * as actionCreator from "../store/actions/profile";
 import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
     setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
+import { showNavItem, fetchProfileInfo } from "../store/actions/profile";
+import {targetDataRefresh} from "../store/actions/profile";
 
 class MainBody extends Component {
 
@@ -18,6 +20,7 @@ class MainBody extends Component {
     }
 
     render() {
+        console.log(this.props.blankItems)
         if ( this.props.error ) {
             return <div>{'Something has gone wrong' + this.props.error}</div>
         }
@@ -31,6 +34,7 @@ class MainBody extends Component {
                         <MenuItems
                             isLoading={this.props.loading}
                             summaryItems={this.props.summaryItems}
+                            blankItems={this.props.blankItems}
                         />
                     </Col>
                     <Col xs="5" style={{paddingLeft: 0, paddingRight: 0}}>
@@ -64,6 +68,7 @@ class MainBody extends Component {
                             setAddDataFlag={this.props.setAddDataFlag}
                             postAddedDataPoints={this.props.postAddedDataPoints}
                             postTargetValue={this.props.postTargetValue}
+                            handleProfileClick={this.props.handleProfileClick}
                         />
                         </OutsideAction>
                     </Col>
@@ -79,6 +84,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
     }});
     return {
         body: body,
+        blankItems: blankItems,
         profile: profile,
         extras: extras,
         allParams: profile.allParams,
@@ -112,6 +118,8 @@ const mapDispatchToProps = dispatch => {
         clearEditDataFailure: () => dispatch(clearEditDataFailure()),
         setShowAddMetric: (val) => dispatch(setShowAddMetric(val)),
         postTargetValue: (val) => dispatch(postTargetValue(val)),
+        handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
+        targetDataRefresh: () => dispatch(targetDataRefresh())
     };
 };
 

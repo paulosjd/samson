@@ -4,7 +4,6 @@ import { setShowAddQualifier, postQualifyingText } from "../../store/actions/bod
 import { connect } from "react-redux";
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
-import Feature from "../../containers/main_body";
 
 class TimeSeriesChart extends PureComponent {
 
@@ -20,6 +19,8 @@ class TimeSeriesChart extends PureComponent {
         let line1Label = 'value';
         let line2Label;
         let target1Label = 'Target';
+        console.log('this.props.selectedParameter')
+        console.log(this.props.selectedParameter)
         if (this.props.selectedParameter)
             hasValue2 = this.props.selectedParameter.num_values > 1;
             if (hasValue2) {

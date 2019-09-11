@@ -14,10 +14,7 @@ class MenuItems extends Component {
     }
 
     render() {
-        const blankItems = this.props.blankParams.map(x => {return {
-            parameter: x, data_point: {date: '', value: '', value2: ''}
-        }});
-        const menuItems = this.props.summaryItems.concat(blankItems);
+        const menuItems = this.props.summaryItems.concat(this.props.blankItems);
         const addedParams = menuItems.map(val => val.parameter.name);
         const availParams = this.props.allParams.filter(x => !addedParams.includes(x.name));
         let items;

@@ -5,7 +5,7 @@ import ParamInfo from "../components/body/param_info";
 
 
 const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
-                     setAddDataFlag, setEditTargetFlag, setEditTarget2Flag,
+                     setAddDataFlag, setEditTargetFlag, setEditTarget2Flag, handleProfileClick,
                      postAddedDataPoints, clearEditDataFailure, postTargetValue }) => {
     const labels = ['\ud83d\udcc8  Records', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Literature bookmarks'];
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
@@ -37,6 +37,7 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
             ideals={paramIdeals}
             setEditTargetFlag={setEditTargetFlag}
             setEditTarget2Flag={setEditTarget2Flag}
+            handleProfileClick={handleProfileClick}
         />
     );
 

@@ -398,3 +398,11 @@ input[type='file'] {
 .recharts-label {
     font-size: small;
 }
+
+.info-text {
+    color: #ffb600
+}
+
+.param-info-table span {
+    cursor: pointer;
+}

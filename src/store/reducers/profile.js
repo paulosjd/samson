@@ -4,7 +4,6 @@ import {
     ADD_BLANK_PARAM, TARGETS_DATA_REFRESH
 } from "../constants/profile";
 
-
 const initialState = {
     summaryItems: [],
     allParams: [],

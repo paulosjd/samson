@@ -4,7 +4,7 @@ import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DAT
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
     SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
-    CLEAR_CSV_LOAD_CONFIRM, ADD_BLANK_PARAM
+    CLEAR_CSV_LOAD_CONFIRM, ADD_BLANK_PARAM, TARGETS_DATA_REFRESH
 } from '../constants/profile'
 import { SET_SHOW_ADD_METRIC } from "../constants/body";
 
@@ -109,5 +109,13 @@ export const getCsvDownload = (value) => {
                 download(response.data, fileName, 'text/csv'); dispatch({ type: CSV_LOAD_CONFIRM })} )
             .then(() => setTimeout(() => dispatch({ type: CLEAR_CSV_LOAD_CONFIRM }), 2500))
             .catch((error) => { dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) } )
+    }
+};
+
+export const targetDataRefresh = () => {
+    const url = 'http://127.0.0.1:8000/api/profile/target-update';
+    return dispatch => {
+        axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token') }})
+            .then((targetsData) => { dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData}}) })
     }
 };

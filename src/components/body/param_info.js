@@ -1,9 +1,10 @@
 import React from 'react';
 import { Table, UncontrolledTooltip } from "reactstrap";
+import { timeSince } from "../../utils/helpers"
 import TargetValueAdd from "../form/target_value_add"
 
 const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTarget, editTarget2, setEditTargetFlag,
-                       setEditTarget2Flag}) => {
+                       setEditTarget2Flag, handleProfileClick}) => {
     const paramIdealInfo = selectedParameter.ideal_info || '';
     const paramIdealInfoUrl = selectedParameter.ideal_info_url || '';
     const paramName = selectedParameter.name || '';
@@ -11,15 +12,8 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
     const hasVal2 = selectedParameter.num_values > 1;
     const dPvalue = latestDp.value || '';
     const dPvalue2 = latestDp.value2 || '';
-    console.log(selectedParameter)
-    // TODO Use saved ideal - and form to enable add/edit
-    // TODO Handle no ideal available - e.g. height not saved for body weight  (e.g. user message and link to bring up profile menu)
-    // todO Handling ideal value and target values for value2's e.g. bp
-
     const savedTarget = ideals ? ideals.saved : '';
     const savedTarget2 = ideals ? ideals.saved2 : '';
-    console.log('savedTarget2: ' + savedTarget2)
-
     let targetRow;
     if (savedTarget && !editTarget) {
         targetRow = (
@@ -45,7 +39,6 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
             </td></tr>
         )
     }
-    // todo  --- LIKE above but elif savedTarget2 then else null
     let targetRow2 = null;
     if (savedTarget2 && !editTarget2) {
         targetRow2 = (
@@ -72,28 +65,42 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
             </td></tr>
         )
     }
+    const elapsedT = timeSince(new Date(latestDp.date));
+    let idealRow = null;
+    if (ideals.ideal) {
+        idealRow = (
+            <tr className="no-border">
+                <td>{'Recommended value: '.concat(ideals.ideal, ' ', unitSymbol, ' ')}
+                    <span role="img" aria-label="info" id="info"
+                          onClick={()=> window.open(paramIdealInfoUrl, "_blank")}
+                    >&#x2139;</span>
+                    <UncontrolledTooltip id="ttip" placement="bottom" target="info"
+                    >{paramIdealInfo}</UncontrolledTooltip>
+                </td>
+            </tr>
+        )
+    } else if (ideals.missing_field) {
+        idealRow = (
+            <tr className="no-border">
+                <td className='info-text'>{ideals.missing_field.concat(' field in Profile needs setting ')}
+                    <span role="img" aria-label="info" id="info" onClick={handleProfileClick}>&#x1F527;</span>
+                    <UncontrolledTooltip id="ttip" placement="bottom" target="info"
+                    >{'Set '.concat(ideals.missing_field.toLowerCase(), ' for additional info')}</UncontrolledTooltip>
+                </td>
+            </tr>
+        )
+    }
+    const headRow = elapsedT ? (<thead><tr className='short-row'><td>{'Last record: '.concat(
+        elapsedT, ' ago')}</td></tr></thead>) : null;
 
     return (
         <div>
             <Table className='param-info-table' bordered>
-                <thead>
-                { paramName && (<tr><td>{paramName + ' '}<span>&#x2796;</span>{' '.concat(
-                    dPvalue2 ? dPvalue + '/' + dPvalue2 : dPvalue, ' ', unitSymbol)}</td></tr>)}
-                </thead>
+                { headRow }
                 <tbody>
                 { targetRow }
                 { targetRow2 }
-                { ideals.ideal && (
-                    <tr className="no-border">
-                        <td>{'Recommended value: '.concat(ideals.ideal, ' ', unitSymbol, ' ')}
-                            <span role="img" aria-label="info" id="info"
-                                  onClick={()=> window.open(paramIdealInfoUrl, "_blank")}
-                            >&#x2139;</span>
-                            <UncontrolledTooltip id="ttip" placement="bottom" target="info"
-                            >{paramIdealInfo}</UncontrolledTooltip>
-                        </td>
-                    </tr>
-                ) }
+                { idealRow }
                 { ideals.misc_info && ideals.misc_info.map((obj, ind) => {
                     return <tr className="no-border" key={ind}><td>{obj}</td></tr>}) }
                 </tbody>
@@ -103,7 +110,3 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
 };
 
 export default ParamInfo
-
-
-
-
