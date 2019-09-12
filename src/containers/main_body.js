@@ -12,6 +12,9 @@ import OutsideAction from '../utils/outside_action'
 import { showNavItem, fetchProfileInfo } from "../store/actions/profile";
 import {targetDataRefresh} from "../store/actions/profile";
 
+
+// TODO  Move {ideals} to useReduxStore   ....   or pass through data for specific eg. ideals etc for ParamInfo  contained within one object?
+
 class MainBody extends Component {
 
     componentDidMount() {

@@ -51,6 +51,7 @@ export const updateProfileInfo = (value) => {
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
             .then(() => dispatch({ type: PROFILE_MENU_EDIT_SUCCESS, payload: {value} }))
             .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }),2500))
+            .then(() => fetchProfileInfo())
             .catch(() => dispatch({ type: PROFILE_MENU_EDIT_FAILURE }) )
     }
 };

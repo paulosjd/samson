@@ -44,7 +44,14 @@ class TimeSeriesChart extends PureComponent {
         });
         const valMin = Math.min(...values);
         const valMax = Math.max(...values);
-        const offset = (valMax - valMin) / 2.6;
+
+
+        // TODO conversion factor here in offset
+        // const offset = (valMax - valMin) / 2.6;
+        let offset = 0;
+        console.log(dpIndex)
+        console.log(this.props.unitInfo[dpIndex])
+
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
         let targetLineVal;
@@ -55,8 +62,10 @@ class TimeSeriesChart extends PureComponent {
                 if (!min || min < 0) return 0; return min},
                     dataMax => Math.max((dataMax + offset), targetLineVal + 5) || 100]
         } else {
-            yAxisDomain = [dataMin => (dataMin - offset), dataMax => (dataMax + offset)]
+            yAxisDomain = offset ? [dataMin => (dataMin - offset), dataMax => (dataMax + offset)]
+                : ['dataMin', 'dataMax']   // Conditional added because of Error: [DecimalError] Invalid argument: NaN -- when offset is NaN
         }
+
         return (
             <React.Fragment>
             <LineChart
@@ -123,7 +132,8 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
             ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
         selItemInd: body.selectedItemIndex,
         selFeatInd: body.selectedFeatIndex,
-        ideals: profile.ideals
+        ideals: profile.ideals,
+        unitInfo: profile.unitInfo
     };
 };
 

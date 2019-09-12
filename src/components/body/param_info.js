@@ -5,6 +5,10 @@ import TargetValueAdd from "../form/target_value_add"
 
 const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTarget, editTarget2, setEditTargetFlag,
                        setEditTarget2Flag, handleProfileClick}) => {
+    console.log(selectedParameter)
+    console.log(ideals)
+
+
     const paramIdealInfo = selectedParameter.ideal_info || '';
     const paramIdealInfoUrl = selectedParameter.ideal_info_url || '';
     const paramName = selectedParameter.name || '';
