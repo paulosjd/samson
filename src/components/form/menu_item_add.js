@@ -12,14 +12,12 @@ const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd }) => {
         >
             {props => {
                 const {values, touched, errors, handleSubmit, setFieldValue} = props;
-
                 const getUnitOptions = (param_choice) => {
                     const paramIndex = availParams.findIndex(x => x.name === param_choice);
                     if (paramIndex > -1) {
                         return availParams[paramIndex].available_unit_options;
                     } return []
                 };
-
                 const getUnitChoiceField = () => {
                     const unitOptions = getUnitOptions(values.param_choice);
                     return(

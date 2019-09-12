@@ -57,6 +57,7 @@ class MainBody extends Component {
                         <Feature
                             dataPoints={this.props.dataPoints}
                             body={this.props.body}
+                            unitInfo={this.props.profile.unitInfo}
                             ideals={this.props.profile.ideals}
                             clearEditDataFailure={this.props.clearEditDataFailure}
                             selectedParameter={this.props.selectedParameter}

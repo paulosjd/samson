@@ -78,7 +78,7 @@ export const postMenuItemAdd = (value) => {
     return dispatch => {
         axios.post(url, {data: { param_choice: value.param_choice, unit_choice: value.unit_choice }},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-            .then((resp) => dispatch({ type: ADD_BLANK_PARAM, value: resp}) )
+            .then(profileData => dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: {profileData} }))
             .then(() => dispatch({ type: SET_SHOW_ADD_METRIC, value: false}) )
     }
 };

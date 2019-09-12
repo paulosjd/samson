@@ -9,6 +9,7 @@ const initialState = {
     allParams: [],
     blankParams: [],
     dateFormats: [],
+    unitInfo: [],
     loading: false,
     error: null,
     username: '',
@@ -32,14 +33,15 @@ export default function profile(state = initialState, action) {
                 dateFormats: action.payload.profileData.data.date_formats,
                 dataPoints: action.payload.profileData.data.datapoints,
                 blankParams: action.payload.profileData.data.blank_params,
+                unitInfo: action.payload.profileData.data.unit_info,
                 ideals: action.payload.profileData.data.ideals
             };
-        case ADD_BLANK_PARAM:
-            let blankParams = [ ...state.blankParams ];
-            if (!blankParams.includes(action.value.data)) {
-                blankParams.push(action.value.data);
-            }
-            return { ...state, blankParams };
+        // case ADD_BLANK_PARAM:
+        //     let blankParams = [ ...state.blankParams ];
+        //     if (!blankParams.includes(action.value.data)) {
+        //         blankParams.push(action.value.data);
+        //     }
+        //     return { ...state, blankParams };
         case TARGETS_DATA_REFRESH:
             return {...state, ideals: action.payload.targetsData.data};
         case DATA_POINTS_REFRESH:

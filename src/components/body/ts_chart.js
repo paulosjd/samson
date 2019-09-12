@@ -19,13 +19,11 @@ class TimeSeriesChart extends PureComponent {
         let line1Label = 'value';
         let line2Label;
         let target1Label = 'Target';
-        console.log('this.props.selectedParameter')
-        console.log(this.props.selectedParameter)
         if (this.props.selectedParameter)
             hasValue2 = this.props.selectedParameter.num_values > 1;
             if (hasValue2) {
                 line1Label = this.props.selectedParameter.value2_short_label_1;
-                line2Label = this.props.selectedParameter.value2_short_label_2
+                line2Label = this.props.selectedParameter.value2_short_label_2;
                 target1Label += ' (' + this.props.selectedParameter.upload_field_labels.split(', ')[1] + ')'
             }
         const values = [];
@@ -37,8 +35,10 @@ class TimeSeriesChart extends PureComponent {
             return { date: obj.date, value: obj.value, id: obj.id, text: obj.qualifier }
         });
         chartData.forEach(obj => {
+            console.log('obj[line2Label]: ' + obj[line2Label])
             values.push(obj[line1Label]);
             if (hasValue2 && obj[line2Label]){
+                console.log('obj[line2Label]: ' + obj[line2Label])
                 values.push(obj[line2Label])
             }
         });

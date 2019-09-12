@@ -6,12 +6,13 @@ import ParamInfo from "../components/body/param_info";
 
 const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, setEditTargetFlag, setEditTarget2Flag, handleProfileClick,
-                     postAddedDataPoints, clearEditDataFailure, postTargetValue }) => {
+                     postAddedDataPoints, clearEditDataFailure, postTargetValue, unitInfo }) => {
     const labels = ['\ud83d\udcc8  Records', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Literature bookmarks'];
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
     const latestDp = paramDps.length > 0 ? paramDps[0] : {};
     const paramIdeals = ideals && ideals[body.selectedItemIndex] ? ideals[body.selectedItemIndex] : {};
     let mainItem;
+    console.log(unitInfo);
     const dpTable = (
         <DataPointTable
             dataPoints={paramDps}
