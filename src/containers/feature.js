@@ -13,7 +13,14 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
     const labels = ['\ud83d\udcc8  Records', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Literature bookmarks'];
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
     const latestDp = paramDps.length > 0 ? paramDps[0] : {};
-    const paramIdeals = ideals && ideals[body.selectedItemIndex] ? ideals[body.selectedItemIndex] : {};
+
+
+    let paramIdeals = {};
+    if (ideals) {
+        const paramIdealInd = ideals.findIndex(x => x.param_name === selectedParameter.name);
+        paramIdeals = ideals[paramIdealInd]
+    }
+    // const paramIdeals = ideals && ideals[body.selectedItemIndex] ? ideals[body.selectedItemIndex] : {};
     let mainItem;
     console.log(unitInfo);
     const dpTable = (

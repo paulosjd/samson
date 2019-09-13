@@ -21,6 +21,7 @@ class TimeSeriesChart extends PureComponent {
         let target1Label = 'Target';
 
         const selParam = this.props.selectedParameter;
+        console.log(selParam)
         if (selParam)
             hasValue2 = selParam.num_values > 1;
             if (hasValue2) {
@@ -53,29 +54,54 @@ class TimeSeriesChart extends PureComponent {
         // TODO conversion factor here in offset
         // const offset = (valMax - valMin) / 2.6;
         let offset = 0;
-        const paramUnitInfo = this.props.unitInfo[dpIndex];
         if (valMax && valMin) {
-            offset = valMax - valMin
-        }
-        if (offset && paramUnitInfo && paramUnitInfo.conversion_factor) {
-            offset = offset / paramUnitInfo.conversion_factor
+            offset = (valMax - valMin) > valMin ? valMin : (valMax - valMin) / 2;
         }
 
+
+        const paramUnitInfo = this.props.unitInfo[dpIndex];
+        // if (offset && paramUnitInfo && paramUnitInfo.conversion_factor) {
+        //     offset = offset / paramUnitInfo.conversion_factor
+        // }
+
         console.log('offset: ' + offset);
+
+
 
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
         let targetLineVal;
         let yAxisDomain;
-        if ( this.props.selFeatInd === 1 && savedTarget && (savedTarget < valMax * 2) &&  (savedTarget > valMin / 2)) {
-            targetLineVal = savedTarget;
-            yAxisDomain = [dataMin => {let min = Math.min((dataMin - offset), targetLineVal - offset);
-                if (!min || min < 0) return 0; return min},
-                    dataMax => Math.max((dataMax + offset), targetLineVal + offset) || 100]
-            // dataMax => Math.max((dataMax + offset), targetLineVal + 5) || 100]
+        if (chartData.length === 1 && chartData[0].value && !chartData[0].value2 ) {
+            const val = chartData[0].value;
+            yAxisDomain = [val - (val * 1.5), val + (val * 1.5)]
+        }
+        else if ( this.props.selFeatInd === 1 && savedTarget && (savedTarget < valMax * 2) &&
+            (savedTarget > valMin / 2) && offset && offset > 0) {
+            // Condition where yAxis range accounts for presence of target line
+            let min;
+            const getDataMin = dataMin => {
+                min = Math.min((dataMin - offset), savedTarget - offset);
+                if (!min || min < 0) return dataMin - offset;
+                console.log(min)
+                return min
+            };
+            const getDataMax = dataMax => {
+                if (!min || min < 0) return dataMax + offset;
+                console.log(Math.max((dataMax + offset), savedTarget + offset) || dataMax + offset);
+                return Math.max((dataMax + offset), savedTarget + offset)
+            };
+            yAxisDomain = [getDataMin, getDataMax]
         } else {
-            yAxisDomain = offset ? [dataMin => (dataMin - offset), dataMax => (dataMax + offset)]
-                : ['dataMin', 'dataMax']   // Conditional added because of Error: [DecimalError] Invalid argument: NaN -- when offset is NaN
+            // Condition where yAxis range not need to account for target line (i.e. default)
+            yAxisDomain = ['dataMin', 'dataMax'];
+            if (offset) {
+                console.log(offset)
+                yAxisDomain = [
+                    dataMin => (dataMin - offset > 0 ? dataMin - offset : 0),
+                        dataMax => (dataMax + offset)
+                ]
+            }
         }
 
         return (
@@ -101,8 +127,8 @@ class TimeSeriesChart extends PureComponent {
                            number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
                        }
                 />
-                { this.props.selFeatInd === 1 && (
-                    <ReferenceLine y={targetLineVal} label={target1Label} stroke="#ffb600" />) }
+                { this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved && (
+                    <ReferenceLine y={paramIdeals.saved} label={target1Label} stroke="#ffb600" />) }
                 { this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved2 && (
                     <ReferenceLine y={paramIdeals.saved2} label={'Target'.concat(
                         ' (', selParam.upload_field_labels.split(', ')[2], ')')} stroke="#ffb600" />
