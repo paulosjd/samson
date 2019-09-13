@@ -3,7 +3,7 @@ import { ListGroup, ListGroupItem, Spinner } from 'reactstrap';
 import TimeSeriesChart from './ts_chart'
 import OutsideAction from '../../utils/outside_action'
 
-const Summary = ({isLoading, body, dataPoints}) => {
+const Summary = ({isLoading, body, dataPoints, selParam}) => {
 
     const [ hideQualifyText, setHideQualifyText] = useState(false);
     const [ activeLabel, setActiveLabel] = useState('');
@@ -18,7 +18,7 @@ const Summary = ({isLoading, body, dataPoints}) => {
                 </ListGroupItem>
             </ListGroup>
         )
-    } else if (dataPoints[body.selectedItemIndex]) {
+    } else if (dataPoints.map(x => x.parameter).includes(selParam.name)) {
         return (
             <React.Fragment>
             <OutsideAction action={() => setHideQualifyText(true)}>

@@ -20,9 +20,6 @@ class TimeSeriesChart extends PureComponent {
         let line2Label;
         let target1Label = 'Target';
 
-        console.log('this.props.selectedParameter 1')
-        console.log(this.props.selectedParameter)
-
         const selParam = this.props.selectedParameter;
         if (selParam)
             hasValue2 = selParam.num_values > 1;
@@ -33,11 +30,7 @@ class TimeSeriesChart extends PureComponent {
             }
         const values = [];
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === selParam.name);
-
         console.log('this.props.selectedParameter.name: ' + selParam.name)
-        console.log('dataPoints')
-        console.log(dataPoints)
-
         const chartData = dataPoints.map(obj => {
             if (hasValue2 && line1Label && line2Label) return {
                 date: obj.date, id: obj.id, [line1Label]: obj.value, [line2Label]: obj.value2, text: obj.qualifier
@@ -68,7 +61,7 @@ class TimeSeriesChart extends PureComponent {
             offset = offset / paramUnitInfo.conversion_factor
         }
 
-        console.log('offset: ' + offset)
+        console.log('offset: ' + offset);
 
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
@@ -78,7 +71,8 @@ class TimeSeriesChart extends PureComponent {
             targetLineVal = savedTarget;
             yAxisDomain = [dataMin => {let min = Math.min((dataMin - offset), targetLineVal - offset);
                 if (!min || min < 0) return 0; return min},
-                    dataMax => Math.max((dataMax + offset), targetLineVal + 5) || 100]
+                    dataMax => Math.max((dataMax + offset), targetLineVal + offset) || 100]
+            // dataMax => Math.max((dataMax + offset), targetLineVal + 5) || 100]
         } else {
             yAxisDomain = offset ? [dataMin => (dataMin - offset), dataMax => (dataMax + offset)]
                 : ['dataMin', 'dataMax']   // Conditional added because of Error: [DecimalError] Invalid argument: NaN -- when offset is NaN

@@ -45,6 +45,7 @@ class MainBody extends Component {
                             body={this.props.body}
                             isLoading={this.props.loading}
                             dataPoints={this.props.dataPoints}
+                            selParam={this.props.selectedParameter}
                         />
                     </Col>
                     <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
