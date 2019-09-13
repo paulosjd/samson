@@ -7,9 +7,6 @@ const CustomTooltipContent = (props) => {
         return null
     }
     if (props.payload) {
-        if (!props.payload[0]) {
-            return null
-        }
         props.setActiveObjId(props.payload[0].payload.id)
     }
 

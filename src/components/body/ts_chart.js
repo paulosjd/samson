@@ -19,15 +19,25 @@ class TimeSeriesChart extends PureComponent {
         let line1Label = 'value';
         let line2Label;
         let target1Label = 'Target';
-        if (this.props.selectedParameter)
-            hasValue2 = this.props.selectedParameter.num_values > 1;
+
+        console.log('this.props.selectedParameter 1')
+        console.log(this.props.selectedParameter)
+
+        const selParam = this.props.selectedParameter;
+        if (selParam)
+            hasValue2 = selParam.num_values > 1;
             if (hasValue2) {
-                line1Label = this.props.selectedParameter.value2_short_label_1;
-                line2Label = this.props.selectedParameter.value2_short_label_2;
-                target1Label += ' (' + this.props.selectedParameter.upload_field_labels.split(', ')[1] + ')'
+                line1Label = selParam.value2_short_label_1 || selParam.upload_fields.split(', ')[1];
+                line2Label = selParam.value2_short_label_2 || selParam.upload_fields.split(', ')[2];
+                target1Label += ' (' + selParam.upload_field_labels.split(', ')[1] + ')'
             }
         const values = [];
-        const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === this.props.selectedParameter.name);
+        const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === selParam.name);
+
+        console.log('this.props.selectedParameter.name: ' + selParam.name)
+        console.log('dataPoints')
+        console.log(dataPoints)
+
         const chartData = dataPoints.map(obj => {
             if (hasValue2 && line1Label && line2Label) return {
                 date: obj.date, id: obj.id, [line1Label]: obj.value, [line2Label]: obj.value2, text: obj.qualifier
@@ -45,12 +55,20 @@ class TimeSeriesChart extends PureComponent {
         const valMin = Math.min(...values);
         const valMax = Math.max(...values);
 
+        // TODO --  WHY is offset screwed up (sometimes?)?
 
         // TODO conversion factor here in offset
         // const offset = (valMax - valMin) / 2.6;
         let offset = 0;
-        console.log(dpIndex)
-        console.log(this.props.unitInfo[dpIndex])
+        const paramUnitInfo = this.props.unitInfo[dpIndex];
+        if (valMax && valMin) {
+            offset = valMax - valMin
+        }
+        if (offset && paramUnitInfo && paramUnitInfo.conversion_factor) {
+            offset = offset / paramUnitInfo.conversion_factor
+        }
+
+        console.log('offset: ' + offset)
 
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
@@ -93,7 +111,7 @@ class TimeSeriesChart extends PureComponent {
                     <ReferenceLine y={targetLineVal} label={target1Label} stroke="#ffb600" />) }
                 { this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved2 && (
                     <ReferenceLine y={paramIdeals.saved2} label={'Target'.concat(
-                        ' (', this.props.selectedParameter.upload_field_labels.split(', ')[2], ')')} stroke="#ffb600" />
+                        ' (', selParam.upload_field_labels.split(', ')[2], ')')} stroke="#ffb600" />
                 )}
                 {/*{ this.props.selectedParameter && this.props.selectedParameter.data}*/}
                 <Tooltip content={
