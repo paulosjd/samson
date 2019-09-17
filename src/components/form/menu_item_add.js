@@ -53,7 +53,7 @@ const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd }) => {
                             <button type='submit' className='item-add-btn'
                                     style={!values.param_choice || !values.unit_choice
                                         ? {backgroundColor: '#c8d8df'} : {}}
-                            >&#x2714;&#xFE0F; Save
+                            ><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save
                             </button>
                         </form>
                     </div>

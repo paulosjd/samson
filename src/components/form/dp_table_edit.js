@@ -32,7 +32,7 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
                             <th colSpan={value2 ? 3 : 2}>
                                 <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
                                 <button type='submit' className='data-points-header-action'
-                                >&#x2714;&#xFE0F; Save</button>
+                                ><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save</button>
                             </th>
                         </tr>
                         { value2 ? <tr className='short-row val2-header'><th> </th>

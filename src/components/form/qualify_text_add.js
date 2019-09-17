@@ -30,7 +30,7 @@ const QualifyTextAdd = ({postQualifyingText, qualifyingText, activeObjId, active
                             />
                             <button type='submit' className='qualify-add-btn'
                                     style={!values.qualify_text ? {backgroundColor: '#c8d8df'} : {}}
-                            >&#x2714;&#xFE0F; Save
+                            ><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save
                             </button>
                             </div>
                             {touched.qualify_text && errors.qualify_text &&

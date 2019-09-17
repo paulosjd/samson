@@ -102,9 +102,9 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, 
                                                     setFieldValue(`${values['items'] + 1}_${str}`, '')
                                                 })
                                             }}
-                                    >&#x2795; Add row</button>
+                                    ><span role="img" aria-label="add" >&#x2795;</span> Add row</button>
                                     <button type='submit' className='data-points-header-action'
-                                    >&#x2714;&#xFE0F; Save records</button>
+                                    ><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save records</button>
                                 </td>
                             </tr>
                             </tbody>
