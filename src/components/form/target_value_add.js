@@ -29,7 +29,7 @@ const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue, paramN
                             />
                             <button type='submit' className='qualify-add-btn margin-top-initial'
                                     style={!values[valKey] ? {backgroundColor: '#c8d8df'} : {}}
-                            >&#x2714;&#xFE0F; Save
+                            ><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save
                             </button>
                         {touched[valKey] && errors[valKey] &&
                         <div className='dp-edit-err left-62'>{errors[valKey]}</div>}

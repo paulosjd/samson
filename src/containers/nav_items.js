@@ -2,10 +2,10 @@ import React from 'react';
 import ProfileMenu from '../components/nav_items/profile_menu'
 import CsvDownloadMenu from '../components/nav_items/csv_download_menu'
 import CsvUploadMenu from '../components/nav_items/csv_upload_menu'
-import InterventionsMenu from '../components/nav_items/interventions_menu'
+import ColorSchemeMenu from '../components/nav_items/color_schema_menu'
 
 const NavItems  = ({ props }) => {
-    const { showCsvDownloadMenu, showCsvUploadMenu, showInterventionsMenu } = { ...props.menu };
+    const { showCsvDownloadMenu, showCsvUploadMenu, showColorSchemeMenu } = { ...props.menu };
     if ( showCsvDownloadMenu ) {
         return <CsvDownloadMenu
             toggle={() => {
@@ -34,11 +34,12 @@ const NavItems  = ({ props }) => {
             showCsvLoadSuccess={props.profile.showCsvLoadSuccess}
         />
     }
-    if ( showInterventionsMenu ) {
-        return <InterventionsMenu
-            toggle={() => props.toggleNavItem('interventions', !showInterventionsMenu)}
-            isOpen={props.menu.showInterventionsMenu}
-            profileData={props.extras}
+    if ( showColorSchemeMenu ) {
+        return <ColorSchemeMenu
+            toggle={() => props.toggleNavItem('interventions', !showColorSchemeMenu)}
+            isOpen={props.menu.showColorSchemeMenu}
+            summaryItems={props.summaryItems}
+            blankItems={props.blankItems}
         />
     }
     return <ProfileMenu

@@ -23,7 +23,6 @@ class MainBody extends Component {
     }
 
     render() {
-        console.log(this.props.blankItems)
         if ( this.props.error ) {
             return <div>{'Something has gone wrong' + this.props.error}</div>
         }

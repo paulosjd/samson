@@ -406,3 +406,11 @@ input[type='file'] {
 .param-info-table span {
     cursor: pointer;
 }
+
+.two-ideal-row {
+    line-height: 0.5;
+}
+
+.left10 {
+    padding-left:20px !important
+}

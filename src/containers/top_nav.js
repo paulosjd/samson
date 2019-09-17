@@ -18,7 +18,14 @@ class TopNav extends Component {
                 <span onClick={this.props.handleProfileClick} className="mr-auto nav-item"
                 >{'  ' + this.props.username}</span>
 
-                <span role="img" aria-label="download" className='nav-item' id="download"
+                <span role="img" aria-label="Panda" className='nav-item nav-link' id="effectors"
+                      onClick={this.props.showColorSchemeMenu}
+                >&#9731;</span>
+                <UncontrolledTooltip id="ttip" placement="bottom" target="effectors"
+                >Rating color schema</UncontrolledTooltip>
+
+
+                <span role="img" aria-label="download" className='nav-item  nav-link' id="download"
                       onClick={() => this.props.showNavItem('csv_download')}
                 >&#x1F4E5;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="download"
@@ -29,12 +36,6 @@ class TopNav extends Component {
                 >&#x1F4E4;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="upload"
                 >CSV data upload</UncontrolledTooltip>
-
-                <span role="img" aria-label="Panda" className='nav-item' id="effectors"
-                      onClick={this.props.showInterventionsMenu}
-                >&#9731;</span>
-                <UncontrolledTooltip id="ttip" placement="bottom" target="effectors"
-                >Health effectors</UncontrolledTooltip>
 
                 {this.props.isDemo && (
                     <button type="button" className="form-submit"
@@ -61,7 +62,7 @@ const mapDispatchToProps = dispatch => {
     return {
         handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
         showNavItem: (item) => dispatch(showNavItem(item, true)),
-        showInterventionsMenu: () => dispatch(showNavItem('interventions', true)),
+        showColorSchemeMenu: () => dispatch(showNavItem('interventions', true)),
         setShowRegForm: () => dispatch(setShowRegForm(true)),
     };
 };

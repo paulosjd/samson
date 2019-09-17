@@ -19,9 +19,7 @@ class TimeSeriesChart extends PureComponent {
         let line1Label = 'value';
         let line2Label;
         let target1Label = 'Target';
-
         const selParam = this.props.selectedParameter;
-        console.log(selParam)
         if (selParam)
             hasValue2 = selParam.num_values > 1;
             if (hasValue2) {
@@ -31,7 +29,6 @@ class TimeSeriesChart extends PureComponent {
             }
         const values = [];
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === selParam.name);
-        console.log('this.props.selectedParameter.name: ' + selParam.name)
         const chartData = dataPoints.map(obj => {
             if (hasValue2 && line1Label && line2Label) return {
                 date: obj.date, id: obj.id, [line1Label]: obj.value, [line2Label]: obj.value2, text: obj.qualifier
@@ -39,38 +36,29 @@ class TimeSeriesChart extends PureComponent {
             return { date: obj.date, value: obj.value, id: obj.id, text: obj.qualifier }
         });
         chartData.forEach(obj => {
-            console.log('obj[line2Label]: ' + obj[line2Label])
             values.push(obj[line1Label]);
             if (hasValue2 && obj[line2Label]){
-                console.log('obj[line2Label]: ' + obj[line2Label])
                 values.push(obj[line2Label])
             }
         });
         const valMin = Math.min(...values);
         const valMax = Math.max(...values);
 
-        // TODO --  WHY is offset screwed up (sometimes?)?
-
         // TODO conversion factor here in offset
-        // const offset = (valMax - valMin) / 2.6;
         let offset = 0;
         if (valMax && valMin) {
             offset = (valMax - valMin) > valMin ? valMin : (valMax - valMin) / 2;
         }
-
-
         const paramUnitInfo = this.props.unitInfo[dpIndex];
         // if (offset && paramUnitInfo && paramUnitInfo.conversion_factor) {
         //     offset = offset / paramUnitInfo.conversion_factor
         // }
-
         console.log('offset: ' + offset);
 
-
+        // TODO next - handle when ideals (which is in default units) is diff units to profile unit option (e.g. lbs)
 
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
-        let targetLineVal;
         let yAxisDomain;
         if (chartData.length === 1 && chartData[0].value && !chartData[0].value2 ) {
             const val = chartData[0].value;
@@ -88,7 +76,6 @@ class TimeSeriesChart extends PureComponent {
             };
             const getDataMax = dataMax => {
                 if (!min || min < 0) return dataMax + offset;
-                console.log(Math.max((dataMax + offset), savedTarget + offset) || dataMax + offset);
                 return Math.max((dataMax + offset), savedTarget + offset)
             };
             yAxisDomain = [getDataMin, getDataMax]
@@ -96,7 +83,6 @@ class TimeSeriesChart extends PureComponent {
             // Condition where yAxis range not need to account for target line (i.e. default)
             yAxisDomain = ['dataMin', 'dataMax'];
             if (offset) {
-                console.log(offset)
                 yAxisDomain = [
                     dataMin => (dataMin - offset > 0 ? dataMin - offset : 0),
                         dataMax => (dataMax + offset)

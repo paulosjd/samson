@@ -6,7 +6,7 @@ const initialState = {
     showProfileMenu: false,
     showCsvDownloadMenu: false,
     showCsvUploadMenu: false,
-    showInterventionsMenu: false,
+    showColorSchemeMenu: false,
 };
 
 export default function menu(state = initialState, action) {
@@ -18,7 +18,7 @@ export default function menu(state = initialState, action) {
         case SHOW_PROFILE_MENU:
             return { ...initialState, showProfileMenu: action.value };
         case SHOW_INTERVENTIONS_MENU:
-            return { ...initialState, showInterventionsMenu: action.value };
+            return { ...initialState, showColorSchemeMenu: action.value };
         default:
             return state
     }

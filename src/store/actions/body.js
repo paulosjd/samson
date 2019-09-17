@@ -1,7 +1,8 @@
 import axios from "axios";
 import {
     SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
-    CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG, SET_EDIT_TARGET2_FLAG
+    CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG, SET_EDIT_TARGET2_FLAG,
+    APPEND_EDITED_DP_PARAMS
 } from '../constants/body'
 import { ADD_BLANK_PARAM, DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH } from "../constants/profile";
 
@@ -46,6 +47,7 @@ export const postEditedDataPoints = (value, action='edit') => {
         axios.post(`http://127.0.0.1:8000/api/datapoints/${action}`, {value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
             .then(profileData => dispatch({ type: DATA_POINTS_REFRESH, payload: {profileData} }))
+            .then(() => dispatch({ type: APPEND_EDITED_DP_PARAMS, value: value.parameter }))
             .catch((error) => dispatch({ type: EDIT_DATA_FAILURE, payload: error }) )
     }
 };

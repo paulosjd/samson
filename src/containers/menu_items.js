@@ -13,6 +13,16 @@ class MenuItems extends Component {
         this.props.setMenuItemIndex(val)
     }
 
+    getLatestDpForPName(name) {
+        console.log(name)
+        console.log(this.props.dataPoints)
+        for (let dp of this.props.dataPoints) {
+            if (dp.parameter === name) {
+                return dp
+            }
+        }
+    }
+
     render() {
         const menuItems = this.props.summaryItems.concat(this.props.blankItems);
         const addedParams = menuItems.map(val => val.parameter.name);
@@ -22,17 +32,22 @@ class MenuItems extends Component {
             items = <Spinner color="secondary"/>
         } else if (menuItems.length > 0) {
             items = menuItems.map((obj, ind) => {
+                let { date, value, value2 } = obj.data_point || {};
+                if (!date || !value || this.props.editedDpParams.includes(obj.parameter.name)) {
+                    ({ date, value, value2 } = this.getLatestDpForPName(obj.parameter.name) || {})
+                }
                 return (
-                    <ListGroupItem key={ind} action
-                                   onClick={this.handleItemSelection.bind(this, ind)}
-                                   className={this.props.selItemInd === ind ? 'selected-menu-item' : ''}
+                    <ListGroupItem
+                        key={ind} action
+                        onClick={this.handleItemSelection.bind(this, ind)}
+                        className={this.props.selItemInd === ind ? 'selected-menu-item' : ''}
                     >
                         <MenuItemContent
                             isSelected={this.props.selItemInd === ind}
-                            date={obj.data_point.date}
+                            date={date}
                             label={obj.parameter.name}
-                            value={obj.data_point.value}
-                            value2={obj.data_point.value2}
+                            value={value}
+                            value2={value2}
                             unit_symbol={' ('.concat(obj.parameter.unit_symbol, ')')}
                         />
                     </ListGroupItem>)
@@ -72,6 +87,8 @@ const mapStateToProps = state => {
         allParams: state.profile.allParams,
         blankParams: state.profile.blankParams,
         summaryItems: state.profile.summaryItems,
+        dataPoints: state.profile.dataPoints || [],
+        editedDpParams: state.body.editedDataPointParams
     };
 };
 
