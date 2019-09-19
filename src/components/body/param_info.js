@@ -91,7 +91,7 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
     const getConFactor = () => {
         let conFactor = 1;
         if (unitInfo && unitInfo.length > 0) {
-            const unitInfoInd = unitInfo.findIndex(x => x.symbol === unitSymbol);
+            const unitInfoInd = unitInfo.findIndex(x => x.param_name === paramName);
             console.log(unitInfoInd)
             if (unitInfoInd > -1) {
                 conFactor = unitInfo[unitInfoInd].conversion_factor || 1

@@ -95,6 +95,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         error: profile.error,
         loading: profile.loading,
         dataPoints: profile.dataPoints || [],
+        unitInfo: profile.unitInfo,
         selectedParameter: profile.summaryItems.concat(blankItems)[body.selectedItemIndex]
             ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
         summaryItems: profile.summaryItems || [],

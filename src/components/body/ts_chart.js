@@ -54,6 +54,7 @@ class TimeSeriesChart extends PureComponent {
         //     offset = offset / paramUnitInfo.conversion_factor
         // }
         console.log('offset: ' + offset);
+        console.log(this.props.unitInfo);
 
         // TODO next - handle when ideals (which is in default units) is diff units to profile unit option (e.g. lbs)
 

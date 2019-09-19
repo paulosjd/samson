@@ -1,6 +1,6 @@
 .navbar {
     margin-bottom: 0;
-    height: 44px;
+    height: 56px;
     background-color: #f8f9fa !important;
     padding: 0 0.5rem 3.0rem 1.2rem !important
 }
@@ -21,6 +21,11 @@
 .nav-item {
     cursor: pointer;
     font-size: 2rem;
+}
+
+.menu-item-content {
+    font-size: 16px !important;
+    vertical-align: baseline !important;
 }
 
 .no-val {

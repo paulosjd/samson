@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { Modal, ModalHeader, Alert, ModalBody } from 'reactstrap';
 import CsvDownloadForm from "../form/csv_download";
 
-// cats:  Exercise regimen, dietary changes, medidcations, others
-// time-span
-
 const CsvDownloadMenu = ({ toggle, isOpen, profileData, showCsvLoadSuccess, getCsvDownload, clearCsvLoad }) => {
 
     const [paramChoiceError, setParamChoiceError] = useState(false);

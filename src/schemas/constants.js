@@ -15,3 +15,6 @@ export const validDateIfTouched = Yup.string().test("date", "Expected format: YY
 
 export const validNumberIfTouched = Yup.string().test("number", "Must be a valid number",
     value => { if (!value) { return true } return value && isNumeric(value) });
+
+export const validColorChoice = Yup.string().test("string", "Must be a valid color choice",
+    value => { return value === '' || (value.startsWith('#') && value.length === 7)});

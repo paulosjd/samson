@@ -25,13 +25,13 @@ class TopNav extends Component {
                 >Rating color schema</UncontrolledTooltip>
 
 
-                <span role="img" aria-label="download" className='nav-item  nav-link' id="download"
+                <span role="img" aria-label="download" className='nav-item ' id="download"
                       onClick={() => this.props.showNavItem('csv_download')}
                 >&#x1F4E5;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="download"
                 >CSV data download</UncontrolledTooltip>
 
-                <span role="img" aria-label="upload" className='nav-item' id="upload"
+                <span role="img" aria-label="upload" className='nav-item  nav-link' id="upload"
                       onClick={() => this.props.showNavItem('csv_upload')}
                 >&#x1F4E4;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="upload"
