@@ -319,6 +319,10 @@ input[type='file'] {
     font-size: small;
 }
 
+.tall-row {
+    line-height: 2.5
+}
+
 .short-row span {
     margin-left: 10px;
     color: #4A4A4A;
@@ -419,3 +423,44 @@ input[type='file'] {
 .left10 {
     padding-left:20px !important
 }
+
+.param-color-table {
+    width: 770px !important;
+    /*align-content: center;*/
+    font-weight: normal !important;
+    cursor: default;
+    margin-top: 6px;
+}
+
+.param-color-table>tbody>tr>td {
+    padding-bottom: 0.25rem !important;
+}
+
+.param-color-table th {
+    font-weight: normal !important;
+}
+
+.input-range {
+    margin-top: 16px;
+}
+
+.input-range__slider {
+    height: 0.5rem;
+    width: 0.5rem;
+    margin-left: -0.4rem;
+    margin-top: -0.4rem;
+    background: #719ca3
+}
+
+.input-range__track--active {
+    background: #ffbf00
+}
+
+.input-range__label--min>.input-range__label-container {
+    display: none
+}
+
+.input-range__label--max>.input-range__label-container {
+    display: none
+}
+

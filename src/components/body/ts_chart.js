@@ -20,13 +20,14 @@ class TimeSeriesChart extends PureComponent {
         let line2Label;
         let target1Label = 'Target';
         const selParam = this.props.selectedParameter;
-        if (selParam)
+        if (selParam) {
             hasValue2 = selParam.num_values > 1;
             if (hasValue2) {
                 line1Label = selParam.value2_short_label_1 || selParam.upload_fields.split(', ')[1];
                 line2Label = selParam.value2_short_label_2 || selParam.upload_fields.split(', ')[2];
                 target1Label += ' (' + selParam.upload_field_labels.split(', ')[1] + ')'
             }
+        }
         const values = [];
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === selParam.name);
         const chartData = dataPoints.map(obj => {
@@ -44,19 +45,10 @@ class TimeSeriesChart extends PureComponent {
         const valMin = Math.min(...values);
         const valMax = Math.max(...values);
 
-        // TODO conversion factor here in offset
         let offset = 0;
         if (valMax && valMin) {
             offset = (valMax - valMin) > valMin ? valMin : (valMax - valMin) / 2;
         }
-        const paramUnitInfo = this.props.unitInfo[dpIndex];
-        // if (offset && paramUnitInfo && paramUnitInfo.conversion_factor) {
-        //     offset = offset / paramUnitInfo.conversion_factor
-        // }
-        console.log('offset: ' + offset);
-        console.log(this.props.unitInfo);
-
-        // TODO next - handle when ideals (which is in default units) is diff units to profile unit option (e.g. lbs)
 
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';

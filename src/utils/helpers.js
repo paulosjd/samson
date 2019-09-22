@@ -1,9 +1,5 @@
-String.prototype.isUpperCase = function() {
-    return this.valueOf().toUpperCase() === this.valueOf();
-};
-
 export const toTitleCase = (phrase) => {
-    if (phrase.isUpperCase()) {
+    if (phrase.toUpperCase() === phrase) {
         return phrase
     }
     return phrase

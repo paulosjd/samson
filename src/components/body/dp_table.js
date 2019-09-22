@@ -13,6 +13,8 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
         val2headers = selectedParameter.upload_field_labels.split(', ').map(s => toTitleCase(s))
     }
 
+    console.log(dataPoints.length)
+
     if (editData) return (
         <DataPointTableEdit
             loadError={loadError}
@@ -43,10 +45,11 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
                             <span className='data-points-header-action' role="img" aria-label="plus"
                                            onClick={() => setAddDataFlag(true)}>
                    &#x2795; Add</span> : null }
+                        {dataPoints.length > 0 &&
                         <span className='data-points-header-action' role="img" aria-label="pencil"
                               onClick={() => {clearEditDataFailure(); setEditDataFlag(true) }} >
                             &#x270F;&#xFE0F; Edit
-                        </span>
+                        </span>}
                     </th>
                 </tr>
                 { value2 ? <tr className='short-row val2-header'><th> </th>

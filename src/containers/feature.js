@@ -3,7 +3,6 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import DataPointTable from '../components/body/dp_table'
 import ParamInfo from "../components/body/param_info";
 
-
 const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, setEditTargetFlag, setEditTarget2Flag, handleProfileClick,
                      postAddedDataPoints, clearEditDataFailure, postTargetValue, unitInfo }) => {
@@ -12,15 +11,6 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
     const latestDp = paramDps.length > 0 ? paramDps[0] : {};
 
-
-    let paramIdeals = {};
-    if (ideals) {
-        const paramIdealInd = ideals.findIndex(x => x.param_name === selectedParameter.name);
-        paramIdeals = ideals[paramIdealInd]
-    }
-    // const paramIdeals = ideals && ideals[body.selectedItemIndex] ? ideals[body.selectedItemIndex] : {};
-    let mainItem;
-    console.log(unitInfo);
     const dpTable = (
         <DataPointTable
             dataPoints={paramDps}
@@ -35,6 +25,12 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
             clearEditDataFailure={clearEditDataFailure}
         />
     );
+
+    let paramIdeals = {};
+    if (ideals) {
+        const paramIdealInd = ideals.findIndex(x => x.param_name === selectedParameter.name);
+        paramIdeals = ideals[paramIdealInd]
+    }
 
     const paramInfo = (
         <ParamInfo
@@ -51,6 +47,7 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
         />
     );
 
+    let mainItem;
     switch(body.selectedFeatIndex) {
         case 1:
             mainItem = paramInfo;

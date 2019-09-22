@@ -1,45 +1,34 @@
-import React from 'react';
-import { Modal, ModalHeader, Table, Alert } from 'reactstrap';
-import ParamColorForm from "../form/param_color";
+import React, {useState} from 'react';
+import {Modal, ModalHeader, Table, Alert, UncontrolledTooltip, Navbar} from 'reactstrap';
 import {Field, Formik} from "formik";
-import {ProfileInfo} from "../../schemas/profile";
-import * as Yup from "yup";
-import {validColorChoice} from "../../schemas/constants";
+import InputRange from "react-input-range"
+import 'react-input-range/lib/css/index.css'
 
-const ParamColorMenu = ({ toggle, isOpen, unitInfo }) => {
-
-    console.log(unitInfo)
-    //
-    // summaryItems = summaryItems.map(val => val.parameter);
-    // blankItems = blankItems.map(val => val.parameter);
-
-    // const paletteChoices = {
-    //     blank: '',
-    //     ideal_range: '#c2ddeb',
-    //     ideal_plus_1: '#f4c3ab',
-    //     ideal_plus_2: '#F39879'
-        // allow user to select from whole big palette
-    // };
-    const paletteChoices = ['#c2ddeb', '#f4c3ab', '#F39879']
-
-    // const foo = summaryItems.map(val => val.parameter).concat(blankItems.map(val => val.parameter));
+const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo }) => {
 
     const initial = {};
+    const sliderState = {};
     unitInfo.forEach(item => {
         initial[item.param_name] = item.color_hex;
+        const [ sliderMin, setSliderMin] = useState(5);
+        const [ sliderMax, setSliderMax] = useState(10);
+        sliderState[item.param_name] = {
+            min: sliderMin,
+            max: sliderMax,
+            setMin: setSliderMin,
+            setMax: setSliderMax
+        }
     });
+    const colorChoices = ['#99c140', '#ffbf00', '#ff7f00'];
 
-    console.log(unitInfo)
-
-    // Default means based upon rate target - e.g. more than 5%
+    // TODO python so that saves submitted (action use onSubmit in form, which dispatch/fetch, then reducer?/show alert saying saved)
 
     return (
-        <Modal isOpen={isOpen} toggle={toggle} className="max-width-320">
+        <Modal isOpen={isOpen} toggle={toggle} className="modal-lg">
             <ModalHeader>Select color schema</ModalHeader>
             <Formik
                 enableReinitialize
                 initialValues={initial}
-                // validationSchema={}
                 onSubmit={(val) => {
                     console.log(val)
                     // handleSave(val);
@@ -47,20 +36,57 @@ const ParamColorMenu = ({ toggle, isOpen, unitInfo }) => {
                 }}
             >
                 {props => {
-                    const formBody = unitInfo.map(obj => {
-                        let key = obj.param_name;
+                    const formBody = unitInfo.map((obj, ind) => {
+                        let name = obj.param_name;
                         return (
-                            <tr key={key + 'tr'}>
-
-                            <Field key={key + 'field'} component="select" name={key} selected={props.values[key]}
-                               className="profile-edit-field">
-                            <option key={key + 'opt'} value="0">Default</option>
-                            {paletteChoices.map((color_hex, index) => {
-                                return <option key={key + index} value={color_hex} style={{backgroundColor: color_hex}}> </option>
-                            })}
-                        </Field>
-                                <label key={key + 'lab'} htmlFor={key}>{key}</label>
-
+                            <tr key={ind + 'tr'} className='tall-row'>
+                            <td>
+                                <Field
+                                    key={ind + 'field'}
+                                    component="select"
+                                    name={name} selected={props.values[name]}
+                                    style={{backgroundColor: props.values[name]}}>
+                                <option key={ind + 'opt'} value="">Default</option>
+                                {colorChoices.map((color_hex, ind2) => {
+                                    return (
+                                        <option
+                                            key={ind + ind2}
+                                            value={color_hex}
+                                            style={{backgroundColor: color_hex}}>
+                                        </option>)
+                                })}
+                                </Field>
+                            </td>
+                            <td>
+                                <label htmlFor={name}>{name}</label>
+                            </td>
+                            <td>
+                                <InputRange
+                                    maxValue={100}
+                                    minValue={0}
+                                    formatLabel={value => `${value} %`}
+                                    value={{min: sliderState[name].min, max: sliderState[name].max}}
+                                    // onChange={value => console.log({ value4: value })}
+                                    onChange={value => {
+                                        sliderState[name].setMin(value.min);
+                                        sliderState[name].setMax(value.max)}
+                                    }
+                                    onChangeComplete={value => console.log(value)}
+                                />
+                            </td>
+                            <td>
+                                <InputRange
+                                    maxValue={100}
+                                    minValue={0}
+                                    formatLabel={value => `${value} %`}
+                                    value={{min: sliderState[name].min, max: sliderState[name].max}}
+                                    // onChange={value => console.log({ value4: value })}
+                                    onChange={value => {
+                                        sliderState[name].setMin(value.min);
+                                        sliderState[name].setMax(value.max)}
+                                    }
+                                    onChangeComplete={value => console.log(value)}
+                                />                            </td>
                             </tr>
                         )
                     });
@@ -68,18 +94,41 @@ const ParamColorMenu = ({ toggle, isOpen, unitInfo }) => {
                     return (
                         <div className="card">
                             <form onSubmit={props.handleSubmit}>
-                                <Table className='data-points-table' bordered>
+                                <Table className='param-color-table' bordered>
+
+                                    {/*<UncontrolledTooltip id="ttip" placement="bottom" target="profile"*/}
+                                    {/*>Profile information</UncontrolledTooltip>*/}
+                                <thead>
+                                {/* Use tooltips  to explain about (Ideal color range % default color based up target variance) */}
+                                <tr className='short-row'>
+                                    <th width="12%"> </th>
+                                    <th width="24%"> </th>
+                                    <th >Range 1
+                                        <span role="img" aria-label="info" id="warn-info1">&#x2139;</span>
+                                        <UncontrolledTooltip id="ttip" placement="bottom" target="warn-info1"
+                                        >Ideal color range % default color based up target variance
+                                        </UncontrolledTooltip>
+                                    </th>
+                                    <th>Range 2
+                                        <span role="img" aria-label="info" id="warn-info2">&#x2139;</span>
+                                        <UncontrolledTooltip id="ttip" placement="bottom" target="warn-info2"
+                                        >Ideal color range % default color based up target variance
+                                        </UncontrolledTooltip>
+                                    </th>
+                                </tr>
+                                {/* color_range_val_1 and 2 set using values of 1st slider, The second slider is read-only responds according.. to first */}
+                                </thead>
+                                <tbody>
                                 {formBody}
+                                </tbody>
                                 </Table>
-                                <button type="submit" className="form-submit reg-submit">Save changes</button>
+                                <button
+                                    type="submit" className="form-submit reg-submit"
+                                >Save changes</button>
                             </form>
                         </div>
                     )}}
             </Formik>
-            {/*{ ( updateSuccess || updateFailure ) && (*/}
-                {/*<Alert className="profile-edit-alert" color={updateSuccess ? "info" : "warning"}*/}
-                {/*>{updateSuccess ? 'Successfully saved!' : 'Sorry, please try again later'}</Alert> ) }*/}
-            {/*{profileData.loadError && errorMsg}*/}
         </Modal>
     );
 };

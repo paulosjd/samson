@@ -14,8 +14,6 @@ class MenuItems extends Component {
     }
 
     getLatestDpForPName(name) {
-        console.log(name)
-        console.log(this.props.dataPoints)
         for (let dp of this.props.dataPoints) {
             if (dp.parameter === name) {
                 return dp
@@ -36,6 +34,19 @@ class MenuItems extends Component {
                 if (!date || !value || this.props.editedDpParams.includes(obj.parameter.name)) {
                     ({ date, value, value2 } = this.getLatestDpForPName(obj.parameter.name) || {})
                 }
+                let valColor = '';
+                let colorRangeVal1 = 0.1;
+                let colorRangeVal2 = 0.2;
+                const paramInd = this.props.unitInfo.findIndex(x => x.param_name === obj.parameter.name);
+                console.log('this.props.unitInfo[[paramInd]]')
+                console.log(this.props.unitInfo[[paramInd]])
+                if (paramInd > -1) {
+                    valColor = this.props.unitInfo[paramInd].color_hex;
+                    colorRangeVal1 = this.props.unitInfo[paramInd].color_range_val_1 / 100 || 0.1;
+                    colorRangeVal2 = this.props.unitInfo[paramInd].color_range_val_2 / 100 || 0.2
+                }
+                const paramIdealInd = this.props.ideals.findIndex(x => x.param_name === obj.parameter.name);
+                const paramIdeals = this.props.ideals[paramIdealInd];
                 return (
                     <ListGroupItem
                         key={ind} action
@@ -43,12 +54,16 @@ class MenuItems extends Component {
                         className={this.props.selItemInd === ind ? 'selected-menu-item' : ''}
                     >
                         <MenuItemContent
-                            isSelected={this.props.selItemInd === ind}
+                            // isSelected={this.props.selItemInd === ind}
                             date={date}
                             label={obj.parameter.name}
                             value={value}
                             value2={value2}
                             unit_symbol={' ('.concat(obj.parameter.unit_symbol, ')')}
+                            valColor={valColor}
+                            paramIdeals={paramIdeals}
+                            colorRangeVal1={colorRangeVal1}
+                            colorRangeVal2={colorRangeVal2}
                         />
                     </ListGroupItem>)
             })
@@ -88,7 +103,9 @@ const mapStateToProps = state => {
         blankParams: state.profile.blankParams,
         summaryItems: state.profile.summaryItems,
         dataPoints: state.profile.dataPoints || [],
-        editedDpParams: state.body.editedDataPointParams
+        editedDpParams: state.body.editedDataPointParams,
+        unitInfo: state.profile.unitInfo,
+        ideals: state.profile.ideals,
     };
 };
 

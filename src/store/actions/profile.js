@@ -4,9 +4,9 @@ import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DAT
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
     SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
-    CLEAR_CSV_LOAD_CONFIRM, ADD_BLANK_PARAM, TARGETS_DATA_REFRESH
+    CLEAR_CSV_LOAD_CONFIRM, TARGETS_DATA_REFRESH
 } from '../constants/profile'
-import { SET_SHOW_ADD_METRIC } from "../constants/body";
+import { SET_SHOW_ADD_METRIC, RESET_SELECTED_ITEM_INDEX } from "../constants/body";
 
 export const fetchProfileSummary = () => {
     let url = `http://127.0.0.1:8000/api/profile/summary`;
@@ -19,6 +19,10 @@ export const fetchProfileSummary = () => {
 
 export const fetchProfileSummaryBegin = () => ({
     type: FETCH_SUMMARY_DATA_BEGIN
+});
+
+export const resetSelectedItemIndex = () => ({
+    type: RESET_SELECTED_ITEM_INDEX
 });
 
 export const showNavItem = (item, value) => {

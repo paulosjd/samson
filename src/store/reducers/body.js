@@ -1,6 +1,6 @@
 import { SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
     CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG, SET_EDIT_TARGET2_FLAG,
-    APPEND_EDITED_DP_PARAMS
+    APPEND_EDITED_DP_PARAMS, RESET_SELECTED_ITEM_INDEX
 } from '../constants/body'
 
 const initialState = {
@@ -19,6 +19,8 @@ const initialState = {
 export default function profile(state = initialState, action) {
     state = { ...state, editData: false, addData: false, editDataError: null};
     switch(action.type) {
+        case RESET_SELECTED_ITEM_INDEX:
+            return { ...state, selectedItemIndex: 0, selectedFeatIndex: 0};
         case SET_MENU_ITEM_INDEX:
             return { ...state, selectedItemIndex: action.value };
         case SET_FEAT_ITEM_INDEX:

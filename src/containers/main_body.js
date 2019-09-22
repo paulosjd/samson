@@ -19,7 +19,8 @@ class MainBody extends Component {
 
     componentDidMount() {
         this.props.fetchProfileSummaryBegin();
-        this.props.fetchProfileSummary()
+        this.props.fetchProfileSummary();
+        this.props.resetSelectedItemIndex();
     }
 
     render() {
@@ -107,6 +108,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchProfileSummaryBegin: () => dispatch(actionCreator.fetchProfileSummaryBegin()),
         fetchProfileSummary: () => dispatch(actionCreator.fetchProfileSummary()),
+        resetSelectedItemIndex: () => dispatch(actionCreator.resetSelectedItemIndex()),
         setFeatItemIndex: val => dispatch(setFeatItemIndex(val)),
         setEditDataFlag: val => dispatch(setEditDataFlag(val)),
         setAddDataFlag: val => dispatch(setAddDataFlag(val)),
@@ -124,7 +126,7 @@ const mapDispatchToProps = dispatch => {
         setShowAddMetric: (val) => dispatch(setShowAddMetric(val)),
         postTargetValue: (val) => dispatch(postTargetValue(val)),
         handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
-        targetDataRefresh: () => dispatch(targetDataRefresh())
+        targetDataRefresh: () => dispatch(targetDataRefresh()),
     };
 };
 

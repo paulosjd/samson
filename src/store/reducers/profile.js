@@ -36,14 +36,7 @@ export default function profile(state = initialState, action) {
                 unitInfo: action.payload.profileData.data.unit_info,
                 ideals: action.payload.profileData.data.ideals
             };
-        // case ADD_BLANK_PARAM:
-        //     let blankParams = [ ...state.blankParams ];
-        //     if (!blankParams.includes(action.value.data)) {
-        //         blankParams.push(action.value.data);
-        //     }
-        //     return { ...state, blankParams };
         case TARGETS_DATA_REFRESH:
-            console.log(action.payload.targetsData.data)
             return {...state, ideals: action.payload.targetsData.data};
         case DATA_POINTS_REFRESH:
             return { ...state, dataPoints: action.payload.profileData.data };
