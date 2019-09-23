@@ -37,3 +37,16 @@ export const timeSince = (date) => {
 
     return Math.floor(seconds) + " seconds";
 };
+
+export const getColorData = (unitInfo, param_name) => {
+    let valColor = ''
+    let rangeVal1 = 0.1;
+    let rangeVal2 = 0.2;
+    const paramInd = unitInfo.findIndex(x => x.param_name === param_name);
+    if (paramInd > -1) {
+        valColor = unitInfo[paramInd].color_hex;
+        rangeVal1 = unitInfo[paramInd].color_range_val_1 / 100 || 0.1;
+        rangeVal2 = unitInfo[paramInd].color_range_val_2 / 100 || 0.2
+    }
+    return {valColor, rangeVal1, rangeVal2}
+};

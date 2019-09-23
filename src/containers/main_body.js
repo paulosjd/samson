@@ -9,7 +9,7 @@ import * as actionCreator from "../store/actions/profile";
 import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
     setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
-import { showNavItem, fetchProfileInfo } from "../store/actions/profile";
+import { showNavItem, fetchProfileInfo, postColorSchema } from "../store/actions/profile";
 import {targetDataRefresh} from "../store/actions/profile";
 
 
@@ -127,6 +127,7 @@ const mapDispatchToProps = dispatch => {
         postTargetValue: (val) => dispatch(postTargetValue(val)),
         handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
         targetDataRefresh: () => dispatch(targetDataRefresh()),
+        postColorSchema: (val) => dispatch(postColorSchema(val)),
     };
 };
 

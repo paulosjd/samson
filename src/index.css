@@ -267,7 +267,7 @@ input[type='file'] {
 }
 
 .data-points-header-action {
-    float: right;
+    float: left;
     margin-right: 6px;
     font-size: small !important;
     cursor: pointer;
@@ -276,6 +276,10 @@ input[type='file'] {
     padding: 1px;
     background-color: white;
     outline:none !important;
+}
+.dp-param-label {
+    float: right;
+    margin-right: 24px;
 }
 
 .data-points-header-action:hover {

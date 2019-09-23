@@ -1,7 +1,7 @@
 import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SUBMIT_CSV_LOAD_SUCCESS,
     SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH,
-    ADD_BLANK_PARAM, TARGETS_DATA_REFRESH
+    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH
 } from "../constants/profile";
 
 const initialState = {
@@ -38,6 +38,10 @@ export default function profile(state = initialState, action) {
             };
         case TARGETS_DATA_REFRESH:
             return {...state, ideals: action.payload.targetsData.data};
+        case UNIT_INFO_REFRESH:
+            return {...state, };
+
+
         case DATA_POINTS_REFRESH:
             return { ...state, dataPoints: action.payload.profileData.data };
         case FETCH_SUMMARY_DATA_FAILURE:

@@ -5,6 +5,7 @@ import { postMenuItemAdd } from "../store/actions/profile";
 import MenuItemContent from '../components/body/menu_item_content'
 import MenuItemAdd from '../components/form/menu_item_add'
 import OutsideAction from '../utils/outside_action'
+import { getColorData } from '../utils/helpers'
 import * as bodyActionCreator from "../store/actions/body";
 
 class MenuItems extends Component {
@@ -34,17 +35,7 @@ class MenuItems extends Component {
                 if (!date || !value || this.props.editedDpParams.includes(obj.parameter.name)) {
                     ({ date, value, value2 } = this.getLatestDpForPName(obj.parameter.name) || {})
                 }
-                let valColor = '';
-                let colorRangeVal1 = 0.1;
-                let colorRangeVal2 = 0.2;
-                const paramInd = this.props.unitInfo.findIndex(x => x.param_name === obj.parameter.name);
-                console.log('this.props.unitInfo[[paramInd]]')
-                console.log(this.props.unitInfo[[paramInd]])
-                if (paramInd > -1) {
-                    valColor = this.props.unitInfo[paramInd].color_hex;
-                    colorRangeVal1 = this.props.unitInfo[paramInd].color_range_val_1 / 100 || 0.1;
-                    colorRangeVal2 = this.props.unitInfo[paramInd].color_range_val_2 / 100 || 0.2
-                }
+                const colorData = getColorData(this.props.unitInfo, obj.parameter.name);
                 const paramIdealInd = this.props.ideals.findIndex(x => x.param_name === obj.parameter.name);
                 const paramIdeals = this.props.ideals[paramIdealInd];
                 return (
@@ -60,10 +51,10 @@ class MenuItems extends Component {
                             value={value}
                             value2={value2}
                             unit_symbol={' ('.concat(obj.parameter.unit_symbol, ')')}
-                            valColor={valColor}
+                            valColor={colorData.valColor}
                             paramIdeals={paramIdeals}
-                            colorRangeVal1={colorRangeVal1}
-                            colorRangeVal2={colorRangeVal2}
+                            colorRangeVal1={colorData.rangeVal1}
+                            colorRangeVal2={colorData.rangeVal2}
                         />
                     </ListGroupItem>)
             })

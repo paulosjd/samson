@@ -40,7 +40,7 @@ const NavItems  = ({ props }) => {
             isOpen={props.menu.showColorSchemeMenu}
             blankItems={props.blankItems}
             unitInfo={props.unitInfo}
-
+            postColorSchema={props.postColorSchema}
         />
     }
     return <ProfileMenu

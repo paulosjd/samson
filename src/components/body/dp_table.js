@@ -40,16 +40,15 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
                 <thead>
                 <tr className='short-row'>
                     <th colSpan={value2 ? 3 : 2}>
-                        <span>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
                         { !addData ?
                             <span className='data-points-header-action' role="img" aria-label="plus"
-                                           onClick={() => setAddDataFlag(true)}>
-                   &#x2795; Add</span> : null }
-                        {dataPoints.length > 0 &&
-                        <span className='data-points-header-action' role="img" aria-label="pencil"
-                              onClick={() => {clearEditDataFailure(); setEditDataFlag(true) }} >
-                            &#x270F;&#xFE0F; Edit
-                        </span>}
+                                  onClick={() => setAddDataFlag(true)}>&#x2795; Add</span> : null }
+                        { dataPoints.length > 0 &&
+                            <span className='data-points-header-action' role="img" aria-label="pencil"
+                                  onClick={() => {clearEditDataFailure(); setEditDataFlag(true) }}
+                            >&#x270F;&#xFE0F; Edit</span> }
+                        <span className='dp-param-label'
+                        >{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>
                     </th>
                 </tr>
                 { value2 ? <tr className='short-row val2-header'><th> </th>
