@@ -34,8 +34,7 @@ const Summary = ({isLoading, body, dataPoints, selParam}) => {
             </OutsideAction>
             </React.Fragment>
         )
-    } else {console.log('return null in summary - half correct -  should USE SAME SELPARAM AS FEATURE DOES SO THAT IN SYNC ' +
-        'BUT ALSO THIS SHOULD JUST RETURN 1ST ITEM INDEX 0 IF NO MATCH AND ARE AVAILABLE.. - must jsut be logic in feature - how is selects item');  return null}
+    } return null
 };
 
 export default Summary

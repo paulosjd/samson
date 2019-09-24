@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { userConstants as constants } from '../../store/constants/user';
-import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS
+import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS, USER_LOGOUT
 } from "../constants/user";
 
 export const loginSuccess = (user) => {
@@ -29,6 +29,10 @@ export const passwordResetConfirm = (body) => {
 export const regSubmitBegin = () => {
     return { type: REGISTER_REQUEST }
 };
+
+export const userLogout = () => {
+    return { type: USER_LOGOUT }
+}
 
 export const refreshRegistration = () => {
     return { type: CLEAR_EXT_FORM_ERRORS }

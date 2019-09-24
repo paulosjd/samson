@@ -20,7 +20,6 @@ const initialState = {
 };
 
 export default function profile(state = initialState, action) {
-
     switch(action.type) {
         case FETCH_SUMMARY_DATA_BEGIN:
             return { ...state, loading: true, error: null };
@@ -39,9 +38,7 @@ export default function profile(state = initialState, action) {
         case TARGETS_DATA_REFRESH:
             return {...state, ideals: action.payload.targetsData.data};
         case UNIT_INFO_REFRESH:
-            return {...state, };
-
-
+            return { ...state, unitInfo: action.payload.unitInfoData.data };
         case DATA_POINTS_REFRESH:
             return { ...state, dataPoints: action.payload.profileData.data };
         case FETCH_SUMMARY_DATA_FAILURE:

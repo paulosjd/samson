@@ -129,8 +129,7 @@ export const postColorSchema = (value) => {
     return dispatch => {
         axios.post(`${baseUrl}profile/param-colors`, value,
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-            .then((unitInfoData) => { console.log(unitInfoData); dispatch({ type: UNIT_INFO_REFRESH, payload: {unitInfoData}}) })
-            .then(() => dispatch({ type: PROFILE_MENU_EDIT_SUCCESS, payload: {} }))
+            .then((unitInfoData) => dispatch({ type: UNIT_INFO_REFRESH, payload: {unitInfoData}}) )
             .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }),2500))
             // .then(() => fetchProfileInfo()) //  Try just update state in reducer to start with using unit_info resp - use static method from summary data
             .catch(() => dispatch({ type: PROFILE_MENU_EDIT_FAILURE }) )

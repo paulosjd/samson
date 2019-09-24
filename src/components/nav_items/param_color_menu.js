@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, ModalHeader, Table, Alert, UncontrolledTooltip } from 'reactstrap';
 import { Field, Formik } from "formik";
 import InputRange from "react-input-range"
@@ -8,22 +8,15 @@ import { getColorData } from "../../utils/helpers";
 const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema }) => {
 
     const initial = {};
-    const sliderState = {};
     unitInfo.forEach(item => {
         const colorData = getColorData(unitInfo, item.param_name);
         initial[item.param_name + '_color_hex'] = item.color_hex;
-        const [ sliderMin, setSliderMin] = useState(parseInt(colorData.rangeVal1 * 100));
-        const [ sliderMax, setSliderMax] = useState(parseInt(colorData.rangeVal2 * 100));
-        sliderState[item.param_name] = {
-            min: sliderMin,
-            max: sliderMax,
-            setMin: setSliderMin,
-            setMax: setSliderMax
-        }
+        initial[item.param_name + '_min'] = parseInt(colorData.rangeVal1 * 100);
+        initial[item.param_name + '_max'] = parseInt(colorData.rangeVal2 * 100);
     });
     const colorChoices = ['#99c140', '#ffbf00', '#ff7f00'];
 
-    // TODO python so that saves submitted (action use onSubmit in form, which dispatch/fetch, then reducer?/show alert saying saved)
+    // TODO ALERT THAT SAVED AS FOR ... PROFILE MENU
 
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="modal-lg">
@@ -31,15 +24,7 @@ const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema 
             <Formik
                 enableReinitialize
                 initialValues={initial}
-                onSubmit={formData => {
-                    Object.entries(sliderState).forEach(item => {
-                        const [pName, obj] = item;
-                        formData[pName + '_min'] = obj.min;
-                        formData[pName + '_max'] = obj.max
-                    });
-                    postColorSchema(formData);
-                    // targetDataRefresh()
-                }}
+                onSubmit={postColorSchema}
             >
                 {props => {
                     const formBody = unitInfo.map((obj, ind) => {
@@ -71,10 +56,9 @@ const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema 
                                     maxValue={40}
                                     minValue={0}
                                     formatLabel={value => `${value} %`}
-                                    value={{min: sliderState[name].min, max: sliderState[name].max}}
-                                    onChange={value => {
-                                        sliderState[name].setMin(value.min);
-                                        sliderState[name].setMax(value.max)}
+                                    value={{min: props.values[name + '_min'], max: props.values[name + '_max']}}
+                                    onChange={value => {props.setFieldValue(name + '_min', value.min);
+                                                        props.setFieldValue(name + '_max', value.max)}
                                     }
                                 />
                             </td>
@@ -83,13 +67,13 @@ const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema 
                                     maxValue={60}
                                     minValue={0}
                                     formatLabel={value => `${value} %`}
-                                    value={{min: sliderState[name].max, max: 60}}
+                                    value={{min: props.values[name + '_max'], max: 60}}
                                     onChange={value => {
                                         if (value.min >= 40) {
-                                            sliderState[name].setMax(40)
-                                        } else if (value.min >= sliderState[name].min) {
-                                            sliderState[name].setMax(value.min)
-                                        } else sliderState[name].setMax(sliderState[name].min)
+                                            props.setFieldValue(name + '_max', 40)
+                                        } else if (value.min >= props.values[name + '_min']) {
+                                            props.setFieldValue(name + '_max', value.min)
+                                        }
                                     }}
                                 />
                             </td>

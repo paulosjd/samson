@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, UncontrolledTooltip } from 'reactstrap';
 import {connect } from "react-redux";
 import { fetchProfileInfo, showNavItem } from '../store/actions/profile'
-import { setShowRegForm } from '../store/actions/user'
+import { setShowRegForm, userLogout } from '../store/actions/user'
 
 
 class TopNav extends Component {
@@ -43,7 +43,7 @@ class TopNav extends Component {
                     >Register</button>
                 )}
                 <button type="button" className="form-submit"
-                        onClick={this.props.handleLogout}
+                        onClick={(e) => {this.props.handleLogout(e); this.props.userLogout()}}
                 >Logout</button>
             </Navbar>
         )
@@ -64,6 +64,7 @@ const mapDispatchToProps = dispatch => {
         showNavItem: (item) => dispatch(showNavItem(item, true)),
         showColorSchemeMenu: () => dispatch(showNavItem('interventions', true)),
         setShowRegForm: () => dispatch(setShowRegForm(true)),
+        userLogout: () => dispatch(userLogout())
     };
 };
 
