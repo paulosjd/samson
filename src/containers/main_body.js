@@ -6,8 +6,10 @@ import NavItems from './nav_items'
 import Summary from '../components/body/summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
-import { setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
-    setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag } from "../store/actions/body";
+import {
+    setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
+    setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag, setShowAddQualifier
+} from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 import { showNavItem, fetchProfileInfo, postColorSchema } from "../store/actions/profile";
 import {targetDataRefresh} from "../store/actions/profile";

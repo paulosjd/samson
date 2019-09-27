@@ -389,6 +389,7 @@ input[type='file'] {
     margin-top: 18px;
     margin-left: 42px;
     margin-right: 62px;
+    padding-top: 8px !important;
 }
 
 .qualify-text label {
@@ -506,3 +507,8 @@ input[type='file'] {
     display: none
 }
 
+.cross-symbol {
+    float: right;
+    color: #afb3b1;
+    cursor: pointer;
+}

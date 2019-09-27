@@ -19,7 +19,12 @@ const QualifyTextAdd = ({postQualifyingText, qualifyingText, activeObjId, active
                 return (
                     <div className="card qualify-text">
                         <form onSubmit={handleSubmit}>
-                            <label style={{marginBottom: 0, lineHeight: 0.5}}>{activeLabel}</label>
+                            <div style={{display: 'inline-block', marginBottom: 4}}>
+                                <label style={{marginBottom: 0, lineHeight: 0.5}}>{activeLabel}</label>
+                                <span role="img" aria-label="cross" className='cross-symbol'
+                                      onClick={() => setHideText(true)}
+                                >&#x1F5D9;</span>
+                            </div>
                             <div className='display-inline'>
                                 <label>Notes: </label>
                             <input

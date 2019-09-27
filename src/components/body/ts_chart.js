@@ -4,7 +4,6 @@ import { setShowAddQualifier, postQualifyingText } from "../../store/actions/bod
 import { connect } from "react-redux";
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
-import AuthService from "../../utils/auth_service";
 
 class TimeSeriesChart extends PureComponent {
 
@@ -16,6 +15,7 @@ class TimeSeriesChart extends PureComponent {
     }
 
     render() {
+        const chartDataIsDefault = !this.state.showRollingMeans
         const dpIndex = this.props.dataPoints.findIndex(x => x.id === this.props.activeObjId);
         let qualifyingText = '';
         let qualifyingTextLabel = '';
@@ -133,13 +133,15 @@ class TimeSeriesChart extends PureComponent {
                 data={chartData.reverse()}
                 margin={{top: 5, right: 16, left: 22, bottom: 5, }}
                 onClick ={(val) => {
-                    if (val && !this.state.showRollingMeans) {
-                        this.props.setActiveLabel(val.activeLabel);
-                        this.props.setActiveObjId(val.activePayload[0].payload.id);
+                    if (chartDataIsDefault) {
+                        if (val) {
+                            this.props.setActiveLabel(val.activeLabel);
+                            this.props.setActiveObjId(val.activePayload[0].payload.id);
+                        }
+                        this.props.setShowAddQualifier(true);
+                        this.props.setHideQualifyText(false)
                     }
-                    this.props.setShowAddQualifier(true);
-                    this.props.setHideQualifyText(false)}
-                }
+                }}
             >
                 <XAxis dataKey="date" />
                 <YAxis type="number"

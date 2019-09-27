@@ -7,6 +7,7 @@ import MenuItemAdd from '../components/form/menu_item_add'
 import OutsideAction from '../utils/outside_action'
 import { getColorData } from '../utils/helpers'
 import * as bodyActionCreator from "../store/actions/body";
+import {setShowAddQualifier} from "../store/actions/body";
 
 class MenuItems extends Component {
 
@@ -41,11 +42,13 @@ class MenuItems extends Component {
                 return (
                     <ListGroupItem
                         key={ind} action
-                        onClick={this.handleItemSelection.bind(this, ind)}
+                        onClick={() => {
+                            this.handleItemSelection.bind(this, ind);
+                            this.props.hideAddQualifier()
+                        }}
                         className={this.props.selItemInd === ind ? 'selected-menu-item' : ''}
                     >
                         <MenuItemContent
-                            // isSelected={this.props.selItemInd === ind}
                             date={date}
                             label={obj.parameter.name}
                             value={value}
@@ -66,7 +69,8 @@ class MenuItems extends Component {
                 {items}
                 { !this.props.showAddMetric && availParams.length > 0 && (
                 <ListGroupItem className='hover-background short-row'
-                               onClick={() => this.props.setShowAddMetric(true)}>
+                               onClick={() => this.props.setShowAddMetric(true)}
+                >
                     <span role="img" aria-label="plus">&#x2795; Add metrics to track</span>
                 </ListGroupItem>)}
                 { this.props.showAddMetric && availParams.length > 0 ?
@@ -105,6 +109,7 @@ const mapDispatchToProps = dispatch => {
         setMenuItemIndex: (val) => dispatch(bodyActionCreator.setMenuItemIndex(val)),
         setShowAddMetric: (val) => dispatch(bodyActionCreator.setShowAddMetric(val)),
         postMenuItemAdd: (val) => dispatch(postMenuItemAdd(val)),
+        hideAddQualifier: () => dispatch(setShowAddQualifier(false)),
     };
 };
 
