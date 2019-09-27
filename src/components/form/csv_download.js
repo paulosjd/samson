@@ -43,7 +43,7 @@ const CsvDownloadForm = (props) => {
                             })}
                         </select>
                         {errors.date_fmt && <div className="date_fmt_error">Required</div>}
-                        <button type="submit" className={"btn btn-primary navitem-btn ".concat(paleCls)}>Submit</button>
+                        <button type="submit" className={"btn btn-primary navitem-btn left-0 ".concat(paleCls)}>Submit</button>
                     </form>
                 );
             }}

@@ -5,18 +5,21 @@ import InputRange from "react-input-range"
 import 'react-input-range/lib/css/index.css'
 import { getColorData } from "../../utils/helpers";
 
-const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema }) => {
+const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema, updateSuccess }) => {
 
     const initial = {};
-    unitInfo.forEach(item => {
+    unitInfo.sort((a,b) => {
+        // Sort alphabetically by 'param_name'
+        if (a.param_name < b.param_name) return -1;
+        if (a.param_name > b.param_name) return 1;
+        return 0;
+    }).forEach(item => {
         const colorData = getColorData(unitInfo, item.param_name);
         initial[item.param_name + '_color_hex'] = item.color_hex;
         initial[item.param_name + '_min'] = parseInt(colorData.rangeVal1 * 100);
         initial[item.param_name + '_max'] = parseInt(colorData.rangeVal2 * 100);
     });
     const colorChoices = ['#99c140', '#ffbf00', '#ff7f00'];
-
-    // TODO ALERT THAT SAVED AS FOR ... PROFILE MENU
 
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="modal-lg">
@@ -107,6 +110,9 @@ const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema 
                                 {formBody}
                                 </tbody>
                                 </Table>
+                                { updateSuccess && (
+                                    <Alert className="profile-edit-alert" color="info" style={{maxWidth: 770}}
+                                    >Successfully saved!</Alert> ) }
                                 <button
                                     type="submit" className="form-submit reg-submit"
                                 >Save changes</button>

@@ -4,7 +4,7 @@ import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DAT
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
     SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
-    CLEAR_CSV_LOAD_CONFIRM, TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH
+    CLEAR_CSV_LOAD_CONFIRM, TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, SHOW_MENU_EDIT_SUCCESS
 } from '../constants/profile'
 import { SET_SHOW_ADD_METRIC, RESET_SELECTED_ITEM_INDEX } from "../constants/body";
 
@@ -130,8 +130,8 @@ export const postColorSchema = (value) => {
         axios.post(`${baseUrl}profile/param-colors`, value,
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then((unitInfoData) => dispatch({ type: UNIT_INFO_REFRESH, payload: {unitInfoData}}) )
+            .then(() => dispatch({ type: SHOW_MENU_EDIT_SUCCESS }))
             .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }),2500))
-            // .then(() => fetchProfileInfo()) //  Try just update state in reducer to start with using unit_info resp - use static method from summary data
             .catch(() => dispatch({ type: PROFILE_MENU_EDIT_FAILURE }) )
     }
 };

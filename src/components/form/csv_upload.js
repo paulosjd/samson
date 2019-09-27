@@ -101,8 +101,9 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                         </div>}
                     </div>
                     <div className="form-group overflow-hidden">
-                        <label htmlFor="file" className="navitem-file-input"><span role="img" aria-label="f-select"
-                            >&#x1F4E4; {filename ? filename : 'Select a csv file'}</span>
+                        <label htmlFor="file" className="navitem-file-input">
+                            <span role="img" aria-label="f-select">&#x1F4E4;</span>
+                            <span> {filename ? filename : 'Select csv file'}</span>
                         <input id="file" name="file" type="file"
                                onChange={ event => {
                                    setFieldValue("file", event.currentTarget.files[0]);

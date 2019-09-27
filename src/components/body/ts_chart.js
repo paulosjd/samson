@@ -82,6 +82,25 @@ class TimeSeriesChart extends PureComponent {
                 ]
             }
         }
+        let chartExtras;
+        if (this.props.showAddQualifier && !this.props.hideQualifyText) {
+            chartExtras = (
+                <QualifyTextAdd
+                    postQualifyingText={this.props.postQualifyingText}
+                    qualifyingText={qualifyingText}
+                    activeObjId={this.props.activeObjId}
+                    activeLabel={qualifyingTextLabel}
+                    setHideText={this.props.setHideQualifyText}
+                />
+            )
+        } else chartExtras = (
+            <div className='chart-btn-row' >
+                <p>Buttons and stuff</p>
+
+            </div>
+
+        );
+
 
         return (
             <React.Fragment>
@@ -124,15 +143,7 @@ class TimeSeriesChart extends PureComponent {
                 <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 6 }}/>
                 {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" activeDot={{ r: 6 }} />)}
             </LineChart>
-            {this.props.showAddQualifier && !this.props.hideQualifyText && (
-                <QualifyTextAdd
-                    postQualifyingText={this.props.postQualifyingText}
-                    qualifyingText={qualifyingText}
-                    activeObjId={this.props.activeObjId}
-                    activeLabel={qualifyingTextLabel}
-                    setHideText={this.props.setHideQualifyText}
-                />
-            )}
+            { chartExtras }
             </React.Fragment>
         );
     }

@@ -41,6 +41,7 @@ const NavItems  = ({ props }) => {
             blankItems={props.blankItems}
             unitInfo={props.unitInfo}
             postColorSchema={props.postColorSchema}
+            updateSuccess={props.extras.profileUpdateSuccess}
         />
     }
     return <ProfileMenu

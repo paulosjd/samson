@@ -66,4 +66,4 @@ const summaryItemsFromPayload = (summary_data) => {
             },
             data_point: obj.data_point}
     })
-}
+};

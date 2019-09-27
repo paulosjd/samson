@@ -1,5 +1,6 @@
 import {
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_EDIT_FAILURE, CLEAR_PROFILE_UPDATE_STATUS, PROFILE_MENU_FETCH_SUCCESS,
+    SHOW_MENU_EDIT_SUCCESS,
 } from "../constants/profile";
 
 const initialState = {
@@ -16,6 +17,8 @@ export default function extras(state = initialState, action) {
             return { ...state, ...action.value, profileUpdateFailure: false, profileUpdateSuccess: true };
         case PROFILE_MENU_EDIT_FAILURE:
             return { ...state, profileUpdateSuccess: false, profileUpdateFailure: true };
+        case SHOW_MENU_EDIT_SUCCESS:
+            return { ...state, profileUpdateSuccess: true };
         case CLEAR_PROFILE_UPDATE_STATUS:
             return { ...state, profileUpdateSuccess: false, profileUpdateFailure: false };
         case PROFILE_MENU_FETCH_SUCCESS:
