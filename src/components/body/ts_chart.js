@@ -4,8 +4,16 @@ import { setShowAddQualifier, postQualifyingText } from "../../store/actions/bod
 import { connect } from "react-redux";
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
+import AuthService from "../../utils/auth_service";
 
 class TimeSeriesChart extends PureComponent {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            showRollingMeans: false,
+        };
+    }
 
     render() {
         const dpIndex = this.props.dataPoints.findIndex(x => x.id === this.props.activeObjId);
@@ -28,14 +36,17 @@ class TimeSeriesChart extends PureComponent {
                 target1Label += ' (' + selParam.upload_field_labels.split(', ')[1] + ')'
             }
         }
-        const values = [];
+
+        const rollingMeans = this.props.rollingMeans.flat().filter(obj => obj.param_name === selParam.name);
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === selParam.name);
-        const chartData = dataPoints.map(obj => {
+        let chartData = dataPoints.map(obj => {
             if (hasValue2 && line1Label && line2Label) return {
                 date: obj.date, id: obj.id, [line1Label]: obj.value, [line2Label]: obj.value2, text: obj.qualifier
             };
             return { date: obj.date, value: obj.value, id: obj.id, text: obj.qualifier }
         });
+
+        const values = [];
         chartData.forEach(obj => {
             values.push(obj[line1Label]);
             if (hasValue2 && obj[line2Label]){
@@ -49,7 +60,6 @@ class TimeSeriesChart extends PureComponent {
         if (valMax && valMin) {
             offset = (valMax - valMin) > valMin ? valMin : (valMax - valMin) / 2;
         }
-
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
         let yAxisDomain;
@@ -82,6 +92,9 @@ class TimeSeriesChart extends PureComponent {
                 ]
             }
         }
+        console.log(rollingMeans)
+        console.log(rollingMeans)
+
         let chartExtras;
         if (this.props.showAddQualifier && !this.props.hideQualifyText) {
             chartExtras = (
@@ -94,13 +107,23 @@ class TimeSeriesChart extends PureComponent {
                 />
             )
         } else chartExtras = (
-            <div className='chart-btn-row' >
-                <p>Buttons and stuff</p>
+            // apply outsideaction to state set by clicking buttons below
 
+            <div className='chart-btn-row' >
+                { rollingMeans.length > 3 && (
+                    <button type="button" className="chart-btn"
+                            onClick={() => this.setState(
+                                {showRollingMeans: !this.state.showRollingMeans}
+                                )}
+                    >Rolling average</button>
+                )}
             </div>
 
         );
 
+        if (this.state.showRollingMeans) {
+            chartData = rollingMeans
+        }
 
         return (
             <React.Fragment>
@@ -110,7 +133,7 @@ class TimeSeriesChart extends PureComponent {
                 data={chartData.reverse()}
                 margin={{top: 5, right: 16, left: 22, bottom: 5, }}
                 onClick ={(val) => {
-                    if (val) {
+                    if (val && !this.state.showRollingMeans) {
                         this.props.setActiveLabel(val.activeLabel);
                         this.props.setActiveObjId(val.activePayload[0].payload.id);
                     }
@@ -140,7 +163,7 @@ class TimeSeriesChart extends PureComponent {
                         qualifyingText={qualifyingText}
                     />}
                 />
-                <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 6 }}/>
+                <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 6 }} />
                 {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" activeDot={{ r: 6 }} />)}
             </LineChart>
             { chartExtras }
@@ -161,7 +184,9 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         selItemInd: body.selectedItemIndex,
         selFeatInd: body.selectedFeatIndex,
         ideals: profile.ideals,
-        unitInfo: profile.unitInfo
+        unitInfo: profile.unitInfo,
+        rollingMeans: profile.rollingMeans,
+        // showRollingMeans: body.showRollingMeans,
     };
 };
 

@@ -13,7 +13,8 @@ const initialState = {
     editDataError: null,
     showAddMetric: false,
     showAddQualifier: false,
-    editedDataPointParams: []
+    editedDataPointParams: [],
+    showRollingMeans: false,
 };
 
 export default function profile(state = initialState, action) {

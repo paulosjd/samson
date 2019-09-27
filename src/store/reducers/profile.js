@@ -10,6 +10,7 @@ const initialState = {
     blankParams: [],
     dateFormats: [],
     unitInfo: [],
+    rollingMeans: [],
     loading: false,
     error: null,
     username: '',
@@ -33,8 +34,9 @@ export default function profile(state = initialState, action) {
                 dataPoints: action.payload.profileData.data.datapoints,
                 blankParams: action.payload.profileData.data.blank_params,
                 unitInfo: action.payload.profileData.data.unit_info,
-                ideals: action.payload.profileData.data.ideals
-            };
+                ideals: action.payload.profileData.data.ideals,
+                rollingMeans: action.payload.profileData.data.rolling_means
+        };
         case TARGETS_DATA_REFRESH:
             return {...state, ideals: action.payload.targetsData.data};
         case UNIT_INFO_REFRESH:

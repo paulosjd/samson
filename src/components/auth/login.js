@@ -68,7 +68,7 @@ class Login extends Component {
                     return (
                         <div className="center">
                         <div className="card">
-                        <h5>Login</h5>
+                        <h5>Health metrics tracker</h5>
                         <form onSubmit={handleSubmit}>
                         <input
                             type="text"
@@ -94,14 +94,14 @@ class Login extends Component {
                         {errors.password && touched.password && (<div className="login-error">{errors.password}</div>)}
                         { this.state.login_fail && !errors.username && !errors.password && (
                             <div className="login-error">Invalid credentials</div> )}
-                        <button type="submit" className="form-submit login-submit">Submit</button>
+                        <button type="submit" className="form-submit login-submit">Login</button>
                         </form>
                         <button
                             onClick={() => {
                                 this.props.regSubmitBegin();
                                 this.props.demoAccessSubmit(this.loginOnRegistration.bind(this))}
                             }
-                            className="form-submit reg-modal-button"
+                            className="form-submit reg-modal-button light-blue"
                         >Demo</button>
                         <button
                             onClick={this.toggleRegister.bind(this)}
