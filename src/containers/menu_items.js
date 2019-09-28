@@ -8,6 +8,7 @@ import OutsideAction from '../utils/outside_action'
 import { getColorData } from '../utils/helpers'
 import * as bodyActionCreator from "../store/actions/body";
 import {setShowAddQualifier} from "../store/actions/body";
+import {resetChartSelection} from "../store/actions/body";
 
 class MenuItems extends Component {
 
@@ -43,8 +44,9 @@ class MenuItems extends Component {
                     <ListGroupItem
                         key={ind} action
                         onClick={() => {
-                            this.handleItemSelection.bind(this, ind);
-                            this.props.hideAddQualifier()
+                            this.handleItemSelection.bind(this, ind)();
+                            this.props.hideAddQualifier();
+                            this.props.resetChartSelection()
                         }}
                         className={this.props.selItemInd === ind ? 'selected-menu-item' : ''}
                     >
@@ -110,6 +112,7 @@ const mapDispatchToProps = dispatch => {
         setShowAddMetric: (val) => dispatch(bodyActionCreator.setShowAddMetric(val)),
         postMenuItemAdd: (val) => dispatch(postMenuItemAdd(val)),
         hideAddQualifier: () => dispatch(setShowAddQualifier(false)),
+        resetChartSelection: () => dispatch(resetChartSelection()),
     };
 };
 

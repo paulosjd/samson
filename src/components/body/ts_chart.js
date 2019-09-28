@@ -1,21 +1,22 @@
 import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
-import { setShowAddQualifier, postQualifyingText } from "../../store/actions/body";
+import {  setShowAddQualifier, postQualifyingText, resetChartSelection, setShowRollingMeans,
+} from "../../store/actions/body";
 import { connect } from "react-redux";
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
 
 class TimeSeriesChart extends PureComponent {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            showRollingMeans: false,
-        };
-    }
+    //
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //         showRollingMeans: false,
+    //     };
+    // }
 
     render() {
-        const chartDataIsDefault = !this.state.showRollingMeans
+        const chartDataIsDefault = !this.props.showRollingMeans
         const dpIndex = this.props.dataPoints.findIndex(x => x.id === this.props.activeObjId);
         let qualifyingText = '';
         let qualifyingTextLabel = '';
@@ -110,18 +111,22 @@ class TimeSeriesChart extends PureComponent {
             // apply outsideaction to state set by clicking buttons below
 
             <div className='chart-btn-row' >
+                { !chartDataIsDefault && (
+                    <button type="button" className='chart-btn'
+                            onClick={this.props.resetChartSelection}
+                    >Raw values</button>
+                )}
                 { rollingMeans.length > 3 && (
-                    <button type="button" className="chart-btn"
-                            onClick={() => this.setState(
-                                {showRollingMeans: !this.state.showRollingMeans}
-                                )}
+                    <button type="button"
+                            className={'chart-btn '.concat(this.props.showRollingMeans ? 'active' : '')}
+                            onClick={() => this.props.setShowRollingMeans(!this.props.showRollingMeans)}
                     >Rolling average</button>
                 )}
             </div>
 
         );
 
-        if (this.state.showRollingMeans) {
+        if (this.props.showRollingMeans) {
             chartData = rollingMeans
         }
 
@@ -188,7 +193,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         ideals: profile.ideals,
         unitInfo: profile.unitInfo,
         rollingMeans: profile.rollingMeans,
-        // showRollingMeans: body.showRollingMeans,
+        showRollingMeans: body.showRollingMeans,
     };
 };
 
@@ -196,6 +201,8 @@ const mapDispatchToProps = dispatch => {
     return {
         setShowAddQualifier: val => dispatch(setShowAddQualifier(val)),
         postQualifyingText: val => dispatch(postQualifyingText(val)),
+        resetChartSelection: () => dispatch(resetChartSelection()),
+        setShowRollingMeans: (val) => dispatch(setShowRollingMeans(val)),
     };
 };
 

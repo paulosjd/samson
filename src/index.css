@@ -188,8 +188,15 @@
 }
 
 .chart-btn:focus {
-    outline-width: thin;
-    outline-color: #a3bddf;
+    outline: none;
+}
+
+.chart-btn.active {
+    outline: #0092e2 solid !important;
+}
+
+.outline-none {
+    outline: none !important;
 }
 
 .item-add-sel {
