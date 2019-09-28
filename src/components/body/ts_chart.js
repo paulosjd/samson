@@ -7,13 +7,6 @@ import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
 
 class TimeSeriesChart extends PureComponent {
-    //
-    // constructor(props){
-    //     super(props);
-    //     this.state = {
-    //         showRollingMeans: false,
-    //     };
-    // }
 
     render() {
         const chartDataIsDefault = !this.props.showRollingMeans
@@ -114,7 +107,7 @@ class TimeSeriesChart extends PureComponent {
                 { !chartDataIsDefault && (
                     <button type="button" className='chart-btn'
                             onClick={this.props.resetChartSelection}
-                    >Raw values</button>
+                    >Records</button>
                 )}
                 { rollingMeans.length > 3 && (
                     <button type="button"

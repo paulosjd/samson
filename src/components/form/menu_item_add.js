@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import { MenuItemAddSchema } from "../../schemas/body_inputs";
 
-const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd }) => {
+const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd, setMetricAddFormHasValue }) => {
 
     return (
         <Formik
@@ -32,11 +32,13 @@ const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd }) => {
                 return (
                     <div className="card">
                         <form onSubmit={handleSubmit}>
+
                             <select id='param_choice' className='item-add-sel' value={values.param_choice}
                                 onChange={ e => {
                                     const unitOpts = getUnitOptions(e.target.value)[0];
                                     setFieldValue("param_choice", e.target.value);
                                     setFieldValue("unit_choice", unitOpts ? unitOpts.name : '');
+                                    setMetricAddFormHasValue(true)
                                 }}>
                                 <option value='' disabled>Parameter</option>
                                 {availParams.map((val, i) => {
@@ -45,6 +47,7 @@ const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd }) => {
                                                    value={val.name}>{val.name}</option>
                                 })}
                             </select>
+
                             {(errors.param_choice && touched.param_choice) &&
                             (<span className="item-field-err">{errors.param_choice}</span>)}
 
@@ -55,6 +58,7 @@ const MenuItemAdd = ({ toggle, isOpen, availParams, postMenuItemAdd }) => {
                                         ? {backgroundColor: '#c8d8df'} : {}}
                             ><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save
                             </button>
+
                         </form>
                     </div>
                 );

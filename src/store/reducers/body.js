@@ -1,6 +1,7 @@
 import { SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
     CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG, SET_EDIT_TARGET2_FLAG,
-    APPEND_EDITED_DP_PARAMS, RESET_SELECTED_ITEM_INDEX, RESET_CHART_SELECTION, SET_SHOW_ROLLING_MEANS
+    APPEND_EDITED_DP_PARAMS, RESET_SELECTED_ITEM_INDEX, RESET_CHART_SELECTION, SET_SHOW_ROLLING_MEANS,
+    SET_SHOW_ADD_CUSTOM_METRIC, SET_METRIC_ADD_FORM_HAS_VALUE,
 } from '../constants/body'
 
 const initialState = {
@@ -12,9 +13,11 @@ const initialState = {
     editTarget2: false,
     editDataError: null,
     showAddMetric: false,
+    showAddCustomMetric: false,
     showAddQualifier: false,
     editedDataPointParams: [],
     showRollingMeans: false,
+    metricAddFormHasValue: false,
 };
 
 export default function profile(state = initialState, action) {
@@ -44,6 +47,10 @@ export default function profile(state = initialState, action) {
             return { ...state, loadError: null };
         case SET_SHOW_ADD_METRIC:
             return { ...state, showAddMetric: action.value };
+        case SET_SHOW_ADD_CUSTOM_METRIC:
+            return { ...state, showAddCustomMetric: action.value };
+        case SET_METRIC_ADD_FORM_HAS_VALUE:
+            return { ...state, metricAddFormHasValue: action.value };
         case SET_SHOW_ADD_QUALIFIER:
             return { ...state, showAddQualifier: action.value };
         case APPEND_EDITED_DP_PARAMS:

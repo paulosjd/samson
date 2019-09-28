@@ -135,6 +135,10 @@
     display:block;
 }
 
+.bkg-light-blue {
+    background-color: rgba(135, 160, 236, 0.11) !important
+}
+
 .navitem-btn {
     margin-top: 12px;
     margin-left: 28px;
@@ -205,6 +209,7 @@
     margin-left: 24px;
     margin-top: 18px;
     margin-right: 24px;
+    width: 188px;
 }
 
 input[type='file'] {
@@ -360,6 +365,11 @@ input[type='file'] {
 
 .short-row {
     line-height: 0.5;
+    font-size: small;
+}
+
+.med-row {
+    line-height: 1;
     font-size: small;
 }
 
