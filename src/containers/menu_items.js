@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import { ListGroup, ListGroupItem, Spinner} from 'reactstrap';
 import MenuItemContent from '../components/body/menu_item_content'
 import MenuItemAdd from '../components/form/menu_item_add'
+import CustomMetricAdd from '../components/form/custom_metric_add'
 import { getColorData } from '../utils/helpers'
 import OutsideAction from '../utils/outside_action'
 import * as bodyActionCreator from "../store/actions/body";
-import { postMenuItemAdd } from "../store/actions/profile";
+import { postMenuItemAdd, postCustomMenuItemAdd } from "../store/actions/profile";
 
 class MenuItems extends Component {
 
@@ -58,8 +59,9 @@ class MenuItems extends Component {
                     </ListGroupItem>)
             })
         } else {
-            items = <h2>You need to add items</h2>
+            items = <h2>Add metrics to begin tracking</h2>
         }
+
         return (
             <ListGroup className='menu-items-list'>
                 {items}
@@ -75,16 +77,21 @@ class MenuItems extends Component {
                 { (!this.props.showAddMetric && availParams.length === 0) || (
                     this.props.showAddMetric && !this.props.metricAddFormHasValue) ? (
                     <ListGroupItem
-                        className='hover-background med-row bkg-light-blue'
-                        onClick={() => this.props.setShowAddCustomMetric(true)}
-                    ><span role="img" aria-label="plus">&#x2795; Add custom metric</span></ListGroupItem>) : null }
+                        className='med-row bkg-light-blue' id='custom_metric_add_btn'
+                        onClick={() => {console.log('clicked!!'); this.props.setShowAddCustomMetric(true)} }
+                    ><span id='custom_metric_add_btn' role="img" aria-label="plus"
+                    >&#x2795; Add custom metric</span></ListGroupItem>) : null }
 
                 { this.props.showAddMetric && availParams.length > 0 ? (
                     <ListGroupItem className='hover-background'>
-                        <OutsideAction action={() => {
-                            this.props.setShowAddMetric(false);
-                            this.props.setMetricAddFormHasValue(false)
-                        }}>
+                        <OutsideAction
+                            action={() => {
+                                this.props.setShowAddMetric(false);
+                                this.props.setMetricAddFormHasValue(false)
+                            }}
+                            targetId={'custom_metric_add_btn'}
+                            onTargetIdMatch={() => this.props.setShowAddCustomMetric(true)}
+                        >
                             <MenuItemAdd
                                 toggle={() => {this.props.setShowAddMetric(!this.props.showAddMetric)}}
                                 isOpen={this.props.showAddMetric}
@@ -98,12 +105,12 @@ class MenuItems extends Component {
                 ) : this.props.showAddCustomMetric ? (
                     <ListGroupItem className='hover-background'>
                         <OutsideAction action={() => {
-                            this.props.setShowAddMetric(false);
+                            this.props.setShowAddCustomMetric(false);
                             this.props.setMetricAddFormHasValue(false)
                         }}>
-                            <MenuItemAdd
-                                toggle={() => {this.props.setShowAddMetric(!this.props.showAddMetric)}}
-                                isOpen={this.props.showAddMetric}
+                            <CustomMetricAdd
+                                toggle={() => {this.props.setShowAddCustomMetric(!this.props.showAddCustomMetric)}}
+                                isOpen={this.props.showAddCustomMetric}
                                 availParams={availParams}
                                 postMenuItemAdd={this.props.postMenuItemAdd}
                                 setShowAddMetric={this.props.setShowAddMetric}
@@ -139,6 +146,7 @@ const mapDispatchToProps = dispatch => {
         setMetricAddFormHasValue: (val) => dispatch(bodyActionCreator.setMetricAddFormHasValue(val)),
         setShowAddCustomMetric: (val) => dispatch(bodyActionCreator.setShowAddCustomMetric(val)),
         postMenuItemAdd: (val) => dispatch(postMenuItemAdd(val)),
+        postCustomMenuItemAdd: (val) => dispatch(postCustomMenuItemAdd(val)),
         hideAddQualifier: () => dispatch(bodyActionCreator.setShowAddQualifier(false)),
         resetChartSelection: () => dispatch(bodyActionCreator.resetChartSelection()),
     };

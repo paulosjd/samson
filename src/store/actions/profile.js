@@ -88,6 +88,16 @@ export const postMenuItemAdd = (value) => {
     }
 };
 
+export const postCustomMenuItemAdd = (value) => {
+    const url = `${baseUrl}profile/custom-metric-add`;
+    return dispatch => {
+        axios.post(url, {data: { param_name: value.param_name, unit_symbol: value.unit_symbol }},
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+            .then(profileData => dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: {profileData} }) )
+            .then(() => dispatch({ type: SET_SHOW_ADD_METRIC, value: false }) )
+    }
+};
+
 export const confirmCsvUpload = (data, meta) => {
     const url = `${baseUrl}datapoints/upload`;
     return dispatch => {

@@ -80,6 +80,12 @@
     margin-top: 6px;
 }
 
+.item-field-err2 {
+    color: orangered;
+    margin-left: 18px;
+    margin-top: 0;
+}
+
 .date_fmt_error {
     color: orangered;
     float: right;
@@ -137,6 +143,18 @@
 
 .bkg-light-blue {
     background-color: rgba(135, 160, 236, 0.11) !important
+}
+
+.bkg-light-blue:hover {
+    background-color: rgba(70, 130, 180, 0.15) !important
+}
+
+.param-name-input {
+    border-radius: 2px;
+    border-width: 1px;
+    margin-left: 16px;
+    margin-right: 24px;
+    width: 188px;
 }
 
 .navitem-btn {

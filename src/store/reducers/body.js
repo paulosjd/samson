@@ -48,6 +48,7 @@ export default function profile(state = initialState, action) {
         case SET_SHOW_ADD_METRIC:
             return { ...state, showAddMetric: action.value };
         case SET_SHOW_ADD_CUSTOM_METRIC:
+            console.log('SET_SHOW_ADD_CUSTOM_METRIC: ' + action.value)
             return { ...state, showAddCustomMetric: action.value };
         case SET_METRIC_ADD_FORM_HAS_VALUE:
             return { ...state, metricAddFormHasValue: action.value };
