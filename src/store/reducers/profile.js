@@ -1,7 +1,7 @@
 import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SUBMIT_CSV_LOAD_SUCCESS,
     SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH,
-    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH
+    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, POST_CUSTOM_PARAM_FAILURE
 } from "../constants/profile";
 
 const initialState = {
@@ -28,6 +28,7 @@ export default function profile(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
+                loadError: false,
                 summaryItems: summaryItemsFromPayload(action.payload.profileData.data.profile_summary),
                 allParams: action.payload.profileData.data.all_params,
                 dateFormats: action.payload.profileData.data.date_formats,
@@ -55,6 +56,8 @@ export default function profile(state = initialState, action) {
             return { ...state, showCsvLoadSuccess: false, loadError: null };
         case CSV_LOAD_CLEAR:
             return { ...state, uploadData: {}, uploadFilename: '', loadError: null};
+        case POST_CUSTOM_PARAM_FAILURE:
+            return { ...state, loadError: action.payload.response.data.error };
         default:
             return state
     }

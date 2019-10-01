@@ -8,7 +8,7 @@ export const MenuItemAddSchema = Yup.object().shape({
 
 export const CustomMenuItemAddSchema = Yup.object().shape({
     param_name: Yup.string().required('Required').max(20, 'Max length is 20 characters'),
-    unit_symbol: Yup.string().required('Required').max(6, 'Max length is 6 characters'),
+    unit_symbol: Yup.string().required('Required').max(8, 'Max length is 8 characters'),
 });
 
 export const QualifyTextAddSchema = Yup.object().shape({

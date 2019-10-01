@@ -112,7 +112,8 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                         {errors.file && touched.file && (<div className="navitem-field-err">{errors.file}</div>)}
                         </label>
                     </div>
-                    <button type="submit" className={"btn btn-primary navitem-btn ".concat(paleCls)}>Submit</button>
+                    <button type="submit" className={"btn btn-primary left-28 navitem-btn ".concat(paleCls)}
+                    >Submit</button>
                     </form>
                 );
             }}

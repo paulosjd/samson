@@ -7,7 +7,7 @@ import CustomMetricAdd from '../components/form/custom_metric_add'
 import { getColorData } from '../utils/helpers'
 import OutsideAction from '../utils/outside_action'
 import * as bodyActionCreator from "../store/actions/body";
-import { postMenuItemAdd, postCustomMenuItemAdd } from "../store/actions/profile";
+import { postMenuItemAdd, postCustomMenuItemAdd, clearLoadError } from "../store/actions/profile";
 
 class MenuItems extends Component {
 
@@ -64,14 +64,12 @@ class MenuItems extends Component {
 
         return (
             <ListGroup className='menu-items-list'>
-                {items}
-
                 { !this.props.showAddMetric && availParams.length > 0 && (
                     <ListGroupItem
                         className='hover-background med-row'
                         onClick={() => this.props.setShowAddMetric(true)}
                     >
-                    <span role="img" aria-label="plus">&#x2795; Add metrics to track</span>
+                        <span role="img" aria-label="plus">&#x2795; Add metrics to track</span>
                     </ListGroupItem>)}
 
                 { (!this.props.showAddMetric && availParams.length === 0) || (
@@ -106,18 +104,24 @@ class MenuItems extends Component {
                     <ListGroupItem className='hover-background'>
                         <OutsideAction action={() => {
                             this.props.setShowAddCustomMetric(false);
-                            this.props.setMetricAddFormHasValue(false)
+                            this.props.setMetricAddFormHasValue(false);
+                            this.props.clearLoadError()
                         }}>
                             <CustomMetricAdd
-                                toggle={() => {this.props.setShowAddCustomMetric(!this.props.showAddCustomMetric)}}
+                                toggle={() => this.props.setShowAddCustomMetric(!this.props.showAddCustomMetric)}
                                 isOpen={this.props.showAddCustomMetric}
                                 availParams={availParams}
-                                postMenuItemAdd={this.props.postMenuItemAdd}
+                                postMenuItemAdd={this.props.postCustomMenuItemAdd}
+                                customItemSaveError={this.props.customItemSaveError}
                                 setShowAddMetric={this.props.setShowAddMetric}
                                 setMetricAddFormHasValue={this.props.setMetricAddFormHasValue}
+                                clearSaveError={this.props.clearLoadError}
                             />
                         </OutsideAction>
                     </ListGroupItem>) : null}
+
+                {items}
+
             </ListGroup>
         )
     }
@@ -136,6 +140,7 @@ const mapStateToProps = state => {
         unitInfo: state.profile.unitInfo,
         ideals: state.profile.ideals,
         metricAddFormHasValue: state.body.metricAddFormHasValue,
+        customItemSaveError: state.profile.loadError,
     };
 };
 
@@ -149,6 +154,7 @@ const mapDispatchToProps = dispatch => {
         postCustomMenuItemAdd: (val) => dispatch(postCustomMenuItemAdd(val)),
         hideAddQualifier: () => dispatch(bodyActionCreator.setShowAddQualifier(false)),
         resetChartSelection: () => dispatch(bodyActionCreator.resetChartSelection()),
+        clearLoadError: () => dispatch(clearLoadError()),
     };
 };
 

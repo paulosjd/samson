@@ -4,9 +4,10 @@ import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DAT
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
     SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
-    CLEAR_CSV_LOAD_CONFIRM, TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, SHOW_MENU_EDIT_SUCCESS
+    CLEAR_CSV_LOAD_CONFIRM, TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, SHOW_MENU_EDIT_SUCCESS,
+    POST_CUSTOM_PARAM_FAILURE,
 } from '../constants/profile'
-import { SET_SHOW_ADD_METRIC, RESET_SELECTED_ITEM_INDEX } from "../constants/body";
+import {SET_SHOW_ADD_METRIC, RESET_SELECTED_ITEM_INDEX, SET_SHOW_ADD_CUSTOM_METRIC} from "../constants/body";
 
 const baseUrl = 'http://127.0.0.1:8000/api/';
 
@@ -94,7 +95,8 @@ export const postCustomMenuItemAdd = (value) => {
         axios.post(url, {data: { param_name: value.param_name, unit_symbol: value.unit_symbol }},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then(profileData => dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: {profileData} }) )
-            .then(() => dispatch({ type: SET_SHOW_ADD_METRIC, value: false }) )
+            .then(() => dispatch({ type: SET_SHOW_ADD_CUSTOM_METRIC, value: false }) )
+            .catch((error) => dispatch({ type: POST_CUSTOM_PARAM_FAILURE, payload: error }) )
     }
 };
 
@@ -109,7 +111,7 @@ export const confirmCsvUpload = (data, meta) => {
     }
 };
 
-export const clearCsvLoad = () => ({
+export const clearLoadError = () => ({
     type: CSV_LOAD_CLEAR
 });
 

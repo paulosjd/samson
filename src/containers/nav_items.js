@@ -10,11 +10,11 @@ const NavItems  = ({ props }) => {
         return <CsvDownloadMenu
             toggle={() => {
                 props.toggleNavItem('csv_upload', !showCsvDownloadMenu);
-                props.clearCsvLoad()
+                props.clearLoadError()
             }}
             isOpen={props.menu.showCsvDownloadMenu}
             profileData={props.profile}
-            clearCsvLoad={props.clearCsvLoad}
+            clearLoadError={props.clearLoadError}
             showCsvLoadSuccess={props.profile.showCsvLoadSuccess}
             getCsvDownload={props.getCsvDownload}
         />
@@ -23,14 +23,14 @@ const NavItems  = ({ props }) => {
         return <CsvUploadMenu
             toggle={() => {
                 props.toggleNavItem('csv_upload', !showCsvUploadMenu);
-                props.clearCsvLoad();
+                props.clearLoadError();
             }}
             isOpen={props.menu.showCsvUploadMenu}
             profileData={props.profile}
             fetchProfileSummary={props.fetchProfileSummary}
             postCsvUpload={props.postCsvUpload}
             csvUploadConfirm={props.csvUploadConfirm}
-            clearCsvLoad={props.clearCsvLoad}
+            clearLoadError={props.clearLoadError}
             showCsvLoadSuccess={props.profile.showCsvLoadSuccess}
         />
     }

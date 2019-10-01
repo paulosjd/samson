@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, ModalHeader, Alert, ModalBody } from 'reactstrap';
 import CsvDownloadForm from "../form/csv_download";
 
-const CsvDownloadMenu = ({ toggle, isOpen, profileData, showCsvLoadSuccess, getCsvDownload, clearCsvLoad }) => {
+const CsvDownloadMenu = ({ toggle, isOpen, profileData, showCsvLoadSuccess, getCsvDownload, clearLoadError }) => {
 
     const [paramChoiceError, setParamChoiceError] = useState(false);
     const paramOptions = profileData.summaryItems.map(val => val.parameter);

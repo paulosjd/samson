@@ -4,7 +4,7 @@ import { toTitleCase } from '../../utils/helpers'
 import CsvUploadForm from '../form/csv_upload'
 
 const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload, csvUploadConfirm,
-                           clearCsvLoad, showCsvLoadSuccess, fetchProfileSummary }) => {
+                           clearLoadError, showCsvLoadSuccess, fetchProfileSummary }) => {
     const uploadData = profileData.uploadData;
     const errorMsg = <Alert className="navitem-alert" color="warning">
         <span role="img" aria-label="red-cross">&#x274C; {profileData.loadError}</span></Alert>;
@@ -36,7 +36,7 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
                         onClick={() => csvUploadConfirm(uploadData, uploadData.meta)}
                     >Submit</button>
                     <button type="button" className="btn btn-danger csv-upload-clear"
-                            onClick={clearCsvLoad}>Clear</button>
+                            onClick={clearLoadError}>Clear</button>
                 </div>
                 { profileData.loadError && errorMsg }
             </Modal>

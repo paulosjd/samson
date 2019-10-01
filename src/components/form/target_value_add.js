@@ -27,7 +27,7 @@ const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue, paramN
                                 onBlur={handleBlur}
                                 onChange={ e => { setFieldValue(valKey, e.target.value) }}
                             />
-                            <button type='submit' className='qualify-add-btn margin-top-initial'
+                            <button type='submit' className='qualify-add-btn margin-top-initial left-14'
                                     style={!values[valKey] ? {backgroundColor: '#c8d8df'} : {}}
                             ><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save
                             </button>
