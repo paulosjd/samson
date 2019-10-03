@@ -465,6 +465,28 @@ input[type='file'] {
     font-weight: normal;
 }
 
+.bookmarks-table {
+    font-weight: normal !important;
+    font-size: small;
+}
+
+.bookmarks-table span{
+    font-weight: normal;
+}
+
+.bookmarks-table th{
+    padding: 0.75rem;
+}
+
+.bookmarks-table td{
+    padding: 0.5rem !important;
+    padding-left: 0.75rem !important;
+}
+
+.bookmarks-table p{
+    margin-bottom: 0;
+}
+
 .table>tbody>tr.no-border>td,
 .table>tbody>tr.no-border>th {
     border-top: none;

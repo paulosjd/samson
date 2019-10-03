@@ -10,6 +10,11 @@ export const validNumber = Yup.string().required('Required').test("number", "Mus
 export const validNumberNullable = Yup.string().nullable().test("number", "Must be a valid number",
     value => { if (value === '') return true; return value && isNumeric(value) }).default('');
 
+export const validBookmarkTitle = Yup.string().required('Required').max(50, 'Max length is 50 characters');
+
+export const validBookmarkUrl = Yup.string().required('Required').max(100, 'Max length is 100 characters').test(
+    "string", "Must be a valid URL", value => { return value && value.startsWith('http') && value.includes('.') });
+
 export const validDateIfTouched = Yup.string().test("date", "Expected format: YYYY-MM-DD",
     value => { if (!value) { return true } return value && isValidDate(value) });
 

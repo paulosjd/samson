@@ -1,13 +1,14 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import BookmarksTable from '../components/body/bookmarks_table'
 import DataPointTable from '../components/body/dp_table'
 import ParamInfo from "../components/body/param_info";
 
 const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, setEditTargetFlag, setEditTarget2Flag, handleProfileClick,
-                     postAddedDataPoints, clearEditDataFailure, postTargetValue, unitInfo }) => {
+                     postAddedDataPoints, clearEditDataFailure, postTargetValue, unitInfo, bookmarks }) => {
 
-    const labels = ['\ud83d\udcc8  Records', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Literature bookmarks'];
+    const labels = ['\ud83d\udcc8  Records', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Bookmarks'];
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
     const latestDp = paramDps.length > 0 ? paramDps[0] : {};
 
@@ -47,10 +48,26 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
         />
     );
 
+    const bookmarks_table = (
+        <BookmarksTable
+            selectedParameter={selectedParameter}
+            bookmarks={bookmarks.filter(
+                obj => obj.param_name === selectedParameter.name
+            )}
+            editData={body.editData}
+            addData={body.addData}
+            setEditDataFlag={setEditDataFlag}
+            setAddDataFlag={setAddDataFlag}
+        />
+    );
+
     let mainItem;
     switch(body.selectedFeatIndex) {
         case 1:
             mainItem = paramInfo;
+            break;
+        case 2:
+            mainItem = bookmarks_table;
             break;
         default:
             mainItem = dpTable
@@ -64,7 +81,11 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
                     <ListGroupItem key={ind}
                         className={'hover-background feat-item '.concat(
                             ind === body.selectedFeatIndex ? 'selected-menu-item' : '')}
-                        onClick={() => setFeatItemIndex(ind)}
+                        onClick={() => {
+                            setFeatItemIndex(ind);
+                            setEditDataFlag(false);
+                            setAddDataFlag(false)
+                        }}
                     >
                         <span role="img" aria-label="icon">{val}</span>
                     </ListGroupItem>

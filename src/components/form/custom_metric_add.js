@@ -5,10 +5,6 @@ import { CustomMenuItemAddSchema } from "../../schemas/body_inputs";
 
 const CustomMetricAdd = ({ toggle, isOpen, availParams, postMenuItemAdd, customItemSaveError, setShowAddMetric,
                              setMetricAddFormHasValue, clearSaveError }) => {
-
-    // setShowAddMetric --> false on submit ?
-    // Test by first return 400 or submit one name which should...
-
     return (
         <Formik
             initialValues={{param_name: '', unit_symbol: ''}}
@@ -16,7 +12,6 @@ const CustomMetricAdd = ({ toggle, isOpen, availParams, postMenuItemAdd, customI
             onSubmit={(val) => {
                 if (!customItemSaveError) {
                     postMenuItemAdd(val)
-                //    close form dialog  e.g setShowAddMetric(false)
                 }
             }}
         >

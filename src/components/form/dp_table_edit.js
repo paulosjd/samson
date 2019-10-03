@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { validDate, validNumber } from '../../schemas/constants'
 
 const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints, val2headers, value2, loadError}) => {
+
     const initial = {delItems: []};
     const schemaShape = {};
     dataPoints.forEach(item => {
@@ -15,13 +16,12 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
         })
     });
     const valSchema = Yup.object().shape(schemaShape);
-
     const dateErrorMsg = <tr className='short-row date-error'><td>{loadError}</td></tr>;
 
     return (
         <Formik
             initialValues={initial}
-            onSubmit={val => postEditedDataPoints({ ...val, parameter: selectedParameter.name })}
+            onSubmit={val => {console.log(val);postEditedDataPoints({ ...val, parameter: selectedParameter.name }) }}
             validationSchema={valSchema}
             render={({values, handleSubmit, setFieldValue, errors, touched, handleBlur}) => {
                 return (
@@ -40,9 +40,7 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
                             <th>{val2headers[1]}</th><th>{val2headers[2]}</th></tr> : null  }
                         </thead>
                         <tbody>
-
                         {loadError && dateErrorMsg}
-
                         {dataPoints.map((obj, ind) => {
                             const dateKey = `${obj.id}_date`;
                             const valKey = `${obj.id}_value`;

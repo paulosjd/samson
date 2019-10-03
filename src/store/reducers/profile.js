@@ -11,6 +11,7 @@ const initialState = {
     dateFormats: [],
     unitInfo: [],
     rollingMeans: [],
+    bookmarks: [],
     loading: false,
     error: null,
     username: '',
@@ -36,7 +37,8 @@ export default function profile(state = initialState, action) {
                 blankParams: action.payload.profileData.data.blank_params,
                 unitInfo: action.payload.profileData.data.unit_info,
                 ideals: action.payload.profileData.data.ideals,
-                rollingMeans: action.payload.profileData.data.rolling_means
+                rollingMeans: action.payload.profileData.data.rolling_means,
+                bookmarks: action.payload.profileData.data.bookmarks,
         };
         case TARGETS_DATA_REFRESH:
             return {...state, ideals: action.payload.targetsData.data};

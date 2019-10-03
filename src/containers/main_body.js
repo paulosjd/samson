@@ -65,6 +65,7 @@ class MainBody extends Component {
                             body={this.props.body}
                             unitInfo={this.props.profile.unitInfo}
                             ideals={this.props.profile.ideals}
+                            bookmarks={this.props.profile.bookmarks}
                             clearEditDataFailure={this.props.clearEditDataFailure}
                             selectedParameter={this.props.selectedParameter}
                             setFeatItemIndex={this.props.setFeatItemIndex}
