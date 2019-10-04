@@ -86,8 +86,6 @@ class TimeSeriesChart extends PureComponent {
                 ]
             }
         }
-        console.log(rollingMeans)
-        console.log(rollingMeans)
 
         let chartExtras;
         if (this.props.showAddQualifier && !this.props.hideQualifyText) {
@@ -101,8 +99,6 @@ class TimeSeriesChart extends PureComponent {
                 />
             )
         } else chartExtras = (
-            // apply outsideaction to state set by clicking buttons below
-
             <div className='chart-btn-row' >
                 { !chartDataIsDefault && (
                     <button type="button" className='chart-btn'

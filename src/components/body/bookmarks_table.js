@@ -11,7 +11,7 @@ const BookmarksTable = ({selectedParameter, bookmarks, addData, editData, setAdd
         <BookmarksTableAdd
             bookmarks={bookmarks}
             selectedParameter={selectedParameter}
-            postEditedBookmarks={null}
+            postAddedBookmarks={null}
         />
     );
 
@@ -19,12 +19,12 @@ const BookmarksTable = ({selectedParameter, bookmarks, addData, editData, setAdd
         <BookmarksEdit
             bookmarks={bookmarks}
             selectedParameter={selectedParameter}
-            postAddedBookmarks={null}
+            postEditedBookmarks={null}
         />
     );
 
     const tableBody = bookmarks.map(obj => {
-        const maxLinkLen = obj.url.length;
+        const maxLinkLen = 54;
         return (
             <tr key={obj.id}>
                 <td>
@@ -47,7 +47,7 @@ const BookmarksTable = ({selectedParameter, bookmarks, addData, editData, setAdd
                         >{selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}</span>
                         { bookmarks.length > 0 &&
                         <span className='data-points-header-action' role="img" aria-label="pencil"
-                              onClick={() => {console.log('a'); console.log('a') }}
+                              onClick={() => setEditDataFlag(true)}
                         >&#x270F;&#xFE0F; Edit</span> }
                     </th>
                 </tr>

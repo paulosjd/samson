@@ -4,19 +4,17 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { validBookmarkTitle, validBookmarkUrl } from '../../schemas/constants'
 
-const BookmarksEdit = ({bookmarks, selectedParameter, postAddedBookmarks}) => {
+const BookmarksEdit = ({bookmarks, selectedParameter, postEditedBookmarks}) => {
 
     const initial = {delItems: []};
     const schemaShape = {};
     bookmarks.forEach(item => {
-        // selectedParameter.upload_fields.split(', ').forEach(fieldName => {
-        //     const key = `${item.id}_${fieldName}`;
-        //     initial[key] = item[fieldName];
-        //     schemaShape[key] = fieldName === 'date' ? validDate : validNumber
-        // })
+        initial[`${item.id}_title`] = item.title;
+        initial[`${item.id}_url`] = item.url;
+        schemaShape[`${item.id}_title`] = validBookmarkTitle;
+        schemaShape[`${item.id}_url`] = validBookmarkUrl
     });
     const valSchema = Yup.object().shape(schemaShape);
-    const dateErrorMsg = <tr className='short-row date-error'><td>{'asdsdf'}</td></tr>;
 
     return (
         <Formik
@@ -24,24 +22,64 @@ const BookmarksEdit = ({bookmarks, selectedParameter, postAddedBookmarks}) => {
             onSubmit={val => {console.log(val);console.log({ ...val, parameter: selectedParameter.name }) }}
             validationSchema={valSchema}
             render={({values, handleSubmit, setFieldValue, errors, touched, handleBlur}) => {
+
+                const tableBody = bookmarks.map(obj => {
+                    const objIsPendingDel = values.delItems.includes(obj.id);
+                    const handleDelIconClick = () => {
+                        const delList = [...values.delItems];
+                        if (!objIsPendingDel) delList.push(obj.id);
+                        setFieldValue('delItems', delList);
+                        // setFieldValue(valKey, dataPoints[ind].value);
+                        // setFieldValue(dateKey, dataPoints[ind].date);
+                    };
+
+                    return (
+                        <tr key={obj.id} className={objIsPendingDel ? 'pend-del' : ''}>
+                            <td>{!objIsPendingDel ? <span role="img" aria-label="trash" className='del-icon'
+                                                          onClick={handleDelIconClick}>&#x274C;</span> : ''}
+                            </td>
+                            <td>
+                                <label htmlFor={`${obj.id}_title`} >Title</label>
+                                <input
+                                    type='text' name={`${obj.id}_title`}
+                                    value={values[`${obj.id}_title`]}
+                                    onBlur={handleBlur}
+                                    disabled={objIsPendingDel}
+                                    onChange={ e => setFieldValue(`${obj.id}_title`, e.target.value) }
+                                    className={objIsPendingDel ? 'pend-del' : ''}
+                                />
+                                <label htmlFor={`${obj.id}_url`} >URL</label>
+                                <input
+                                    type='text' name={`${obj.id}_url`}
+                                    value={values[`${obj.id}_url`]}
+                                    onBlur={handleBlur}
+                                    disabled={objIsPendingDel}
+                                    onChange={ e => setFieldValue(`${obj.id}_url`, e.target.value) }
+                                    className={objIsPendingDel ? 'pend-del' : ''}
+                                />
+                            </td>
+                        </tr>
+                    )}
+                );
+
+
                 return (
                     <form onSubmit={handleSubmit}>
-                        <Table className='data-points-table' bordered>
-                            {/*<thead>*/}
-                            {/*<tr className='short-row'>*/}
-                                {/*<th colSpan={value2 ? 3 : 2}>*/}
-                                {/*<span className='dp-param-label'*/}
-                                {/*>{selectedParameter.name ? selectedParameter.name + ' records' : ''}</span>*/}
-                                    {/*<button type='submit' className='data-points-header-action'*/}
-                                    {/*><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save</button>*/}
-                                {/*</th>*/}
-                            {/*</tr>*/}
-                            {/*{ value2 ? <tr className='short-row val2-header'><th> </th>*/}
-                                {/*<th>{val2headers[1]}</th><th>{val2headers[2]}</th></tr> : null  }*/}
-                            {/*</thead>*/}
-                            {/*<tbody>*/}
-
-                            {/*</tbody>*/}
+                        <Table className='bookmarks-table' bordered>
+                            <thead>
+                                <tr className='short-row'>
+                                    <th colSpan={2}>
+                                        <span className='dp-param-label'>
+                                            {selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}
+                                        </span>
+                                        <button type='submit' className='data-points-header-action'>
+                                        <span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save</button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {tableBody}
+                            </tbody>
                         </Table>
                     </form>
                 )
