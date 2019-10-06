@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table} from "reactstrap";
+import { Table } from "reactstrap";
 import BookmarksEdit from "../form/bookmark_edit";
 import BookmarksTableAdd from '../form/bookmark_add'
 
@@ -41,14 +41,16 @@ const BookmarksTable = ({ selectedParameter, bookmarks, addData, editData, setAd
                 <thead>
                 <tr className='short-row'>
                     <th colSpan={1}>
-                        <span className='dp-param-label'
-                        >{selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}</span>
+                        <span className='dp-param-label'>
+                            {selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}
+                        </span>
                         <span className='data-points-header-action' role="img" aria-label="plus"
-                                  onClick={() => setAddDataFlag(true)}>&#x2795; Add</span>
+                              onClick={() => setAddDataFlag(true)}>&#x2795; Add
+                        </span>
                         { bookmarks.length > 0 &&
                         <span className='data-points-header-action' role="img" aria-label="pencil"
-                              onClick={() => setEditDataFlag(true)}
-                        >&#x270F;&#xFE0F; Edit</span> }
+                              onClick={() => setEditDataFlag(true)}>&#x270F;&#xFE0F; Edit
+                        </span> }
                     </th>
                 </tr>
                 </thead>

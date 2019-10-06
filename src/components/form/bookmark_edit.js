@@ -72,7 +72,6 @@ const BookmarksEdit = ({bookmarks, selectedParameter, postEditedBookmarks}) => {
                     )}
                 );
 
-
                 return (
                     <form onSubmit={handleSubmit}>
                         <Table className='bookmarks-table' bordered>
@@ -83,7 +82,8 @@ const BookmarksEdit = ({bookmarks, selectedParameter, postEditedBookmarks}) => {
                                             {selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}
                                         </span>
                                         <button type='submit' className='data-points-header-action'>
-                                        <span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save</button>
+                                            <span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save
+                                        </button>
                                     </th>
                                 </tr>
                             </thead>

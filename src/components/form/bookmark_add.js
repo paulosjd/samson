@@ -14,9 +14,7 @@ const BookmarksAdd = ({selectedParameter, postAddedBookmarks}) => {
     return (
         <Formik
             initialValues={{title: '', url: ''}}
-            // onSubmit={val => console.log({ ...val, parameter: selectedParameter.id })}
             onSubmit={val => postAddedBookmarks({ ...val, parameter: selectedParameter.id })}
-
             validationSchema={valSchema}
             render={({values, handleSubmit, setFieldValue, errors, touched, handleBlur}) => {
                 return (
