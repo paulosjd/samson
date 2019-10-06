@@ -11,3 +11,7 @@ export function isValidDate(dateString) {
 export function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n) && n >= 0
 }
+
+export function isValidBookmarkUrl(value) {
+    return value && value.startsWith('http') && value.includes('.')
+}

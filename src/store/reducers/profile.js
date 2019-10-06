@@ -1,7 +1,7 @@
 import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SUBMIT_CSV_LOAD_SUCCESS,
     SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH,
-    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, POST_CUSTOM_PARAM_FAILURE
+    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS
 } from "../constants/profile";
 
 const initialState = {
@@ -40,6 +40,8 @@ export default function profile(state = initialState, action) {
                 rollingMeans: action.payload.profileData.data.rolling_means,
                 bookmarks: action.payload.profileData.data.bookmarks,
         };
+        case UPDATE_BOOKMARKS:
+            return {...state, bookmarks: action.payload.bookmarksData.data};
         case TARGETS_DATA_REFRESH:
             return {...state, ideals: action.payload.targetsData.data};
         case UNIT_INFO_REFRESH:

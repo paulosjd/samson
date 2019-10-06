@@ -6,7 +6,8 @@ import ParamInfo from "../components/body/param_info";
 
 const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, setEditTargetFlag, setEditTarget2Flag, handleProfileClick,
-                     postAddedDataPoints, clearEditDataFailure, postTargetValue, unitInfo, bookmarks }) => {
+                     postAddedDataPoints, clearEditDataFailure, postTargetValue, unitInfo, bookmarks,
+                     postEditedBookmarks, postAddedBookmarks}) => {
 
     const labels = ['\ud83d\udcc8  Records', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Bookmarks'];
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
@@ -51,13 +52,13 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
     const bookmarks_table = (
         <BookmarksTable
             selectedParameter={selectedParameter}
-            bookmarks={bookmarks.filter(
-                obj => obj.param_name === selectedParameter.name
-            )}
+            bookmarks={bookmarks.filter(obj => obj.param_id === selectedParameter.id)}
             editData={body.editData}
             addData={body.addData}
             setEditDataFlag={setEditDataFlag}
             setAddDataFlag={setAddDataFlag}
+            postEditedBookmarks={postEditedBookmarks}
+            postAddedBookmarks={postAddedBookmarks}
         />
     );
 

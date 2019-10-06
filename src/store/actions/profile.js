@@ -1,13 +1,19 @@
 import axios from "axios";
 import download from 'downloadjs';
-import { FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SHOW_PROFILE_MENU,
+import {
+    FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SHOW_PROFILE_MENU,
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
     SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
     CLEAR_CSV_LOAD_CONFIRM, TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, SHOW_MENU_EDIT_SUCCESS,
-    POST_CUSTOM_PARAM_FAILURE,
+    POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS,
 } from '../constants/profile'
-import {SET_SHOW_ADD_METRIC, RESET_SELECTED_ITEM_INDEX, SET_SHOW_ADD_CUSTOM_METRIC} from "../constants/body";
+import {
+    SET_SHOW_ADD_METRIC,
+    RESET_SELECTED_ITEM_INDEX,
+    SET_SHOW_ADD_CUSTOM_METRIC,
+    EDIT_DATA_FAILURE
+} from "../constants/body";
 
 const baseUrl = 'http://127.0.0.1:8000/api/';
 
@@ -145,5 +151,14 @@ export const postColorSchema = (value) => {
             .then(() => dispatch({ type: SHOW_MENU_EDIT_SUCCESS }))
             .then(() => setTimeout(() => dispatch({ type: CLEAR_PROFILE_UPDATE_STATUS }),2500))
             .catch(() => dispatch({ type: PROFILE_MENU_EDIT_FAILURE }) )
+    }
+};
+
+export const postEditedBookmarks = (value, action='edit') => {
+    return dispatch => {
+        axios.post(`${baseUrl}profile/bookmarks-${action}`, {value},
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
+            .then(bookmarksData => dispatch({ type: UPDATE_BOOKMARKS, payload: {bookmarksData} }))
+            .catch((error) => dispatch({ type: EDIT_DATA_FAILURE, payload: error }) )
     }
 };

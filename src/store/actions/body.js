@@ -37,7 +37,7 @@ export const setAddDataFlag = (value) => ({
 
 export const setMetricAddFormHasValue = (value) => ({
     type: SET_METRIC_ADD_FORM_HAS_VALUE, value
-})
+});
 
 export const setShowAddMetric = (value) => ({
     type: SET_SHOW_ADD_METRIC, value

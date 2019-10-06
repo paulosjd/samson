@@ -1,17 +1,15 @@
 import React from 'react';
 import { Table} from "reactstrap";
 import BookmarksEdit from "../form/bookmark_edit";
-import BookmarksTableAdd from '../form/dp_table_add'
+import BookmarksTableAdd from '../form/bookmark_add'
 
-const BookmarksTable = ({selectedParameter, bookmarks, addData, editData, setAddDataFlag, setEditDataFlag, }) => {
+const BookmarksTable = ({ selectedParameter, bookmarks, addData, editData, setAddDataFlag, setEditDataFlag,
+                            postAddedBookmarks, postEditedBookmarks }) => {
 
-    console.log(bookmarks)
-
-    if (addData && false) return (
+    if (addData) return (
         <BookmarksTableAdd
-            bookmarks={bookmarks}
             selectedParameter={selectedParameter}
-            postAddedBookmarks={null}
+            postAddedBookmarks={postAddedBookmarks}
         />
     );
 
@@ -19,7 +17,7 @@ const BookmarksTable = ({selectedParameter, bookmarks, addData, editData, setAdd
         <BookmarksEdit
             bookmarks={bookmarks}
             selectedParameter={selectedParameter}
-            postEditedBookmarks={null}
+            postEditedBookmarks={postEditedBookmarks}
         />
     );
 
@@ -45,13 +43,14 @@ const BookmarksTable = ({selectedParameter, bookmarks, addData, editData, setAdd
                     <th colSpan={1}>
                         <span className='dp-param-label'
                         >{selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}</span>
+                        <span className='data-points-header-action' role="img" aria-label="plus"
+                                  onClick={() => setAddDataFlag(true)}>&#x2795; Add</span>
                         { bookmarks.length > 0 &&
                         <span className='data-points-header-action' role="img" aria-label="pencil"
                               onClick={() => setEditDataFlag(true)}
                         >&#x270F;&#xFE0F; Edit</span> }
                     </th>
                 </tr>
-
                 </thead>
                 <tbody>
                 {tableBody}

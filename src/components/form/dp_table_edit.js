@@ -6,6 +6,8 @@ import { validDate, validNumber } from '../../schemas/constants'
 
 const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints, val2headers, value2, loadError}) => {
 
+    console.log(selectedParameter)
+
     const initial = {delItems: []};
     const schemaShape = {};
     dataPoints.forEach(item => {
@@ -56,9 +58,10 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
                                 setFieldValue(valKey, dataPoints[ind].value);
                                 setFieldValue(dateKey, dataPoints[ind].date);
                             };
+                            const tdOneClassName = ' '.concat(selectedParameter.num_values > 1 ? 'two-val-date' : '');
                             return (
                                 <tr key={obj.id} className={objIsPendingDel ? 'pend-del' : ''}>
-                                    <td className={dateError ? 'td-err' : ''}>
+                                    <td className={dateError ? `${tdOneClassName} td-err` : tdOneClassName}>
                                         {!objIsPendingDel ? <span role="img" aria-label="trash" className='del-icon'
                                                                   onClick={handleDelIconClick}>&#x274C;</span> : ''}
                                         <input

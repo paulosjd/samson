@@ -50,21 +50,22 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, 
                                             const fieldLabel = item[0].split('_')[1];
                                             setFieldValue(`${firstChar - 1}_${fieldLabel}`, item[1])
                                         }
-
                                     })
                                 };
                                 const delIcon = values['items'] > 1 ?
                                     <span role="img" aria-label="trash" className='del-icon'
                                           onClick={handleDelClick}>&#x274C;</span> : null;
+                                const tdOneClsName = ' '.concat(
+                                    selectedParameter.num_values > 1 ? 'two-val-date dp-edit ' : 'dp-edit ');
                                 return (
                                     <tr key={ind}>
-                                        <td className={errors['date'] ? 'td-err dp-edit' : 'dp-edit'}>
+                                        <td className={errors['date'] ? `td-err ${tdOneClsName}` : tdOneClsName}>
                                             {delIcon}
                                             <input
                                                 type='text' name={dateKey}
                                                 value={values[dateKey] || ''}
                                                 onBlur={handleBlur}
-                                                onChange={ e => { setFieldValue(dateKey, e.target.value) }}
+                                                onChange={ e => setFieldValue(dateKey, e.target.value)}
                                             />
                                             {dateError && <div className='dp-edit-err'>{errors[dateKey]}</div>}
                                         </td>

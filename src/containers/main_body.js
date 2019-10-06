@@ -11,7 +11,7 @@ import {
     setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag, setShowAddQualifier
 } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
-import { showNavItem, fetchProfileInfo, postColorSchema } from "../store/actions/profile";
+import { showNavItem, fetchProfileInfo, postColorSchema, postEditedBookmarks } from "../store/actions/profile";
 import {targetDataRefresh} from "../store/actions/profile";
 
 
@@ -77,6 +77,8 @@ class MainBody extends Component {
                             postAddedDataPoints={this.props.postAddedDataPoints}
                             postTargetValue={this.props.postTargetValue}
                             handleProfileClick={this.props.handleProfileClick}
+                            postEditedBookmarks={this.props.postEditedBookmarks}
+                            postAddedBookmarks={this.props.postAddedBookmarks}
                         />
                         </OutsideAction>
                     </Col>
@@ -119,6 +121,8 @@ const mapDispatchToProps = dispatch => {
         setEditTarget2Flag: val => dispatch(setEditTarget2Flag(val)),
         postEditedDataPoints: val => dispatch(postEditedDataPoints(val)),
         postAddedDataPoints: val => dispatch(postEditedDataPoints(val, 'add')),
+        postEditedBookmarks: val => dispatch(postEditedBookmarks(val)),
+        postAddedBookmarks: val => dispatch(postEditedBookmarks(val, 'add')),
         toggleNavItem: (item, val) => dispatch(actionCreator.showNavItem(item, val)),
         updateProfileMenu: (val) => dispatch(actionCreator.updateProfileInfo(val)),
         postCsvUpload: (val) => dispatch(actionCreator.postCsvUpload(val)),
