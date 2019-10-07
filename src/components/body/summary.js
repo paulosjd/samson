@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ListGroup, ListGroupItem, Spinner } from 'reactstrap';
+import { Spinner } from 'reactstrap';
 import TimeSeriesChart from './ts_chart'
 import OutsideAction from '../../utils/outside_action'
 
@@ -11,12 +11,9 @@ const Summary = ({isLoading, body, dataPoints, selParam}) => {
 
     if (isLoading){
         return (
-            <ListGroup>
-                <ListGroupItem
-                    className={'cats'} tag="a" >
-                    <Spinner color="secondary" />
-                </ListGroupItem>
-            </ListGroup>
+            <div className='sum-spin'>
+                <Spinner color="secondary" />
+            </div>
         )
     } else if (dataPoints.map(x => x.parameter).includes(selParam.name)) {
         return (

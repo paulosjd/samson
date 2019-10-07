@@ -11,12 +11,25 @@
 }
 
 .col-5 {
-    margin-top: 10px;
+    margin-top: 24px;
 }
 
 .container {
     max-width: 100% !important;
 }
+
+
+.max-width-320 {
+    max-width: 320px !important;
+}
+
+.left-0 {margin-left: 0 !important;}
+.left-14 {margin-left: 14px !important;}
+.left-28 {margin-left: 28px;}
+.left-62 {margin-left: 62px;}
+.right-18 {margin-right: 18px;}
+
+.csr-pt {cursor: pointer}
 
 .nav-item {
     cursor: pointer;
@@ -31,26 +44,6 @@
 .no-val {
     background-color: #a5c5e8 !important;
     border-color: #a5c5e8 !important;
-}
-
-.max-width-320 {
-    max-width: 320px !important;
-}
-
-.left-0 {
-    margin-left: 0 !important;
-}
-
-.left-14 {
-    margin-left: 14px !important;
-}
-
-.left-28 {
-    margin-left: 28px;
-}
-
-.left-62 {
-    margin-left: 62px;
 }
 
 .csv-upload-modal {
@@ -151,6 +144,15 @@
     color: cornflowerblue;
     margin-left: 26px;
     display:block;
+}
+
+.text-lge {
+    font-size: larger;
+}
+
+.sum-spin {
+    margin-left: 44px;
+    margin-top: 24px;
 }
 
 .bkg-light-blue {
@@ -473,6 +475,7 @@ input[type='file'] {
 .bookmarks-table {
     font-weight: normal !important;
     font-size: small;
+    max-width: 384px;
 }
 
 .bookmarks-table span{

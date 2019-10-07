@@ -6,8 +6,6 @@ import { validDate, validNumber } from '../../schemas/constants'
 
 const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints, val2headers, value2, loadError}) => {
 
-    console.log(selectedParameter)
-
     const initial = {delItems: []};
     const schemaShape = {};
     dataPoints.forEach(item => {
@@ -23,7 +21,7 @@ const DataPointTableEdit = ({dataPoints, selectedParameter, postEditedDataPoints
     return (
         <Formik
             initialValues={initial}
-            onSubmit={val => {console.log(val);postEditedDataPoints({ ...val, parameter: selectedParameter.name }) }}
+            onSubmit={val => postEditedDataPoints({ ...val, parameter: selectedParameter.name })}
             validationSchema={valSchema}
             render={({values, handleSubmit, setFieldValue, errors, touched, handleBlur}) => {
                 return (

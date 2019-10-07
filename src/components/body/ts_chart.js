@@ -68,7 +68,6 @@ class TimeSeriesChart extends PureComponent {
             const getDataMin = dataMin => {
                 min = Math.min((dataMin - offset), savedTarget - offset);
                 if (!min || min < 0) return dataMin - offset;
-                console.log(min)
                 return min
             };
             const getDataMax = dataMax => {

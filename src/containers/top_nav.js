@@ -18,12 +18,11 @@ class TopNav extends Component {
                 <span onClick={this.props.handleProfileClick} className="mr-auto nav-item"
                 >{'  ' + this.props.username}</span>
 
-                <span role="img" aria-label="Panda" className='nav-item nav-link' id="effectors"
+                <span role="img" aria-label="palette" id="color_scheme" className='right-18 csr-pt'
                       onClick={this.props.showColorSchemeMenu}
-                >&#9731;</span>
-                <UncontrolledTooltip id="ttip" placement="bottom" target="effectors"
-                >Rating color schema</UncontrolledTooltip>
-
+                >&#x1F536;</span>
+                <UncontrolledTooltip id="ttip" placement="bottom" target="color_scheme"
+                >Color labeling</UncontrolledTooltip>
 
                 <span role="img" aria-label="download" className='nav-item ' id="download"
                       onClick={() => this.props.showNavItem('csv_download')}
@@ -42,8 +41,12 @@ class TopNav extends Component {
                             onClick={() => this.props.handleLogout('register', this.props.setShowRegForm)}
                     >Register</button>
                 )}
-                <button type="button" className="form-submit"
-                        onClick={(e) => {this.props.handleLogout(e); this.props.userLogout()}}
+                <button
+                    type="button" className="form-submit"
+                    onClick={(e) => {
+                        this.props.handleLogout(e);
+                        this.props.userLogout()
+                    }}
                 >Logout</button>
             </Navbar>
         )

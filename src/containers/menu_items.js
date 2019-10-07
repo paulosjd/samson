@@ -76,13 +76,14 @@ class MenuItems extends Component {
                     this.props.showAddMetric && !this.props.metricAddFormHasValue) ? (
                     <ListGroupItem
                         className='med-row bkg-light-blue' id='custom_metric_add_btn'
-                        onClick={() => {console.log('clicked!!'); this.props.setShowAddCustomMetric(true)} }
+                        onClick={() => this.props.setShowAddCustomMetric(!this.props.showAddCustomMetric)}
                     ><span id='custom_metric_add_btn' role="img" aria-label="plus"
                     >&#x2795; Add custom metric</span></ListGroupItem>) : null }
 
                 { this.props.showAddMetric && availParams.length > 0 ? (
                     <ListGroupItem className='hover-background'>
                         <OutsideAction
+                            ignoreId='custom_metric_add_btn'
                             action={() => {
                                 this.props.setShowAddMetric(false);
                                 this.props.setMetricAddFormHasValue(false)

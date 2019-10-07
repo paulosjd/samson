@@ -6,6 +6,12 @@ import BookmarksTableAdd from '../form/bookmark_add'
 const BookmarksTable = ({ selectedParameter, bookmarks, addData, editData, setAddDataFlag, setEditDataFlag,
                             postAddedBookmarks, postEditedBookmarks }) => {
 
+    bookmarks = bookmarks.sort((a,b) => {
+        if (a.title < b.title) return -1;
+        if (a.title > b.title) return 1;
+        return 0;
+    });
+    
     if (addData) return (
         <BookmarksTableAdd
             selectedParameter={selectedParameter}
@@ -20,20 +26,6 @@ const BookmarksTable = ({ selectedParameter, bookmarks, addData, editData, setAd
             postEditedBookmarks={postEditedBookmarks}
         />
     );
-
-    const tableBody = bookmarks.map(obj => {
-        const maxLinkLen = 54;
-        return (
-            <tr key={obj.id}>
-                <td>
-                    <p>{obj.title}</p>
-                    <a href={obj.url}>
-                        {obj.url.length <= maxLinkLen ? obj.url : obj.url.substring(0, maxLinkLen).concat('...')}
-                    </a>
-                </td>
-            </tr>
-        )
-    });
 
     return (
         <div>
@@ -55,7 +47,20 @@ const BookmarksTable = ({ selectedParameter, bookmarks, addData, editData, setAd
                 </tr>
                 </thead>
                 <tbody>
-                {tableBody}
+                {bookmarks.map(obj => {
+                    const maxLinkLen = 54;
+                    return (
+                        <tr key={obj.id}>
+                            <td>
+                                <p>{obj.title}</p>
+                                <a href={obj.url}>
+                                    {obj.url.length <= maxLinkLen ?
+                                        obj.url : obj.url.substring(0, maxLinkLen).concat('...')}
+                                </a>
+                            </td>
+                        </tr>
+                    )
+                })}
                 </tbody>
             </Table>
         </div>

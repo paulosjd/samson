@@ -23,7 +23,7 @@ const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema,
 
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="modal-lg">
-            <ModalHeader>Select color schema</ModalHeader>
+            <ModalHeader>Select color scheme</ModalHeader>
             <Formik
                 enableReinitialize
                 initialValues={initial}
