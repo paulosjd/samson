@@ -3,7 +3,7 @@ import {
     SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
     CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG, SET_EDIT_TARGET2_FLAG,
     APPEND_EDITED_DP_PARAMS, RESET_CHART_SELECTION, SET_SHOW_ROLLING_MEANS, SET_SHOW_ADD_CUSTOM_METRIC,
-    SET_METRIC_ADD_FORM_HAS_VALUE,
+    SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN
 } from '../constants/body'
 import { DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH } from "../constants/profile";
 
@@ -57,6 +57,10 @@ export const resetChartSelection = () => ({
 
 export const setShowRollingMeans = (value) => ({
     type: SET_SHOW_ROLLING_MEANS, value
+});
+
+export const setShowMean = (value) => ({
+    type: SET_SHOW_MEAN, value
 });
 
 export const postEditedDataPoints = (value, action='edit') => {

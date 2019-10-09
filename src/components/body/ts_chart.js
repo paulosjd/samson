@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
-import {  setShowAddQualifier, postQualifyingText, resetChartSelection, setShowRollingMeans,
-} from "../../store/actions/body";
 import { connect } from "react-redux";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
+import {  setShowAddQualifier, postQualifyingText, resetChartSelection, setShowRollingMeans, setShowMean
+} from "../../store/actions/body";
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
 
 class TimeSeriesChart extends PureComponent {
 
     render() {
-        const chartDataIsDefault = !this.props.showRollingMeans
+        const chartDataIsDefault = !this.props.showRollingMeans;
         const dpIndex = this.props.dataPoints.findIndex(x => x.id === this.props.activeObjId);
         let qualifyingText = '';
         let qualifyingTextLabel = '';
@@ -33,7 +33,9 @@ class TimeSeriesChart extends PureComponent {
 
         const rollingMeans = this.props.rollingMeans.flat().filter(obj => obj.param_name === selParam.name);
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === selParam.name);
-        let chartData = dataPoints.map(obj => {
+
+        let chartData = this.props.showRollingMeans ? rollingMeans : dataPoints;
+        chartData = chartData.map(obj => {
             if (hasValue2 && line1Label && line2Label) return {
                 date: obj.date, id: obj.id, [line1Label]: obj.value, [line2Label]: obj.value2, text: obj.qualifier
             };
@@ -49,11 +51,11 @@ class TimeSeriesChart extends PureComponent {
         });
         const valMin = Math.min(...values);
         const valMax = Math.max(...values);
-
         let offset = 0;
         if (valMax && valMin) {
             offset = (valMax - valMin) > valMin ? valMin : (valMax - valMin) / 2;
         }
+
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
         let yAxisDomain;
@@ -110,21 +112,28 @@ class TimeSeriesChart extends PureComponent {
                             onClick={() => this.props.setShowRollingMeans(!this.props.showRollingMeans)}
                     >Rolling average</button>
                 )}
+                { dataPoints.length > 2  && (
+                    <button type="button"
+                            className={'chart-btn '.concat(this.props.showMean ? 'active' : '')}
+                            onClick={() => this.props.setShowMean(!this.props.showMean)}
+                    >Overall average</button>
+                )}
             </div>
-
         );
 
-        if (this.props.showRollingMeans) {
-            chartData = rollingMeans
+        const chartDims = {width: 520, height: 300, margin: {top: 5, right: 16, left: 22, bottom: 5, }};
+
+        if (this.props.showMean) {
+
         }
 
         return (
             <React.Fragment>
             <LineChart
-                width={520}
-                height={300}
+                width={chartDims.width}
+                height={chartDims.height}
+                margin={chartDims.margin}
                 data={chartData.reverse()}
-                margin={{top: 5, right: 16, left: 22, bottom: 5, }}
                 onClick ={(val) => {
                     if (chartDataIsDefault) {
                         if (val) {
@@ -149,9 +158,7 @@ class TimeSeriesChart extends PureComponent {
                     <ReferenceLine y={paramIdeals.saved2} label={'Target'.concat(
                         ' (', selParam.upload_field_labels.split(', ')[2], ')')} stroke="#ffb600" />
                 )}
-                {/*{ this.props.selectedParameter && this.props.selectedParameter.data}*/}
-                <Tooltip content={
-                    <CustomTooltipContent
+                <Tooltip content={<CustomTooltipContent
                         dataPoints={this.props.dataPoints}
                         activeObjId={this.props.activeObjId}
                         setActiveObjId={this.props.setActiveObjId}
@@ -182,6 +189,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         unitInfo: profile.unitInfo,
         rollingMeans: profile.rollingMeans,
         showRollingMeans: body.showRollingMeans,
+        showMean: body.showMean
     };
 };
 
@@ -191,6 +199,7 @@ const mapDispatchToProps = dispatch => {
         postQualifyingText: val => dispatch(postQualifyingText(val)),
         resetChartSelection: () => dispatch(resetChartSelection()),
         setShowRollingMeans: (val) => dispatch(setShowRollingMeans(val)),
+        setShowMean: (val) => dispatch(setShowMean(val))
     };
 };
 
