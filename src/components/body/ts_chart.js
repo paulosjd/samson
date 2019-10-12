@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
-import {  setShowAddQualifier, postQualifyingText, resetChartSelection, setShowRollingMeans, setShowMean
+import {  setShowAddQualifier, postQualifyingText, resetChartSelection, setShowRollingMeans, setShowMean,
+    setShowMonthlyDiffs,
 } from "../../store/actions/body";
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
+import { average } from '../../utils/helpers'
 
 class TimeSeriesChart extends PureComponent {
 
@@ -41,6 +43,14 @@ class TimeSeriesChart extends PureComponent {
             };
             return { date: obj.date, value: obj.value, id: obj.id, text: obj.qualifier }
         });
+
+        const valueMean = average(dataPoints.map(x => x.value));
+        let value2Mean;
+        if (hasValue2) {
+            value2Mean = average(dataPoints.map(x => x.value2))
+        }
+        console.log(valueMean)
+        console.log(value2Mean)
 
         const values = [];
         chartData.forEach(obj => {
@@ -110,13 +120,19 @@ class TimeSeriesChart extends PureComponent {
                     <button type="button"
                             className={'chart-btn '.concat(this.props.showRollingMeans ? 'active' : '')}
                             onClick={() => this.props.setShowRollingMeans(!this.props.showRollingMeans)}
-                    >Rolling average</button>
+                    >Rolling average{hasValue2 ? 's' : ''}</button>
                 )}
-                { dataPoints.length > 2  && (
+                { dataPoints.length > 2  && valueMean && (
                     <button type="button"
                             className={'chart-btn '.concat(this.props.showMean ? 'active' : '')}
                             onClick={() => this.props.setShowMean(!this.props.showMean)}
-                    >Overall average</button>
+                    >Average{hasValue2 ? 's' : ''}</button>
+                )}
+                { valueMean && (
+                    <button type="button"
+                            className={'chart-btn '.concat(this.props.showMonthlyDiffs ? 'active' : '')}
+                            onClick={() => this.props.setShowMonthlyDiffs(!this.props.showMonthlyDiffs)}
+                    >Monthly changes</button>
                 )}
             </div>
         );
@@ -152,9 +168,15 @@ class TimeSeriesChart extends PureComponent {
                            number => number <= valMin ? '' : valMax > 8 ? parseInt(number) : number.toFixed(1)
                        }
                 />
-                { this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved && (
+                { valueMean && this.props.showMean && (
+                    <ReferenceLine y={valueMean} stroke="#d7cfd9" />
+                )}
+                { value2Mean && this.props.showMean && (
+                    <ReferenceLine y={value2Mean} stroke="#d4dfc3" />
+                )}
+                { !this.props.showMean && this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved && (
                     <ReferenceLine y={paramIdeals.saved} label={target1Label} stroke="#ffb600" />) }
-                { this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved2 && (
+                { !this.props.showMean && this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved2 && (
                     <ReferenceLine y={paramIdeals.saved2} label={'Target'.concat(
                         ' (', selParam.upload_field_labels.split(', ')[2], ')')} stroke="#ffb600" />
                 )}
@@ -189,7 +211,8 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         unitInfo: profile.unitInfo,
         rollingMeans: profile.rollingMeans,
         showRollingMeans: body.showRollingMeans,
-        showMean: body.showMean
+        showMean: body.showMean,
+        showMonthlyDiffs: body.showMonthlyDiffs,
     };
 };
 
@@ -199,7 +222,8 @@ const mapDispatchToProps = dispatch => {
         postQualifyingText: val => dispatch(postQualifyingText(val)),
         resetChartSelection: () => dispatch(resetChartSelection()),
         setShowRollingMeans: (val) => dispatch(setShowRollingMeans(val)),
-        setShowMean: (val) => dispatch(setShowMean(val))
+        setShowMean: (val) => dispatch(setShowMean(val)),
+        setShowMonthlyDiffs: (val) => dispatch(setShowMonthlyDiffs(val)),
     };
 };
 

@@ -1,3 +1,5 @@
+export const average = (array) => array.reduce((a, b) => a + b) / array.length;
+
 export const toTitleCase = (phrase) => {
     if (phrase.toUpperCase() === phrase) {
         return phrase

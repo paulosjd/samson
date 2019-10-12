@@ -20,17 +20,23 @@ class TopNav extends Component {
 
                 <span role="img" aria-label="palette" id="color_scheme" className='right-18 csr-pt'
                       onClick={this.props.showColorSchemeMenu}
-                >&#x1F536;</span>
+                >&#x1F58C;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="color_scheme"
                 >Color labeling</UncontrolledTooltip>
 
-                <span role="img" aria-label="download" className='nav-item ' id="download"
+                <span role="img" aria-label="palette" id="schedule_scheme" className='right-18 fontsize16 csr-pt'
+                      onClick={this.props.showColorSchemeMenu}
+                >&#x1F4C5;</span>
+                <UncontrolledTooltip id="ttip" placement="bottom" target="schedule_scheme"
+                >Measurement scheduling</UncontrolledTooltip>
+
+                <span role="img" aria-label="download" className='right-18 fontsize18 csr-pt' id="download"
                       onClick={() => this.props.showNavItem('csv_download')}
                 >&#x1F4E5;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="download"
                 >CSV data download</UncontrolledTooltip>
 
-                <span role="img" aria-label="upload" className='nav-item  nav-link' id="upload"
+                <span role="img" aria-label="upload" className='right-18 fontsize18 csr-pt' id="upload"
                       onClick={() => this.props.showNavItem('csv_upload')}
                 >&#x1F4E4;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="upload"
