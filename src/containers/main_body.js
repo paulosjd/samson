@@ -8,14 +8,12 @@ import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
 import {
     setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
-    setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag, setShowAddQualifier
+    setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag
 } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 import { showNavItem, fetchProfileInfo, postColorSchema, postEditedBookmarks } from "../store/actions/profile";
 import {targetDataRefresh} from "../store/actions/profile";
 
-
-// TODO  Move {ideals} to useReduxStore   ....   or pass through data for specific eg. ideals etc for ParamInfo  contained within one object?
 
 class MainBody extends Component {
 

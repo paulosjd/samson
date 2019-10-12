@@ -38,6 +38,7 @@ export default function profile(state = initialState, action) {
                 unitInfo: action.payload.profileData.data.unit_info,
                 ideals: action.payload.profileData.data.ideals,
                 rollingMeans: action.payload.profileData.data.rolling_means,
+                monthlyChanges: action.payload.profileData.data.monthly_changes,
                 bookmarks: action.payload.profileData.data.bookmarks,
         };
         case UPDATE_BOOKMARKS:

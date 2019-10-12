@@ -28,7 +28,7 @@ class TopNav extends Component {
                       onClick={this.props.showColorSchemeMenu}
                 >&#x1F4C5;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="schedule_scheme"
-                >Measurement scheduling</UncontrolledTooltip>
+                >Scheduling</UncontrolledTooltip>
 
                 <span role="img" aria-label="download" className='right-18 fontsize18 csr-pt' id="download"
                       onClick={() => this.props.showNavItem('csv_download')}

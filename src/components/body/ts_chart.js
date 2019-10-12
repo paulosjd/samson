@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts'
 import {  setShowAddQualifier, postQualifyingText, resetChartSelection, setShowRollingMeans, setShowMean,
     setShowMonthlyDiffs,
 } from "../../store/actions/body";
+import MonthlyBarChart from "./monthly_bar_chart"
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
 import { average } from '../../utils/helpers'
@@ -11,7 +12,7 @@ import { average } from '../../utils/helpers'
 class TimeSeriesChart extends PureComponent {
 
     render() {
-        const chartDataIsDefault = !this.props.showRollingMeans;
+        const chartDataIsDefault = !this.props.showRollingMeans && !this.props.showMonthlyDiffs;
         const dpIndex = this.props.dataPoints.findIndex(x => x.id === this.props.activeObjId);
         let qualifyingText = '';
         let qualifyingTextLabel = '';
@@ -33,7 +34,8 @@ class TimeSeriesChart extends PureComponent {
             }
         }
 
-        const rollingMeans = this.props.rollingMeans.flat().filter(obj => obj.param_name === selParam.name);
+        const rollingMeans = this.props.rollingMeans.flat().filter(
+            obj => obj.param_name === selParam.name && obj.value);
         const dataPoints = this.props.dataPoints.filter(obj => obj.parameter === selParam.name);
 
         let chartData = this.props.showRollingMeans ? rollingMeans : dataPoints;
@@ -49,9 +51,6 @@ class TimeSeriesChart extends PureComponent {
         if (hasValue2) {
             value2Mean = average(dataPoints.map(x => x.value2))
         }
-        console.log(valueMean)
-        console.log(value2Mean)
-
         const values = [];
         chartData.forEach(obj => {
             values.push(obj[line1Label]);
@@ -98,6 +97,9 @@ class TimeSeriesChart extends PureComponent {
             }
         }
 
+        let monthlyChanges = this.props.monthlyChanges.flat().filter(
+            obj => obj.param_name === selParam.name);
+
         let chartExtras;
         if (this.props.showAddQualifier && !this.props.hideQualifyText) {
             chartExtras = (
@@ -128,7 +130,7 @@ class TimeSeriesChart extends PureComponent {
                             onClick={() => this.props.setShowMean(!this.props.showMean)}
                     >Average{hasValue2 ? 's' : ''}</button>
                 )}
-                { valueMean && (
+                { dataPoints.length > 5 && monthlyChanges.length > 2 && (
                     <button type="button"
                             className={'chart-btn '.concat(this.props.showMonthlyDiffs ? 'active' : '')}
                             onClick={() => this.props.setShowMonthlyDiffs(!this.props.showMonthlyDiffs)}
@@ -139,8 +141,16 @@ class TimeSeriesChart extends PureComponent {
 
         const chartDims = {width: 520, height: 300, margin: {top: 5, right: 16, left: 22, bottom: 5, }};
 
-        if (this.props.showMean) {
+        console.log(this.props.monthlyChanges)
 
+        if (this.props.showMonthlyDiffs) {
+            return (
+                <MonthlyBarChart
+                    chartDims={chartDims}
+                    chartExtras={chartExtras}
+                    monthlyChanges={monthlyChanges.reverse()}
+                />
+            )
         }
 
         return (
@@ -210,6 +220,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         ideals: profile.ideals,
         unitInfo: profile.unitInfo,
         rollingMeans: profile.rollingMeans,
+        monthlyChanges: profile.monthlyChanges,
         showRollingMeans: body.showRollingMeans,
         showMean: body.showMean,
         showMonthlyDiffs: body.showMonthlyDiffs,

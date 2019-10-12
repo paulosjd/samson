@@ -25,7 +25,7 @@ class MenuItems extends Component {
         const availParams = this.props.allParams.filter(x => !addedParams.includes(x.name));
         let items;
         if (this.props.isLoading) {
-            items = <Spinner color="secondary"/>
+            items = <Spinner color="secondary sum-spin"/>
         } else if (menuItems.length > 0) {
             items = menuItems.map((obj, ind) => {
                 let { date, value, value2 } = obj.data_point || {};
