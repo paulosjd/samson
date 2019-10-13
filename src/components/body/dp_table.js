@@ -13,6 +13,8 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
         val2headers = selectedParameter.upload_field_labels.split(', ').map(s => toTitleCase(s))
     }
 
+    console.log(dataPoints)
+
     if (editData) return (
         <DataPointTableEdit
             loadError={loadError}

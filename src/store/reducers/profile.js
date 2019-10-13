@@ -11,6 +11,7 @@ const initialState = {
     dateFormats: [],
     unitInfo: [],
     rollingMeans: [],
+    monthlyChanges: [],
     bookmarks: [],
     loading: false,
     error: null,
@@ -48,7 +49,16 @@ export default function profile(state = initialState, action) {
         case UNIT_INFO_REFRESH:
             return { ...state, unitInfo: action.payload.unitInfoData.data };
         case DATA_POINTS_REFRESH:
-            return { ...state, dataPoints: action.payload.profileData.data };
+            const data = action.payload.profileData.data;
+            console.log({dataPoints: data.all_data,
+                rollingMeans: data.rolling_means,
+                monthlyChanges: data.monthly_changes })
+            return {
+                ...state,
+                dataPoints: data.all_data,
+                rollingMeans: data.rolling_means,
+                monthlyChanges: data.monthly_changes
+            };
         case FETCH_SUMMARY_DATA_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
         case SUBMIT_CSV_LOAD_SUCCESS:

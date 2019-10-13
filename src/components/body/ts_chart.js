@@ -97,8 +97,11 @@ class TimeSeriesChart extends PureComponent {
             }
         }
 
-        let monthlyChanges = this.props.monthlyChanges.flat().filter(
-            obj => obj.param_name === selParam.name);
+        let monthlyChanges = [];
+        const mcParamInd = this.props.monthlyChanges.findIndex(x  => x[0] && x[0].param_name === selParam.name);
+        if (mcParamInd > -1){
+            monthlyChanges = this.props.monthlyChanges[mcParamInd]
+        }
 
         let chartExtras;
         if (this.props.showAddQualifier && !this.props.hideQualifyText) {
@@ -141,14 +144,15 @@ class TimeSeriesChart extends PureComponent {
 
         const chartDims = {width: 520, height: 300, margin: {top: 5, right: 16, left: 22, bottom: 5, }};
 
-        console.log(this.props.monthlyChanges)
-
         if (this.props.showMonthlyDiffs) {
             return (
                 <MonthlyBarChart
+                    hasValue2={hasValue2}
+                    line1Label={line1Label}
+                    line2Label={line2Label}
                     chartDims={chartDims}
                     chartExtras={chartExtras}
-                    monthlyChanges={monthlyChanges.reverse()}
+                    monthlyChanges={monthlyChanges}
                 />
             )
         }
