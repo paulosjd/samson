@@ -98,7 +98,8 @@ class TimeSeriesChart extends PureComponent {
         }
 
         let monthlyChanges = [];
-        const mcParamInd = this.props.monthlyChanges.findIndex(x  => x[0] && x[0].param_name === selParam.name);
+        const mcParamInd = this.props.monthlyChanges.findIndex(
+            x => x && x[0] && x[0].param_name === selParam.name);
         if (mcParamInd > -1){
             monthlyChanges = this.props.monthlyChanges[mcParamInd]
         }
@@ -137,7 +138,7 @@ class TimeSeriesChart extends PureComponent {
                     <button type="button"
                             className={'chart-btn '.concat(this.props.showMonthlyDiffs ? 'active' : '')}
                             onClick={() => this.props.setShowMonthlyDiffs(!this.props.showMonthlyDiffs)}
-                    >Monthly changes</button>
+                    >Monthly averages</button>
                 )}
             </div>
         );
@@ -153,6 +154,7 @@ class TimeSeriesChart extends PureComponent {
                     chartDims={chartDims}
                     chartExtras={chartExtras}
                     monthlyChanges={monthlyChanges}
+                    unitSymbol={selParam.unit_symbol || ''}
                 />
             )
         }

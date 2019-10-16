@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from "recharts";
 
-const MonthlyBarChart = ({ chartExtras, chartDims, monthlyChanges, line1Label, line2Label, hasValue2 }) => {
+const MonthlyBarChart = ({ chartExtras, chartDims, monthlyChanges, line1Label, line2Label, hasValue2, unitSymbol }) => {
 
     monthlyChanges = monthlyChanges.map(obj => {
         return {month: obj.month, [line1Label]: obj.value, [line2Label]: obj.value2}
@@ -28,7 +28,7 @@ const MonthlyBarChart = ({ chartExtras, chartDims, monthlyChanges, line1Label, l
                 />
             )}
             <Tooltip
-                formatter={(value) => value + ' %'}
+                formatter={(value) => value + ' ' + unitSymbol}
                 cursor={{fill: 'transparent'}}
             />
         </BarChart>

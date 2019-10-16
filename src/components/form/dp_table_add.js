@@ -30,9 +30,9 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, 
                             <tbody>
                             <tr style={{fontSize: 'small'}}>
                                 <td className='dp-date'>Date (YYYY-MM-DD)</td>
-                                { val2headers[1] ? <td>
+                                { val2headers && val2headers[1] ? <td>
                                     {val2headers[1].concat(' ', '(' , selectedParameter.unit_symbol, ')')}</td> : null }
-                                { val2headers.length > 2 ? <td>
+                                { val2headers && val2headers.length > 2 ? <td>
                                     {val2headers[2].concat(' ', '(' , selectedParameter.unit_symbol, ')')}</td> : null }
                             </tr>
                             {[...Array(values['items'])].map((obj, ind) => {
