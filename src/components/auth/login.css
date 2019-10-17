@@ -66,18 +66,29 @@
    opacity: 0.6;
 }
 .registration-modal{
-    max-width: 400px;
+    max-width: 320px !important;
+}
+
+.registration-modal input {
+    margin-left: 10px !important;
+}
+
+.registration-modal label {
+    margin-left: 10px !important;
+}
+
+.registration-modal button {
+    margin-left: 10px !important;
+    margin-right: 18px !important;
 }
 .reg-modal-button{
     margin-top: 20px;
     height: 25px;
     background-color: #7c9dbf
 }
-
 .light-blue {
     background-color: #0076b8 !important;
 }
-
 .auth-errors, .login-error{
     text-align: right;
     color: orangered;

@@ -2,14 +2,24 @@ import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
 import {  setShowAddQualifier, postQualifyingText, resetChartSelection, setShowRollingMeans, setShowMean,
-    setShowMonthlyDiffs,
-} from "../../store/actions/body";
+    setShowMonthlyDiffs } from "../../store/actions/body";
 import MonthlyBarChart from "./monthly_bar_chart"
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
 import { average } from '../../utils/helpers'
 
 class TimeSeriesChart extends PureComponent {
+
+    constructor(props) {
+        super(props);
+        this.handleMouseHover = this.handleMouseHover.bind(this);
+        this.state = {
+            isHovering: false,
+        };
+    }
+    handleMouseHover() {
+        this.setState((state) => {return {isHovering: !state.isHovering}});
+    }
 
     render() {
         const chartDataIsDefault = !this.props.showRollingMeans && !this.props.showMonthlyDiffs;
@@ -160,7 +170,10 @@ class TimeSeriesChart extends PureComponent {
         }
 
         return (
-            <React.Fragment>
+            <div
+                onMouseEnter={this.handleMouseHover}
+                onMouseLeave={this.handleMouseHover}
+            >
             <LineChart
                 width={chartDims.width}
                 height={chartDims.height}
@@ -185,16 +198,28 @@ class TimeSeriesChart extends PureComponent {
                        }
                 />
                 { valueMean && this.props.showMean && (
-                    <ReferenceLine y={valueMean} stroke="#d7cfd9" />
+                    <ReferenceLine y={valueMean} stroke="#d7cfd9" strokeWidth={1.5}
+                                   label={this.state.isHovering ? {
+                                       value: 'Average: ' + valueMean.toFixed(1),
+                                       fill: '#d7cfd9', position: 'top', } : {}
+                                   }
+                />
                 )}
                 { value2Mean && this.props.showMean && (
-                    <ReferenceLine y={value2Mean} stroke="#d4dfc3" />
+                    <ReferenceLine y={value2Mean} stroke="#d4dfc3" strokeWidth={1.5}
+                                   label={this.state.isHovering ? {
+                                       value: 'Average: ' + valueMean.toFixed(1),
+                                       fill: '#d7cfd9', position: 'top', } : {}}
+                    />
                 )}
                 { !this.props.showMean && this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved && (
-                    <ReferenceLine y={paramIdeals.saved} label={target1Label} stroke="#ffb600" />) }
+                    <ReferenceLine y={paramIdeals.saved}
+                                   label={{position: 'top', value: target1Label}} stroke="#ffb600" />) }
                 { !this.props.showMean && this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved2 && (
-                    <ReferenceLine y={paramIdeals.saved2} label={'Target'.concat(
-                        ' (', selParam.upload_field_labels.split(', ')[2], ')')} stroke="#ffb600" />
+                    <ReferenceLine
+                        y={paramIdeals.saved2}
+                        label={{position: 'top', value: 'Target'.concat(
+                            ' (', selParam.upload_field_labels.split(', ')[2], ')')}} stroke="#ffb600" />
                 )}
                 <Tooltip content={<CustomTooltipContent
                         dataPoints={this.props.dataPoints}
@@ -207,7 +232,7 @@ class TimeSeriesChart extends PureComponent {
                 {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" activeDot={{ r: 6 }} />)}
             </LineChart>
             { chartExtras }
-            </React.Fragment>
+            </div>
         );
     }
 }
