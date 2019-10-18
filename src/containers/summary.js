@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Spinner } from 'reactstrap';
-import TimeSeriesChart from './ts_chart'
-import OutsideAction from '../../utils/outside_action'
+import TimeSeriesChart from '../components/body/ts_chart'
+import OutsideAction from '../utils/outside_action'
 
 const Summary = ({isLoading, body, dataPoints, selParam}) => {
 
@@ -29,6 +29,8 @@ const Summary = ({isLoading, body, dataPoints, selParam}) => {
                     setActiveObjId={setActiveObjId}
                 />
             </OutsideAction>
+
+                
             </React.Fragment>
         )
     } return null

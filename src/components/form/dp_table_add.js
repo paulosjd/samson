@@ -3,7 +3,7 @@ import { Table } from "reactstrap";
 import { Formik } from "formik";
 import { isValidDate, isNumeric } from "../../utils/validation";
 
-const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, val2headers }) => {
+const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, val2headers, value2 }) => {
     return (
         <Formik
             initialValues={{items: 1}}
@@ -90,11 +90,10 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, 
                                             />
                                             {value2Error && <div className='dp-edit-err'>{errors[val2Key]}</div>}
                                         </td> : null }
-
                                     </tr>
                                 )
                             })}
-                            <tr className='short-row'>
+                            <tr>
                                 <td colSpan={val2headers && val2headers.length > 2 ? 3 : 2}>
                                     <button type='button' className='dp-add'
                                             onClick={() => {
@@ -103,11 +102,26 @@ const DataPointTableAdd = ({dataPoints, selectedParameter, postAddedDataPoints, 
                                                     setFieldValue(`${values['items'] + 1}_${str}`, '')
                                                 })
                                             }}
-                                    ><span role="img" aria-label="add" >&#x2795;</span> Add row</button>
-                                    <button type='submit' className='data-points-header-action'
-                                    ><span role="img" aria-label="save" >&#x2714;&#xFE0F;</span> Save records</button>
+                                    ><span role="img" aria-label="add" >&#x2795;</span>
+                                        Add row</button>
+                                    <button type='submit' className='data-points-header-action'>
+                                        <span role="img" aria-label="save" className='left-14'>
+                                            &#x2714;&#xFE0F;</span> Save records</button>
                                 </td>
                             </tr>
+                            </tbody>
+                        </Table>
+                        <Table className='data-points-table' bordered>
+                            <tbody>
+                            {dataPoints.map(obj => {
+                                return (
+                                    <tr key={obj.id}>
+                                        <td className='dp-date'>{obj.date}</td>
+                                        <td style={value2 ? {width : 114} : {}}>{obj.value}</td>
+                                        { value2 && <td style={value2 ? {width : 114} : {}}>{obj.value2}</td> }
+                                    </tr>
+                                )
+                            })}
                             </tbody>
                         </Table>
                     </form>

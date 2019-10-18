@@ -200,7 +200,7 @@ class TimeSeriesChart extends PureComponent {
                 { valueMean && this.props.showMean && (
                     <ReferenceLine y={valueMean} stroke="#d7cfd9" strokeWidth={1.5}
                                    label={this.state.isHovering ? {
-                                       value: 'Average: ' + valueMean.toFixed(1),
+                                       value: 'Average: '.concat(valueMean.toFixed(1)),
                                        fill: '#d7cfd9', position: 'top', } : {}
                                    }
                 />
@@ -208,18 +208,18 @@ class TimeSeriesChart extends PureComponent {
                 { value2Mean && this.props.showMean && (
                     <ReferenceLine y={value2Mean} stroke="#d4dfc3" strokeWidth={1.5}
                                    label={this.state.isHovering ? {
-                                       value: 'Average: ' + valueMean.toFixed(1),
+                                       value: 'Average: '.concat(value2Mean.toFixed(1)),
                                        fill: '#d7cfd9', position: 'top', } : {}}
                     />
                 )}
                 { !this.props.showMean && this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved && (
-                    <ReferenceLine y={paramIdeals.saved}
-                                   label={{position: 'top', value: target1Label}} stroke="#ffb600" />) }
+                    <ReferenceLine y={paramIdeals.saved} stroke="#ffb600"
+                                   label={{position: 'top', fill: '#757b70', value: target1Label}} />) }
                 { !this.props.showMean && this.props.selFeatInd === 1 && paramIdeals && paramIdeals.saved2 && (
                     <ReferenceLine
-                        y={paramIdeals.saved2}
-                        label={{position: 'top', value: 'Target'.concat(
-                            ' (', selParam.upload_field_labels.split(', ')[2], ')')}} stroke="#ffb600" />
+                        y={paramIdeals.saved2} stroke="#ffb600"
+                        label={{position: 'top', fill: '#757b70', value: 'Target'.concat(
+                            ' (', selParam.upload_field_labels.split(', ')[2], ')')}} />
                 )}
                 <Tooltip content={<CustomTooltipContent
                         dataPoints={this.props.dataPoints}

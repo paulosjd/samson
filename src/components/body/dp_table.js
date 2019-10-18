@@ -32,6 +32,7 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
             selectedParameter={selectedParameter}
             postAddedDataPoints={postAddedDataPoints}
             val2headers={val2headers}
+            value2={value2}
         />
     );
     return (
