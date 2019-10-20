@@ -51,9 +51,7 @@ export const fetchProfileInfo = () => {
     const url = `${baseUrl}profile/info-update`;
     return dispatch => {
         axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token') }})
-            .then((profileInfo) => dispatch(
-                { type: PROFILE_MENU_FETCH_SUCCESS, payload: {profileInfo} }
-                ))
+            .then((profileInfo) => dispatch({ type: PROFILE_MENU_FETCH_SUCCESS, payload: {profileInfo} }))
             .catch(() => dispatch({ type: PROFILE_MENU_FETCH_FAILURE }))
     }
 };

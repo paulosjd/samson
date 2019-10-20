@@ -75,7 +75,7 @@ class TimeSeriesChart extends PureComponent {
             offset = (valMax - valMin) > valMin ? valMin : (valMax - valMin) / 2;
         }
 
-        const paramIdeals = this.props.ideals ? this.props.ideals[this.props.body.selectedItemIndex] : {};
+        const paramIdeals = this.props.ideals ? this.props.ideals[this.props.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
         let yAxisDomain;
         if (chartData.length === 1 && chartData[0].value && !chartData[0].value2 ) {
@@ -255,6 +255,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         showRollingMeans: body.showRollingMeans,
         showMean: body.showMean,
         showMonthlyDiffs: body.showMonthlyDiffs,
+        linkedParams: profile.linkedParams,
     };
 };
 

@@ -13,8 +13,6 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
         val2headers = selectedParameter.upload_field_labels.split(', ').map(s => toTitleCase(s))
     }
 
-    console.log(dataPoints)
-
     if (editData) return (
         <DataPointTableEdit
             loadError={loadError}
@@ -35,6 +33,7 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
             value2={value2}
         />
     );
+
     return (
         <div>
             <Table className='data-points-table' bordered>
@@ -51,9 +50,8 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
                                   onClick={() => {
                                       clearEditDataFailure();
                                       setEditDataFlag(true) }
-                                  }>
-                                &#x270F;&#xFE0F; Edit
-                            </span> }
+                                  }
+                            >&#x270F;&#xFE0F; Edit</span> }
                         <span className='dp-param-label'>
                             {selectedParameter.name ? selectedParameter.name + ' records' : ''}
                         </span>

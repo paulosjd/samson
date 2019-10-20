@@ -606,6 +606,11 @@ input[type='file'] {
     cursor: pointer;
 }
 
-.ref-line{
+.ref-line {
     height:20px !important
+}
+
+.chart-title {
+    font-weight: normal;
+    margin: 25px 30px 15px;
 }

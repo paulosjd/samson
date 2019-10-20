@@ -46,6 +46,8 @@ class MainBody extends Component {
                             isLoading={this.props.loading}
                             dataPoints={this.props.dataPoints}
                             selParam={this.props.selectedParameter}
+                            linkedParamsList={this.props.linkedParams}
+                            summaryParams={this.props.summaryParams}
                         />
                     </Col>
                     <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
@@ -87,6 +89,7 @@ class MainBody extends Component {
 }
 
 const mapStateToProps = ({auth, body, extras, menu, profile}) => {
+
     const blankItems = profile.blankParams.map(x => {return {
         parameter: x, data_point: {date: '', value: '', value2: ''}
     }});
@@ -95,6 +98,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         blankItems: blankItems,
         profile: profile,
         extras: extras,
+        summaryParams: profile.summaryItems.map(obj => obj.parameter),
         allParams: profile.allParams,
         error: profile.error,
         loading: profile.loading,
@@ -104,6 +108,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
             ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
         summaryItems: profile.summaryItems || [],
         menu: menu,
+        linkedParams: profile.linkedParams,
     };
 };
 

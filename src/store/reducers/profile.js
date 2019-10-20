@@ -13,6 +13,7 @@ const initialState = {
     rollingMeans: [],
     monthlyChanges: [],
     bookmarks: [],
+    linkedParams: [],
     loading: false,
     error: null,
     username: '',
@@ -36,6 +37,7 @@ export default function profile(state = initialState, action) {
                 dateFormats: action.payload.profileData.data.date_formats,
                 dataPoints: action.payload.profileData.data.datapoints,
                 blankParams: action.payload.profileData.data.blank_params,
+                linkedParams: action.payload.profileData.data.linked_parameters,
                 unitInfo: action.payload.profileData.data.unit_info,
                 ideals: action.payload.profileData.data.ideals,
                 rollingMeans: action.payload.profileData.data.rolling_means,
@@ -50,9 +52,6 @@ export default function profile(state = initialState, action) {
             return { ...state, unitInfo: action.payload.unitInfoData.data };
         case DATA_POINTS_REFRESH:
             const data = action.payload.profileData.data;
-            console.log({dataPoints: data.all_data,
-                rollingMeans: data.rolling_means,
-                monthlyChanges: data.monthly_changes })
             return {
                 ...state,
                 dataPoints: data.all_data,
