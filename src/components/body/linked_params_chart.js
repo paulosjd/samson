@@ -54,11 +54,22 @@ const LinkedParamsChart = ({ title, dataSet1, dataSet2, ds1param, ds2param }) =>
         return ''.concat(dt.getFullYear(), '-', dt.getMonth() + 1, '-', dt.getDate())
     });
     console.log(orderedDtStrings)
-
+    const stripLeadingZero = (str) => str.replace(/-0/g, '-');
     const chartData = [];
     for (let dtStr of orderedDtStrings) {
-
+        const ds1ind = dataSet1.findIndex(x => stripLeadingZero(x.date) === dtStr);
+        const ds2ind = dataSet2.findIndex(x => stripLeadingZero(x.date) === dtStr);
+        let obj = {date: dtStr, value: null, value2: null, set2_value: null, set2_value2: null};
+        if (ds1ind > -1) {
+            obj = { ...obj, value: dataSet1[ds1ind].value, value2: dataSet1[ds1ind].value2}
+        }
+        if (ds2ind > -1) {
+            obj = { ...obj, set2_value: dataSet2[ds2ind].value, set2_value2: dataSet2[ds2ind].value2}
+        }
+        chartData.push(obj)
     }
+
+    console.log(chartData)
 
     return (
             <React.Fragment>

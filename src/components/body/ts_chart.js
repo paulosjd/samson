@@ -53,7 +53,7 @@ class TimeSeriesChart extends PureComponent {
             if (hasValue2 && line1Label && line2Label) return {
                 date: obj.date, id: obj.id, [line1Label]: obj.value, [line2Label]: obj.value2, text: obj.qualifier
             };
-            return { date: obj.date, value: obj.value, id: obj.id, text: obj.qualifier }
+            return { date: obj.date.replace(/-0/g, '-'), value: obj.value, id: obj.id, text: obj.qualifier }
         });
 
         const valueMean = average(dataPoints.map(x => x.value));
