@@ -12,12 +12,10 @@ const LinkedParamsChart = ({ title, dataSet1, dataSet2, ds1param, ds2param }) =>
     const orderedDtStrings = [...new Set(dataSet1.map(x => new Date(x.date)).concat(
         dataSet2.map(x => new Date(x.date))))
     ].sort((a, b) => {
-            return new Date(b.date) - new Date(a.date);
+        return a - b;
     }).map(dt => {
         return ''.concat(dt.getFullYear(), '-', dt.getMonth() + 1, '-', dt.getDate())
-    }).reverse();
-
-    console.log(orderedDtStrings)
+    });
 
     const stripLeadingZero = (str) => str.replace(/-0/g, '-');
     const chartData = [];
@@ -33,8 +31,6 @@ const LinkedParamsChart = ({ title, dataSet1, dataSet2, ds1param, ds2param }) =>
         }
         chartData.push(obj)
     }
-
-    console.log(chartData)
 
     const ds1hasValue2 = ds1param.num_values > 1;
     const ds2hasValue2 = ds2param.num_values > 1;

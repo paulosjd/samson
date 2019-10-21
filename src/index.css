@@ -617,4 +617,9 @@ input[type='file'] {
 .chart-title {
     font-weight: normal;
     margin: 28px 30px 16px;
+    color: #4A4A4A;
+}
+
+.recharts-legend-item-text {
+    color: #4A4A4A;
 }
