@@ -228,8 +228,8 @@ class TimeSeriesChart extends PureComponent {
                         qualifyingText={qualifyingText}
                     />}
                 />
-                <Line type="monotone" dataKey={line1Label} stroke="#8884d8" activeDot={{ r: 6 }} />
-                {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" activeDot={{ r: 6 }} />)}
+                <Line type="monotone" dataKey={line1Label} stroke="#8884d8" />
+                {hasValue2 && (<Line type="monotone" dataKey={line2Label} stroke="#82ca9d" />)}
             </LineChart>
             { chartExtras }
             </div>
