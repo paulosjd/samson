@@ -1,7 +1,7 @@
 import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SUBMIT_CSV_LOAD_SUCCESS,
     SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH,
-    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS
+    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS, UPDATE_LINKED_PARAMS
 } from "../constants/profile";
 
 const initialState = {
@@ -28,6 +28,7 @@ export default function profile(state = initialState, action) {
         case FETCH_SUMMARY_DATA_BEGIN:
             return { ...state, loading: true, error: null };
         case FETCH_SUMMARY_DATA_SUCCESS:
+            console.log(action.payload.profileData.data.linked_parameters)
             return {
                 ...state,
                 loading: false,
@@ -46,6 +47,10 @@ export default function profile(state = initialState, action) {
         };
         case UPDATE_BOOKMARKS:
             return {...state, bookmarks: action.payload.bookmarksData.data};
+        case UPDATE_LINKED_PARAMS:
+            console.log('udate called')
+            console.log(action.payload.profileData.data)
+            return {...state, linkedParams: action.payload.profileData.data.linked_parameters};
         case TARGETS_DATA_REFRESH:
             return {...state, ideals: action.payload.targetsData.data};
         case UNIT_INFO_REFRESH:

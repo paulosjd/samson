@@ -1,7 +1,8 @@
 import { SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
     CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG, SET_EDIT_TARGET2_FLAG,
     APPEND_EDITED_DP_PARAMS, RESET_SELECTED_ITEM_INDEX, RESET_CHART_SELECTION, SET_SHOW_ROLLING_MEANS,
-    SET_SHOW_ADD_CUSTOM_METRIC, SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN, SET_SHOW_MONTHLY_DIFFS
+    SET_SHOW_ADD_CUSTOM_METRIC, SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN, SET_SHOW_MONTHLY_DIFFS,
+    SET_SHOW_ADD_LINKED_PARAM
 } from '../constants/body'
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
     showAddMetric: false,
     showAddCustomMetric: false,
     showAddQualifier: false,
+    showAddLinkedParam: false,
     editedDataPointParams: [],
     showRollingMeans: false,
     showMean: false,
@@ -59,7 +61,9 @@ export default function profile(state = initialState, action) {
         case SET_METRIC_ADD_FORM_HAS_VALUE:
             return { ...state, metricAddFormHasValue: action.value };
         case SET_SHOW_ADD_QUALIFIER:
-            return { ...state, showAddQualifier: action.value };
+            return { ...state, showAddLinkedParam: false, showAddQualifier: action.value };
+        case SET_SHOW_ADD_LINKED_PARAM:
+            return { ...state, showAddQualifier: false, showAddLinkedParam: action.value };
         case APPEND_EDITED_DP_PARAMS:
             const newArray = [...state.editedDataPointParams, action.value];
             return { ...state, editedDataPointParams: newArray };

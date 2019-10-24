@@ -8,7 +8,7 @@ import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
 import {
     setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
-    setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag
+    setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag, setShowLinkedParamAdd, postLinkedParams
 } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 import { showNavItem, fetchProfileInfo, postColorSchema, postEditedBookmarks } from "../store/actions/profile";
@@ -46,8 +46,11 @@ class MainBody extends Component {
                             isLoading={this.props.loading}
                             dataPoints={this.props.dataPoints}
                             selParam={this.props.selectedParameter}
-                            linkedParamsList={this.props.linkedParams}
+                            linkedParams={this.props.linkedParams}
                             summaryParams={this.props.summaryParams}
+                            setShowLinkedParamAdd={this.props.setShowLinkedParamAdd}
+                            showAddLinkedParam={this.props.showAddLinkedParam}
+                            postLinkedParams={this.props.postLinkedParams}
                         />
                     </Col>
                     <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
@@ -109,6 +112,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         summaryItems: profile.summaryItems || [],
         menu: menu,
         linkedParams: profile.linkedParams,
+        showAddLinkedParam: body.showAddLinkedParam,
     };
 };
 
@@ -138,6 +142,8 @@ const mapDispatchToProps = dispatch => {
         handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
         targetDataRefresh: () => dispatch(targetDataRefresh()),
         postColorSchema: (val) => dispatch(postColorSchema(val)),
+        setShowLinkedParamAdd: (val) => dispatch(setShowLinkedParamAdd(val)),
+        postLinkedParams: (val, action) => dispatch(postLinkedParams(val, action))
     };
 };
 

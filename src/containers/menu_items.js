@@ -41,6 +41,7 @@ class MenuItems extends Component {
                         onClick={() => {
                             this.props.setMenuItemIndex(ind);
                             this.props.hideAddQualifier();
+                            this.props.hideLinkedParamAdd();
                             this.props.resetChartSelection()
                         }}
                         className={this.props.selItemInd === ind ? 'selected-menu-item' : ''}
@@ -92,8 +93,6 @@ class MenuItems extends Component {
                             onTargetIdMatch={() => this.props.setShowAddCustomMetric(true)}
                         >
                             <MenuItemAdd
-                                toggle={() => {this.props.setShowAddMetric(!this.props.showAddMetric)}}
-                                isOpen={this.props.showAddMetric}
                                 availParams={availParams}
                                 postMenuItemAdd={this.props.postMenuItemAdd}
                                 setShowAddMetric={this.props.setShowAddMetric}
@@ -154,6 +153,7 @@ const mapDispatchToProps = dispatch => {
         postMenuItemAdd: (val) => dispatch(postMenuItemAdd(val)),
         postCustomMenuItemAdd: (val) => dispatch(postCustomMenuItemAdd(val)),
         hideAddQualifier: () => dispatch(bodyActionCreator.setShowAddQualifier(false)),
+        hideLinkedParamAdd: () => dispatch(bodyActionCreator.setShowLinkedParamAdd(false)),
         resetChartSelection: () => dispatch(bodyActionCreator.resetChartSelection()),
         clearLoadError: () => dispatch(clearLoadError()),
     };

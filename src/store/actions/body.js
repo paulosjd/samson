@@ -3,9 +3,9 @@ import {
     SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_DATA_FLAG, EDIT_DATA_FAILURE,
     CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG, SET_EDIT_TARGET2_FLAG,
     APPEND_EDITED_DP_PARAMS, RESET_CHART_SELECTION, SET_SHOW_ROLLING_MEANS, SET_SHOW_ADD_CUSTOM_METRIC,
-    SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN, SET_SHOW_MONTHLY_DIFFS
+    SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN, SET_SHOW_MONTHLY_DIFFS, SET_SHOW_ADD_LINKED_PARAM
 } from '../constants/body'
-import { DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH } from "../constants/profile";
+import { DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH, UPDATE_LINKED_PARAMS } from "../constants/profile";
 
 export const setMenuItemIndex = (value) => ({
     type: SET_MENU_ITEM_INDEX, value
@@ -51,6 +51,10 @@ export const setShowAddQualifier = (value) => ({
     type: SET_SHOW_ADD_QUALIFIER, value
 });
 
+export const setShowLinkedParamAdd = (value) => ({
+    type: SET_SHOW_ADD_LINKED_PARAM, value
+});
+
 export const resetChartSelection = () => ({
     type: RESET_CHART_SELECTION
 });
@@ -83,6 +87,16 @@ export const postQualifyingText = (value) => {
         axios.post(url,{value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then(profileData => dispatch({ type: DATA_POINTS_REFRESH, payload: {profileData} }))
+    }
+};
+
+export const postLinkedParams = (value, action) => {
+    const url = `http://127.0.0.1:8000/api/profile/linked-param/${action}`;
+    return dispatch => {
+        axios.post(url,{value},
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+            .then(data => dispatch({ type: UPDATE_LINKED_PARAMS, payload: {data} }))
+            .then(() => {return dispatch(setShowLinkedParamAdd(false))})
     }
 };
 
