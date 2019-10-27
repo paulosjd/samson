@@ -1,5 +1,5 @@
 import {
-    SHOW_PROFILE_MENU, SHOW_INTERVENTIONS_MENU, SHOW_CSV_DOWNLOAD_MENU, SHOW_CSV_UPLOAD_MENU,
+    SHOW_PROFILE_MENU, SHOW_INTERVENTIONS_MENU, SHOW_CSV_DOWNLOAD_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_LINKED_PARAMS_MENU
 } from "../constants/profile";
 
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
     showCsvDownloadMenu: false,
     showCsvUploadMenu: false,
     showColorSchemeMenu: false,
+    showLinkedParamsMenu: false,
 };
 
 export default function menu(state = initialState, action) {
@@ -19,6 +20,8 @@ export default function menu(state = initialState, action) {
             return { ...initialState, showProfileMenu: action.value };
         case SHOW_INTERVENTIONS_MENU:
             return { ...initialState, showColorSchemeMenu: action.value };
+        case SHOW_LINKED_PARAMS_MENU:
+            return { ...initialState, showLinkedParamsMenu: action.value };
         default:
             return state
     }
