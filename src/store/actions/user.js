@@ -3,12 +3,14 @@ import { userConstants as constants } from '../../store/constants/user';
 import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS, USER_LOGOUT
 } from "../constants/user";
 
+const baseUrl = 'http://127.0.0.1:8000/api/users';
+
 export const loginSuccess = (user) => {
     return { type: constants.LOGIN_SUCCESS, user }
 };
 
 export const forgottenLogin = (field, email) => {
-    const url = `http://127.0.0.1:8000/api/users/help/${field}`;
+    const url = `${baseUrl}/help/${field}`;
     return dispatch => {
         axios.post(url, JSON.stringify({email}), {headers: {"Content-Type": "application/json", }})
             .then(() => {dispatch({type: field === 'password' ? constants.PASSWORD_RESET_SUCCESS :
@@ -18,7 +20,7 @@ export const forgottenLogin = (field, email) => {
 };
 
 export const passwordResetConfirm = (body) => {
-    const url = 'http://127.0.0.1:8000/api/users/password-reset';
+    const url = `${baseUrl}/password-reset`;
     return dispatch => {
         axios.post(url, JSON.stringify(body),{headers: {"Content-Type": "application/json", }})
             .then(() => dispatch({ type: constants.NEW_PASSWORD_CONFIRMED, value: 'Password has been reset'}))
@@ -32,7 +34,7 @@ export const regSubmitBegin = () => {
 
 export const userLogout = () => {
     return { type: USER_LOGOUT }
-}
+};
 
 export const refreshRegistration = () => {
     return { type: CLEAR_EXT_FORM_ERRORS }
@@ -43,7 +45,7 @@ export const setShowRegForm = (value) => {
 };
 
 export const registrationSubmit = (data, loginFunc) => {
-    const url = 'http://127.0.0.1:8000/api/users/registration';
+    const url = `${baseUrl}/registration`;
     return dispatch => {
         axios.post(url, JSON.stringify(data), {headers: {"Content-Type": "application/json", }})
             .then(value => {
@@ -61,7 +63,7 @@ export const registrationSubmit = (data, loginFunc) => {
 };
 
 export const demoRegistrationSubmit = (loginFunc) => {
-    const url = 'http://127.0.0.1:8000/api/users/demo/registration';
+    const url = `${baseUrl}/demo/registration`;
     return dispatch => {
         axios.get(url, {headers: {"Content-Type": "application/json", }})
             .then(value => {

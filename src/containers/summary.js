@@ -12,7 +12,10 @@ const Summary = ({isLoading, body, dataPoints, selParam, linkedParams, summaryPa
     const [ activeLabel, setActiveLabel] = useState('');
     const [ activeObjId, setActiveObjId] = useState('');
 
-    let linkedParam = linkedParams[selParam.name];
+    let linkedParam;
+    if (linkedParams) {
+        linkedParam = linkedParams[selParam.name];
+    }
     let linkedParamsChart = null;
     let showLinkedParamAddBtn = !showAddLinkedParam;
     if (linkedParam) {

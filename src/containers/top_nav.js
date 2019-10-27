@@ -25,7 +25,7 @@ class TopNav extends Component {
                 >Color labeling</UncontrolledTooltip>
 
                 <span role="img" aria-label="palette" id="schedule_scheme" className='right-18 fontsize16 csr-pt'
-                      onClick={this.props.showColorSchemeMenu}
+                      onClick={this.props.showLinkedParamsMenu}
                 >&#x1F4C5;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="schedule_scheme"
                 >Linked parameters</UncontrolledTooltip>
@@ -72,6 +72,7 @@ const mapDispatchToProps = dispatch => {
         handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
         showNavItem: (item) => dispatch(showNavItem(item, true)),
         showColorSchemeMenu: () => dispatch(showNavItem('interventions', true)),
+        showLinkedParamsMenu: () => dispatch(showNavItem('linked_params', true)),
         setShowRegForm: () => dispatch(setShowRegForm(true)),
         userLogout: () => dispatch(userLogout())
     };

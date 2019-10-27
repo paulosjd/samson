@@ -28,7 +28,6 @@ export default function profile(state = initialState, action) {
         case FETCH_SUMMARY_DATA_BEGIN:
             return { ...state, loading: true, error: null };
         case FETCH_SUMMARY_DATA_SUCCESS:
-            console.log(action.payload.profileData.data.linked_parameters)
             return {
                 ...state,
                 loading: false,
@@ -48,9 +47,7 @@ export default function profile(state = initialState, action) {
         case UPDATE_BOOKMARKS:
             return {...state, bookmarks: action.payload.bookmarksData.data};
         case UPDATE_LINKED_PARAMS:
-            console.log('udate called')
-            console.log(action.payload.profileData.data)
-            return {...state, linkedParams: action.payload.profileData.data.linked_parameters};
+            return {...state, linkedParams: action.payload.payload.data.linked_parameters};
         case TARGETS_DATA_REFRESH:
             return {...state, ideals: action.payload.targetsData.data};
         case UNIT_INFO_REFRESH:

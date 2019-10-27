@@ -3,7 +3,7 @@
   "name": "Create React App Sample",
   "icons": [
     {
-      "src": "rocket.ico",
+      "src": "favicon.ico",
       "sizes": "128x128",
       "type": "image/png"
     }

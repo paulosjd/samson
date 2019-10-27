@@ -7,6 +7,8 @@ import {
 } from '../constants/body'
 import { DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH, UPDATE_LINKED_PARAMS } from "../constants/profile";
 
+const baseUrl = 'http://127.0.0.1:8000/api';
+
 export const setMenuItemIndex = (value) => ({
     type: SET_MENU_ITEM_INDEX, value
 });
@@ -73,7 +75,7 @@ export const setShowMonthlyDiffs = (value) => ({
 
 export const postEditedDataPoints = (value, action='edit') => {
     return dispatch => {
-        axios.post(`http://127.0.0.1:8000/api/datapoints/${action}`, {value},
+        axios.post(`${baseUrl}/datapoints/${action}`, {value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
             .then(profileData => dispatch({ type: DATA_POINTS_REFRESH, payload: {profileData} }))
             .then(() => dispatch({ type: APPEND_EDITED_DP_PARAMS, value: value.parameter }))
@@ -82,7 +84,7 @@ export const postEditedDataPoints = (value, action='edit') => {
 };
 
 export const postQualifyingText = (value) => {
-    const url = 'http://127.0.0.1:8000/api/datapoints/qualifying-text';
+    const url = `${baseUrl}/datapoints/qualifying-text`;
     return dispatch => {
         axios.post(url,{value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
@@ -91,17 +93,17 @@ export const postQualifyingText = (value) => {
 };
 
 export const postLinkedParams = (value, action) => {
-    const url = `http://127.0.0.1:8000/api/profile/linked-param/${action}`;
+    const url = `${baseUrl}/profile/linked-param/${action}`;
     return dispatch => {
         axios.post(url,{value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-            .then(data => dispatch({ type: UPDATE_LINKED_PARAMS, payload: {data} }))
+            .then(payload => dispatch({ type: UPDATE_LINKED_PARAMS, payload: {payload} }))
             .then(() => {return dispatch(setShowLinkedParamAdd(false))})
     }
 };
 
 export const postTargetValue = (value) => {
-    const url = 'http://127.0.0.1:8000/api/profile/target-update';
+    const url = `${baseUrl}/profile/target-update`;
     return dispatch => {
         axios.post(url,{value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )

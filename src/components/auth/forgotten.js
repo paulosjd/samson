@@ -5,7 +5,7 @@ import { ForgotFieldSchema } from '../../schemas/auth'
 
 const Forgotten = ({ toggle, isOpen, forgotField, sendEmail, passwordResetSent, usernameReminderSent }) => {
 
-    if (passwordResetSent || usernameReminderSent){
+    if ((forgotField === 'password' && passwordResetSent) || (forgotField !== 'password' && usernameReminderSent)){
         const text = usernameReminderSent ? "We've emailed your username" :
             "We've emailed you instructions for resetting your password";
         return (
@@ -15,6 +15,7 @@ const Forgotten = ({ toggle, isOpen, forgotField, sendEmail, passwordResetSent, 
             </Modal>
         )
     }
+
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="registration-modal">
             <ModalHeader >{forgotField === 'password' ? 'Reset password' : 'Recover username'}</ModalHeader>

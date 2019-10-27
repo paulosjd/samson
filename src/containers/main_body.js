@@ -11,7 +11,9 @@ import {
     setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag, setShowLinkedParamAdd, postLinkedParams
 } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
-import { showNavItem, fetchProfileInfo, postColorSchema, postEditedBookmarks } from "../store/actions/profile";
+import {
+    showNavItem, fetchProfileInfo, postColorSchema, postEditedBookmarks, postLinkedParamsEdit
+} from "../store/actions/profile";
 import {targetDataRefresh} from "../store/actions/profile";
 
 
@@ -143,7 +145,9 @@ const mapDispatchToProps = dispatch => {
         targetDataRefresh: () => dispatch(targetDataRefresh()),
         postColorSchema: (val) => dispatch(postColorSchema(val)),
         setShowLinkedParamAdd: (val) => dispatch(setShowLinkedParamAdd(val)),
-        postLinkedParams: (val, action) => dispatch(postLinkedParams(val, action))
+        postLinkedParams: (val, action) => dispatch(postLinkedParams(val, action)),
+        postLinkedParamsEdit: (val) => dispatch(postLinkedParamsEdit(val))
+
     };
 };
 

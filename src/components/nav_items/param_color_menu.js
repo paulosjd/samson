@@ -5,7 +5,7 @@ import InputRange from "react-input-range"
 import 'react-input-range/lib/css/index.css'
 import { getColorData } from "../../utils/helpers";
 
-const ParamColorMenu = ({ toggle, isOpen, blankItems, unitInfo, postColorSchema, updateSuccess }) => {
+const ParamColorMenu = ({ toggle, isOpen, unitInfo, postColorSchema, updateSuccess }) => {
 
     const initial = {};
     unitInfo.sort((a,b) => {

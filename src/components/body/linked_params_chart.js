@@ -19,7 +19,7 @@ const LinkedParamsChart = ({ title, dataSet1, dataSet2, ds1param, ds2param }) =>
 
     const stripLeadingZero = (str) => str.replace(/-0/g, '-');
     const chartData = [];
-    for (let dtStr of orderedDtStrings) {
+    for (let dtStr of new Set(orderedDtStrings)) {
         const ds1ind = dataSet1.findIndex(x => stripLeadingZero(x.date) === dtStr);
         const ds2ind = dataSet2.findIndex(x => stripLeadingZero(x.date) === dtStr);
         let obj = {date: dtStr, value: null, value2: null, set2_value: null, set2_value2: null};
@@ -41,7 +41,7 @@ const LinkedParamsChart = ({ title, dataSet1, dataSet2, ds1param, ds2param }) =>
             1, 2).map(str => ds1param.name.concat(
                 ' - ', str, ' (', ds1param.unit_symbol, ')'));
     }
-    let ds2line1Label = ds1param.name.concat(' (', ds1param.unit_symbol, ')');
+    let ds2line1Label = ds2param.name.concat(' (', ds2param.unit_symbol, ')');
     let ds2line2Label;
     if (ds2hasValue2) {
         [ds2line1Label, ds2line2Label] = ds2param.upload_field_labels.split(', ').splice(

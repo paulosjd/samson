@@ -18,6 +18,7 @@ class Login extends Component {
             show_register: this.props.showRegForm || false,
             login_fail: false,
             show_help: false,
+            help_topic: ''
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.Auth = new AuthService();
@@ -38,24 +39,28 @@ class Login extends Component {
     }
     render() {
         if (this.state.show_register) {
-            return <Register toggle={this.toggleRegister.bind(this)}
-                             isOpen={this.state.show_register}
-                             isSubmitting={this.props.isSubmitting}
-                             regSubmit={this.props.registrationSubmit}
-                             regSubmitBegin={this.props.regSubmitBegin}
-                             submitErrors={this.props.submitErrors}
-                             onRegister={this.loginOnRegistration.bind(this)}
-                             clearErr={this.props.refreshRegistration.bind(this)}
-            />
+            return (
+                <Register
+                    toggle={this.toggleRegister.bind(this)}
+                    isOpen={this.state.show_register}
+                    isSubmitting={this.props.isSubmitting}
+                    regSubmit={this.props.registrationSubmit}
+                    regSubmitBegin={this.props.regSubmitBegin}
+                    submitErrors={this.props.submitErrors}
+                    onRegister={this.loginOnRegistration.bind(this)}
+                    clearErr={this.props.refreshRegistration.bind(this)}
+            />)
         }
         if (this.state.show_help) {
-            return <Forgotten toggle={this.toggleLoginHelp.bind(this)}
-                              isOpen={this.state.show_help}
-                              forgotField={this.state.help_topic}
-                              sendEmail={this.props.forgottenLogin}
-                              passwordResetSent={this.props.passwordResetSent}
-                              usernameReminderSent={this.props.usernameReminderSent}
-            />
+            return (
+                <Forgotten
+                    toggle={this.toggleLoginHelp.bind(this)}
+                    isOpen={this.state.show_help}
+                    forgotField={this.state.help_topic}
+                    sendEmail={this.props.forgottenLogin}
+                    passwordResetSent={this.props.passwordResetSent}
+                    usernameReminderSent={this.props.usernameReminderSent}
+                />)
         }
         return (
             <Formik
