@@ -8,9 +8,6 @@ import LinkedParamsMenu from '../components/nav_items/linked_params_menu'
 const NavItems  = ({ props }) => {
     const { showCsvDownloadMenu, showCsvUploadMenu, showColorSchemeMenu, showLinkedParamsMenu } = { ...props.menu };
 
-    console.log(props.summaryParams)
-    console.log(props.unitInfo)
-
     if ( showCsvDownloadMenu ) {
         return <CsvDownloadMenu
             toggle={() => {

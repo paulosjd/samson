@@ -98,6 +98,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
     const blankItems = profile.blankParams.map(x => {return {
         parameter: x, data_point: {date: '', value: '', value2: ''}
     }});
+
     return {
         body: body,
         blankItems: blankItems,

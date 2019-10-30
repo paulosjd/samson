@@ -7,6 +7,7 @@ import MonthlyBarChart from "./monthly_bar_chart"
 import QualifyTextAdd from "../form/qualify_text_add"
 import CustomTooltipContent from "./tooltip_content";
 import { average } from '../../utils/helpers'
+import {UncontrolledTooltip} from "reactstrap";
 
 class TimeSeriesChart extends PureComponent {
 
@@ -148,12 +149,16 @@ class TimeSeriesChart extends PureComponent {
                     <button type="button"
                             className={'chart-btn '.concat(this.props.showMonthlyDiffs ? 'active' : '')}
                             onClick={() => this.props.setShowMonthlyDiffs(!this.props.showMonthlyDiffs)}
-                    >Monthly averages</button>
+                    ><span id='mth-avg-btn'>Monthly averages</span>
+                        <UncontrolledTooltip id="ttip" target="mth-avg-btn">
+                            Records over past 12 months adjusted by month
+                        </UncontrolledTooltip>
+                    </button>
                 )}
             </div>
         );
 
-        const chartDims = {width: 520, height: 300, margin: {top: 5, right: 16, left: 22, bottom: 5, }};
+        const chartDims = {width: 520, height: 300, margin: {top: 5, right: 16, left: 22, bottom: 5}};
 
         if (this.props.showMonthlyDiffs) {
             return (

@@ -39,7 +39,8 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
                         setShowTargetForm={setEditTargetFlag}
                         targetValue={savedTarget || ''}
                         postTargetValue={postTargetValue}
-                        paramName={paramName}
+                        paramId={selectedParameter.id}
+                        labelSuffix={hasVal2 ? val2headers[1] : ''}
                     />
                 </td>
             </tr>
@@ -67,8 +68,9 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
                         setShowTargetForm={setEditTarget2Flag}
                         targetValue={savedTarget2 || ''}
                         postTargetValue={postTargetValue}
-                        paramName={paramName}
+                        paramId={selectedParameter.id}
                         isVal2={true}
+                        labelSuffix={val2headers[2]}
                     />
                 </td>
             </tr>
@@ -153,7 +155,7 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
     } else if (ideals && ideals.missing_field) {
         idealRow = (
             <tr className="no-border">
-                <td className='info-text'>{ideals.missing_field.concat(' field in Profile needs setting ')}
+                <td className='info-text'>{ideals.missing_field.concat(' field in profile needs setting ')}
                     <span role="img" aria-label="info" id="info" onClick={handleProfileClick}>&#x1F527;</span>
                     <UncontrolledTooltip id="ttip" placement="bottom" target="info"
                     >{'Set '.concat(ideals.missing_field.toLowerCase(), ' for additional info')}</UncontrolledTooltip>

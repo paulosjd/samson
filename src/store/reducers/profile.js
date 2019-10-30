@@ -86,5 +86,9 @@ const summaryItemsFromPayload = (summary_data) => {
                 ...obj.parameter, unit_name: obj.parameter.unit_name, unit_symbol: obj.parameter.unit_symbol
             },
             data_point: obj.data_point}
+    }).sort((a,b) => {
+        if (a.parameter.name < b.parameter.name) return -1;
+        if (a.parameter.name > b.parameter.name) return 1;
+        return 0;
     })
 };

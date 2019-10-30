@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik } from "formik";
 import { TargetValueSchema } from "../../schemas/body_inputs";
 
-const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue, paramName, isVal2}) => {
+const TargetValueAdd = ({ postTargetValue, setShowTargetForm, targetValue, paramId, isVal2, labelSuffix }) => {
     const valKey = isVal2 ? 'target_value2' : 'target_value';
     return (
         <Formik
@@ -10,7 +10,7 @@ const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue, paramN
             initialValues={{[valKey]: targetValue}}
             validationSchema={TargetValueSchema}
             onSubmit={(val) => {
-                postTargetValue({...val, param_name: paramName});
+                postTargetValue({...val, param_id: paramId});
                 setShowTargetForm(false)
             }}
         >
@@ -18,7 +18,7 @@ const TargetValueAdd = ({postTargetValue, setShowTargetForm, targetValue, paramN
                 const {values, touched, handleBlur, errors, handleSubmit, setFieldValue} = props;
                 return (
                         <form onSubmit={handleSubmit}>
-                            <label>Target value: </label>
+                            <label>{`Target value${labelSuffix ? ' ('.concat(labelSuffix, ')'): ''}: `}</label>
                             <input
                                 className='target-val-input'
                                 type='text' name='target_value'
