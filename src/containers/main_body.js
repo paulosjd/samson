@@ -14,7 +14,7 @@ import OutsideAction from '../utils/outside_action'
 import {
     showNavItem, fetchProfileInfo, postColorSchema, postEditedBookmarks, postLinkedParamsEdit
 } from "../store/actions/profile";
-import {targetDataRefresh} from "../store/actions/profile";
+import { postNewEmail } from "../store/actions/user";
 
 
 class MainBody extends Component {
@@ -26,6 +26,9 @@ class MainBody extends Component {
     }
 
     render() {
+        console.log(this.props.extras.email)
+        console.log(this.props.extras.is_verified)
+
         if ( this.props.error ) {
             return <div>{'Something has gone wrong' + this.props.error}</div>
         }
@@ -143,12 +146,11 @@ const mapDispatchToProps = dispatch => {
         setShowAddMetric: (val) => dispatch(setShowAddMetric(val)),
         postTargetValue: (val) => dispatch(postTargetValue(val)),
         handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
-        targetDataRefresh: () => dispatch(targetDataRefresh()),
         postColorSchema: (val) => dispatch(postColorSchema(val)),
         setShowLinkedParamAdd: (val) => dispatch(setShowLinkedParamAdd(val)),
         postLinkedParams: (val, action) => dispatch(postLinkedParams(val, action)),
-        postLinkedParamsEdit: (val) => dispatch(postLinkedParamsEdit(val))
-
+        postLinkedParamsEdit: (val) => dispatch(postLinkedParamsEdit(val)),
+        postNewEmail: (val) => dispatch(postNewEmail(val))
     };
 };
 

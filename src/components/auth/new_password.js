@@ -65,7 +65,7 @@ class NewPasswordConfirm extends Component {
                                     {errors.new_password2 && touched.new_password2 && (
                                         <div className="auth-errors">{errors.new_password2}</div>
                                     )}
-                                    <button type="submit" className="form-submit reg-submit">Submit</button>
+                                    <button type="submit" className="form-submit top-10">Submit</button>
                                 </form>
                             </div>
                         );

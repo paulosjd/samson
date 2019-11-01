@@ -137,14 +137,6 @@ export const getCsvDownload = (value) => {
     }
 };
 
-export const targetDataRefresh = () => {
-    const url = `${baseUrl}/profile/target-update`;
-    return dispatch => {
-        axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token') }})
-            .then((targetsData) => dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
-    }
-};
-
 export const postColorSchema = (value) => {
     return dispatch => {
         axios.post(`${baseUrl}/profile/param-colors`, value,

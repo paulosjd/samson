@@ -28,22 +28,23 @@ export default function profile(state = initialState, action) {
         case FETCH_SUMMARY_DATA_BEGIN:
             return { ...state, loading: true, error: null };
         case FETCH_SUMMARY_DATA_SUCCESS:
+            const profileData = action.payload.profileData.data;
             return {
                 ...state,
                 loading: false,
                 loadError: false,
-                summaryItems: summaryItemsFromPayload(action.payload.profileData.data.profile_summary),
-                allParams: action.payload.profileData.data.all_params,
-                dateFormats: action.payload.profileData.data.date_formats,
-                dataPoints: action.payload.profileData.data.datapoints,
-                blankParams: action.payload.profileData.data.blank_params,
-                linkedParams: action.payload.profileData.data.linked_parameters,
-                unitInfo: action.payload.profileData.data.unit_info,
-                ideals: action.payload.profileData.data.ideals,
-                rollingMeans: action.payload.profileData.data.rolling_means,
-                monthlyChanges: action.payload.profileData.data.monthly_changes,
-                bookmarks: action.payload.profileData.data.bookmarks,
-        };
+                allParams: profileData.all_params,
+                dateFormats: profileData.date_formats,
+                dataPoints: profileData.datapoints,
+                blankParams: profileData.blank_params,
+                linkedParams: profileData.linked_parameters,
+                unitInfo: profileData.unit_info,
+                ideals: profileData.ideals,
+                rollingMeans: profileData.rolling_means,
+                monthlyChanges: profileData.monthly_changes,
+                bookmarks: profileData.bookmarks,
+                summaryItems: summaryItemsFromPayload(profileData.profile_summary),
+            };
         case UPDATE_BOOKMARKS:
             return {...state, bookmarks: action.payload.bookmarksData.data};
         case UPDATE_LINKED_PARAMS:

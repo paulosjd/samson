@@ -24,3 +24,4 @@ export const REGISTER_SUCCESS = userConstants.REGISTER_SUCCESS;
 export const REGISTER_FAILURE = userConstants.REGISTER_FAILURE;
 export const CLEAR_EXT_FORM_ERRORS = userConstants.CLEAR_EXT_FORM_ERRORS;
 export const USER_LOGOUT = 'USER_LOGOUT';
+export const USER_EMAIL_UPDATE = 'USER_EMAIL_UPDATE';

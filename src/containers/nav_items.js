@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ProfileMenu from '../components/nav_items/profile_menu'
 import CsvDownloadMenu from '../components/nav_items/csv_download_menu'
 import CsvUploadMenu from '../components/nav_items/csv_upload_menu'
@@ -7,6 +7,7 @@ import LinkedParamsMenu from '../components/nav_items/linked_params_menu'
 
 const NavItems  = ({ props }) => {
     const { showCsvDownloadMenu, showCsvUploadMenu, showColorSchemeMenu, showLinkedParamsMenu } = { ...props.menu };
+    const [ showSettings, setShowSettings] = useState(false);
 
     if ( showCsvDownloadMenu ) {
         return <CsvDownloadMenu
@@ -56,13 +57,17 @@ const NavItems  = ({ props }) => {
         />
     }
     return <ProfileMenu
-            toggle={() => props.toggleNavItem('profile', !props.menu.showProfileMenu)}
+            toggle={() => {
+                props.toggleNavItem('profile', !props.menu.showProfileMenu);
+                setShowSettings(false)
+            }}
             isOpen={props.menu.showProfileMenu}
-            username={props.username}
             handleSave={props.updateProfileMenu}
             profileData={props.extras}
-            targetDataRefresh={props.targetDataRefresh}
-        />
+            setShowSettings={setShowSettings}
+            showSettings={showSettings}
+            postNewEmail={props.postNewEmail}
+    />
 };
 
 export default NavItems

@@ -76,7 +76,7 @@ const LinkedParamsMenu = ({ toggle, isOpen, summaryParams, postLinkedParamsEdit,
                             { updateSuccess && (
                                 <Alert className="profile-edit-alert" color="info" style={{maxWidth: 500}}>
                                     Successfully saved!</Alert> ) }
-                            <button type="submit" className="form-submit reg-submit">
+                            <button type="submit" className="form-submit top-10">
                                 Save changes
                             </button>
                         </form>

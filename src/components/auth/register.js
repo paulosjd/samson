@@ -85,7 +85,7 @@ const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, sub
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="form-submit reg-submit"
+                                className="form-submit top-10"
                             >
                             Submit
                             </button>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { userConstants as constants } from '../../store/constants/user';
-import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS, USER_LOGOUT
+import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS, USER_LOGOUT, USER_EMAIL_UPDATE
 } from "../constants/user";
 
 const baseUrl = 'http://127.0.0.1:8000/api/users';
@@ -70,5 +70,14 @@ export const demoRegistrationSubmit = (loginFunc) => {
                 dispatch({ type: REGISTER_SUCCESS, value });
                 loginFunc()
             })
+    }
+};
+
+export const postNewEmail = (value) => {
+    const url = `${baseUrl}/email/edit`;
+    return dispatch => {
+        axios.post(url,{value},
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+            .then(targetsData => dispatch({ type: USER_EMAIL_UPDATE, payload: {targetsData} }))
     }
 };

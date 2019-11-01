@@ -114,7 +114,7 @@ const ParamColorMenu = ({ toggle, isOpen, unitInfo, postColorSchema, updateSucce
                                     <Alert className="profile-edit-alert" color="info" style={{maxWidth: 770}}
                                     >Successfully saved!</Alert> ) }
                                 <button
-                                    type="submit" className="form-submit reg-submit"
+                                    type="submit" className="form-submit top-10"
                                 >Save changes</button>
                             </form>
                         </div>

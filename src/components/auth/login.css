@@ -59,9 +59,6 @@
     transition: 0.3s opacity ease;
     cursor: pointer;
 }
-.reg-submit{
-    margin-top: 10px;
-}
 .form-submit:hover{
    opacity: 0.6;
 }

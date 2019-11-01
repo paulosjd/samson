@@ -1,14 +1,32 @@
-import React from 'react';
-import { Modal, ModalHeader, Alert } from 'reactstrap';
+import React, {useState} from 'react';
+import { Modal, Alert } from 'reactstrap';
 import { Formik, Field } from 'formik';
+import ProfileSettings from './profile_settings'
 import { ProfileInfo } from '../../schemas/profile'
 
-const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
+
+const ProfileMenu = ({ toggle, isOpen, handleSave, profileData, setShowSettings, showSettings, postNewEmail }) => {
     const updateSuccess = profileData.profileUpdateSuccess;
     const updateFailure = profileData.profileUpdateFailure;
+    const [ emailEditMode, setEmailEditMode] = useState(false);
+
+    let settingsArea;
+    if (!showSettings) {
+        settingsArea = (<span role="img" aria-label="palette" className='right-18 csr-pt'
+                              onClick={() => setShowSettings(true)}>&#x2699; Profile settings</span>)
+    } else {
+        settingsArea = (
+            <ProfileSettings
+                email={profileData.email}
+                isVerified={profileData.is_verified}
+                editMode={emailEditMode}
+                setEditMode={setEmailEditMode}
+                postNewEmail={postNewEmail}
+            />)
+    }
+
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="max-width-320">
-            <ModalHeader>{username}</ModalHeader>
             <Formik
                 enableReinitialize
                 initialValues={{
@@ -49,15 +67,20 @@ const ProfileMenu = ({ toggle, isOpen, username, handleSave, profileData }) => {
                                         return <option key={`height${index}`} value={height}>{height}</option>
                                     })}
                                 </Field>
-                                <button type="submit" className="form-submit reg-submit">Save changes</button>
+                                <button type="submit" className="form-submit top-10 bottom-14">Save changes</button>
                             </form>
+                            { ( updateSuccess || updateFailure ) && (
+                                <Alert className="profile-edit-alert" color={updateSuccess ? "info" : "warning"}
+                                >{updateSuccess ? 'Successfully saved!' : 'Sorry, please try again later'}</Alert> ) }
+                            { settingsArea }
+                            { showSettings && !profileData.is_verified && (
+                                <Alert className="warn-not-verified" color="warning">Foo</Alert> ) }
+
                         </div>
                     );
                 }}
             </Formik>
-            { ( updateSuccess || updateFailure ) && (
-                <Alert className="profile-edit-alert" color={updateSuccess ? "info" : "warning"}
-                >{updateSuccess ? 'Successfully saved!' : 'Sorry, please try again later'}</Alert> ) }
+
         </Modal>
     );
 };

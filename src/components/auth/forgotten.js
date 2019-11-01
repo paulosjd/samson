@@ -42,7 +42,7 @@ const Forgotten = ({ toggle, isOpen, forgotField, sendEmail, passwordResetSent, 
                                     className={errors.email && touched.email ? 'text-input error' : 'form-item'}
                                 />
                                 {errors.email && touched.email && (<div className="auth-errors">{errors.email}</div>)}
-                                <button type="submit" className="form-submit reg-submit">Submit</button>
+                                <button type="submit" className="form-submit top-10">Submit</button>
                             </form>
                         </div>
                     );
