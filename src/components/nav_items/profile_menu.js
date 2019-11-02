@@ -5,7 +5,7 @@ import ProfileSettings from './profile_settings'
 import { ProfileInfo } from '../../schemas/profile'
 
 const ProfileMenu = ({ toggle, isOpen, handleSave, profileData, setShowSettings, showSettings, postNewEmail,
-                         confirmAccountDelete, requestVerificationEmail, verificationEmailSent }) => {
+                         confirmAccountDelete, requestVerificationEmail, verificationEmailSent, handleLogout }) => {
 
     const updateSuccess = profileData.profileUpdateSuccess;
     const updateFailure = profileData.profileUpdateFailure;
@@ -17,7 +17,8 @@ const ProfileMenu = ({ toggle, isOpen, handleSave, profileData, setShowSettings,
             <Modal isOpen={showDelConfirm} toggle={() => setShowDelConfirm(!showDelConfirm)} className='max-width-250'>
                 <h5 className='acc-del-text'>Confirm profile deletion</h5>
                 <div className='left-28'>
-                    <button type="button" className='del-acc-btn' onClick={()=> confirmAccountDelete()}
+                    <button type="button" className='del-acc-btn'
+                            onClick={() => {confirmAccountDelete(); handleLogout()}}
                     >OK</button>
                     <button type="button" className='del-acc-btn' onClick={()=> setShowDelConfirm(false)}
                     >Cancel</button>
@@ -92,7 +93,9 @@ const ProfileMenu = ({ toggle, isOpen, handleSave, profileData, setShowSettings,
                             { showSettings && !profileData.is_verified && (
                                     <Alert className="warn-not-verified" color="warning">Account not verified
                                         <span style={{float:'right'}}>
-                                            <a href='#' onClick={requestVerificationEmail}>Resend verification email</a>
+                                            <a href='javascript:' onClick={requestVerificationEmail}>
+                                                Resend verification email
+                                            </a>
                                         </span>
                                     </Alert> )}
                             { showSettings && verificationEmailSent && (

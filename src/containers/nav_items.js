@@ -70,6 +70,7 @@ const NavItems  = ({ props }) => {
             requestVerificationEmail={props.requestVerificationEmail}
             verificationEmailSent={props.extras.verificationEmailSent}
             confirmAccountDelete={props.confirmAccountDelete}
+            handleLogout={props.handleLogout}
     />
 };
 

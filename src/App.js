@@ -21,6 +21,7 @@ class App extends Component {
                   handleLogout={this.handleLogout.bind(this)}
               />
               <MainBody
+                  handleLogout={this.handleLogout.bind(this)}
               />
           </div>
         );

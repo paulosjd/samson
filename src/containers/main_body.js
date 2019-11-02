@@ -26,11 +26,9 @@ class MainBody extends Component {
     }
 
     render() {
-        console.log(this.props.extras.email)
-        console.log(this.props.extras.is_verified)
-
         if ( this.props.error ) {
-            return <div>{'Something has gone wrong' + this.props.error}</div>
+            console.log(this.props.error);
+            this.props.handleLogout()
         }
         if (Object.values(this.props.menu).includes(true)) {
             return <NavItems props={this.props}/>

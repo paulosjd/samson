@@ -26,7 +26,6 @@ export default function extras(state = initialState, action) {
         case CLEAR_PROFILE_UPDATE_STATUS:
             return { ...state, profileUpdateSuccess: false, profileUpdateFailure: false };
         case PROFILE_MENU_FETCH_SUCCESS:
-            console.log(action.payload.profileInfo.data)
             return { ...state, ...action.payload.profileInfo.data };
         case USER_EMAIL_UPDATE:
             return {...state, email: action.payload.targetsData.data.email};
