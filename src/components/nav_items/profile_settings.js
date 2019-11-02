@@ -1,13 +1,12 @@
 import React from 'react';
-import {Modal, Alert, UncontrolledTooltip} from 'reactstrap';
-import { Formik, Field } from 'formik';
+import { Formik } from 'formik';
 import { EmailField } from '../../schemas/profile'
 
 const ProfileSettings = ({ email, saveEmail, editMode, setEditMode, isVerified, postNewEmail }) => {
 
     if (!editMode){
         return (
-            <table>
+            <table className='top-10'>
             <tbody>
                 <tr className="no-border">
                     <td>Email:
@@ -37,7 +36,7 @@ const ProfileSettings = ({ email, saveEmail, editMode, setEditMode, isVerified, 
                     const {values, touched, handleBlur, errors, handleSubmit, setFieldValue} = props;
                     return (
                         <form onSubmit={handleSubmit}>
-                        <table className='top-14'>
+                        <table  className='top-10 bottom-10'>
                         <tbody>
                             <tr className="no-border">
                                 <td>

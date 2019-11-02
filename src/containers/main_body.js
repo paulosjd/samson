@@ -14,7 +14,7 @@ import OutsideAction from '../utils/outside_action'
 import {
     showNavItem, fetchProfileInfo, postColorSchema, postEditedBookmarks, postLinkedParamsEdit
 } from "../store/actions/profile";
-import { postNewEmail } from "../store/actions/user";
+import { confirmAccountDelete, postNewEmail, requestVerificationEmail } from "../store/actions/user";
 
 
 class MainBody extends Component {
@@ -150,7 +150,9 @@ const mapDispatchToProps = dispatch => {
         setShowLinkedParamAdd: (val) => dispatch(setShowLinkedParamAdd(val)),
         postLinkedParams: (val, action) => dispatch(postLinkedParams(val, action)),
         postLinkedParamsEdit: (val) => dispatch(postLinkedParamsEdit(val)),
-        postNewEmail: (val) => dispatch(postNewEmail(val))
+        postNewEmail: (val) => dispatch(postNewEmail(val)),
+        requestVerificationEmail: () => dispatch(requestVerificationEmail()),
+        confirmAccountDelete: () => dispatch(confirmAccountDelete()),
     };
 };
 

@@ -2,6 +2,7 @@ import axios from 'axios'
 import { userConstants as constants } from '../../store/constants/user';
 import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS, USER_LOGOUT, USER_EMAIL_UPDATE
 } from "../constants/user";
+import {CLEAR_PROFILE_UPDATE_STATUS} from "../constants/profile";
 
 const baseUrl = 'http://127.0.0.1:8000/api/users';
 
@@ -19,11 +20,30 @@ export const forgottenLogin = (field, email) => {
     }
 };
 
+export const requestVerificationEmail = () => {
+    const url = `${baseUrl}/new-verification-email`;
+    return dispatch => {
+        axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
+            .then(() => {dispatch({ type: constants.VERIFICATION_EMAIL_SUCCESS, value: true })})
+            .then(() => setTimeout(() => dispatch(
+                { type: constants.VERIFICATION_EMAIL_SUCCESS, value: false }),3500))
+    }
+};
+
 export const passwordResetConfirm = (body) => {
     const url = `${baseUrl}/password-reset`;
     return dispatch => {
         axios.post(url, JSON.stringify(body),{headers: {"Content-Type": "application/json", }})
-            .then(() => dispatch({ type: constants.NEW_PASSWORD_CONFIRMED, value: 'Password has been reset'}))
+            .then(() => dispatch({ type: constants.NEW_PASSWORD_CONFIRMED, value: 'Password has been reset' }))
+            .catch(() => dispatch({ type: constants.NEW_PASSWORD_CONFIRMED, value: 'Reset link was invalid' }))
+    }
+};
+
+export const confirmAccountDelete = () => {
+    const url = `${baseUrl}/password-reset`;
+    return dispatch => {
+        axios.post(url, {confirm_delete: true},{headers: {"Content-Type": "application/json", }})
+            .then(() => dispatch({ type: constants.NEW_PASSWORD_CONFIRMED, value: 'Password has been reset' }))
             .catch(() => dispatch({ type: constants.NEW_PASSWORD_CONFIRMED, value: 'Reset link was invalid' }))
     }
 };

@@ -18,6 +18,7 @@
     max-width: 100% !important;
 }
 
+.max-width-250 {max-width: 250px !important;}
 .max-width-320 {max-width: 320px !important;}
 .max-width-520 {max-width: 520px !important;}
 
@@ -29,6 +30,7 @@
 .right-18 {margin-right: 18px;}
 .top-10 {margin-top: 10px;}
 .top-14 {margin-top: 14px;}
+.bottom-10 {margin-bottom: 10px}
 .bottom-14 {margin-bottom: 14px}
 
 .display-inline {display: inline-block !important}
@@ -640,5 +642,39 @@ input[type='file'] {
 }
 
 .warn-not-verified {
-    
+    margin-top: 12px;
+    padding: 2px 10px 2px 12px !important;
+    font-size: 12px;
+}
+
+.email-sent {
+    margin-top: 2px;
+    padding: 2px 10px 2px 12px !important;
+    font-size: 12px;
+}
+
+.del-acc {
+    margin-top: 12px;
+    margin-bottom: 2px;
+    font-size: 13px;
+    color: #006ba6;
+    cursor: pointer;
+}
+
+.acc-del-text {
+    margin: 20px 20px 10px;
+    font-weight: normal;
+    font-size: 19px;
+}
+
+.del-acc-btn {
+    margin: 12px 0 22px 22px;
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 3px;
+    background-color: #e5ebe9;
+}
+
+.del-acc-btn:hover {
+    background-color: #c7d8db;
 }

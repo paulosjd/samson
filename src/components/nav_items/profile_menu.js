@@ -4,11 +4,27 @@ import { Formik, Field } from 'formik';
 import ProfileSettings from './profile_settings'
 import { ProfileInfo } from '../../schemas/profile'
 
+const ProfileMenu = ({ toggle, isOpen, handleSave, profileData, setShowSettings, showSettings, postNewEmail,
+                         confirmAccountDelete, requestVerificationEmail, verificationEmailSent }) => {
 
-const ProfileMenu = ({ toggle, isOpen, handleSave, profileData, setShowSettings, showSettings, postNewEmail }) => {
     const updateSuccess = profileData.profileUpdateSuccess;
     const updateFailure = profileData.profileUpdateFailure;
-    const [ emailEditMode, setEmailEditMode] = useState(false);
+    const [emailEditMode, setEmailEditMode] = useState(false);
+    const [showDelConfirm, setShowDelConfirm] = useState(false);
+
+    if (showDelConfirm) {
+        return (
+            <Modal isOpen={showDelConfirm} toggle={() => setShowDelConfirm(!showDelConfirm)} className='max-width-250'>
+                <h5 className='acc-del-text'>Confirm profile deletion</h5>
+                <div className='left-28'>
+                    <button type="button" className='del-acc-btn' onClick={()=> confirmAccountDelete()}
+                    >OK</button>
+                    <button type="button" className='del-acc-btn' onClick={()=> setShowDelConfirm(false)}
+                    >Cancel</button>
+                </div>
+            </Modal>
+        );
+    }
 
     let settingsArea;
     if (!showSettings) {
@@ -74,13 +90,19 @@ const ProfileMenu = ({ toggle, isOpen, handleSave, profileData, setShowSettings,
                                 >{updateSuccess ? 'Successfully saved!' : 'Sorry, please try again later'}</Alert> ) }
                             { settingsArea }
                             { showSettings && !profileData.is_verified && (
-                                <Alert className="warn-not-verified" color="warning">Foo</Alert> ) }
-
+                                    <Alert className="warn-not-verified" color="warning">Account not verified
+                                        <span style={{float:'right'}}>
+                                            <a href='#' onClick={requestVerificationEmail}>Resend verification email</a>
+                                        </span>
+                                    </Alert> )}
+                            { showSettings && verificationEmailSent && (
+                                <Alert className="email-sent" color="success">Profile verification email sent</Alert> )}
+                            { showSettings && (
+                                <p className="del-acc" onClick={() => setShowDelConfirm(true)}>Delete my profile</p> )}
                         </div>
                     );
                 }}
             </Formik>
-
         </Modal>
     );
 };

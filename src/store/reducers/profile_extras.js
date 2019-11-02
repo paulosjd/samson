@@ -1,12 +1,13 @@
 import {
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_EDIT_FAILURE, CLEAR_PROFILE_UPDATE_STATUS, PROFILE_MENU_FETCH_SUCCESS,
-    SHOW_MENU_EDIT_SUCCESS, TARGETS_DATA_REFRESH,
+    SHOW_MENU_EDIT_SUCCESS,
 } from "../constants/profile";
-import {USER_EMAIL_UPDATE} from "../constants/user";
+import { USER_EMAIL_UPDATE, userConstants } from "../constants/user";
 
 const initialState = {
     profileUpdateSuccess: false,
     profileUpdateFailure: false,
+    verificationEmailSent: false,
     email: '',
     is_verified: '',
     birth_year: '',
@@ -29,6 +30,8 @@ export default function extras(state = initialState, action) {
             return { ...state, ...action.payload.profileInfo.data };
         case USER_EMAIL_UPDATE:
             return {...state, email: action.payload.targetsData.data.email};
+        case userConstants.VERIFICATION_EMAIL_SUCCESS:
+            return {...state, verificationEmailSent: action.value};
         default:
             return state
     }
