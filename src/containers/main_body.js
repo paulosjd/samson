@@ -7,7 +7,7 @@ import Summary from './summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
 import {
-    setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure,
+    setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure, getProfileMatches,
     setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag, setShowLinkedParamAdd, postLinkedParams
 } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
@@ -151,6 +151,7 @@ const mapDispatchToProps = dispatch => {
         postNewEmail: (val) => dispatch(postNewEmail(val)),
         requestVerificationEmail: () => dispatch(requestVerificationEmail()),
         confirmAccountDelete: () => dispatch(confirmAccountDelete()),
+        getProfileMatches: (val) => dispatch(getProfileMatches(val))
     };
 };
 

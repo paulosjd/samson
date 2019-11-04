@@ -110,3 +110,13 @@ export const postTargetValue = (value) => {
             .then(targetsData => dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
     }
 };
+
+export const getProfileMatches = (value) => {
+    const url = `${baseUrl}/profile/profile-share/${value}`;
+    return dispatch => {
+        axios.get(url,{headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+            .then(targetsData => console.log({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
+
+            // .then(targetsData => dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
+    }
+};

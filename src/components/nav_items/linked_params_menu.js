@@ -16,7 +16,7 @@ const LinkedParamsMenu = ({ toggle, isOpen, summaryParams, postLinkedParamsEdit,
     const paramNames = summaryParams.map(obj => obj.name);
 
     return (
-        <Modal isOpen={isOpen} toggle={toggle} className="max-width-520">
+        <Modal isOpen={isOpen} toggle={toggle} className="max-width-500">
         <ModalHeader>Select linked metrics</ModalHeader>
         <Formik
             enableReinitialize

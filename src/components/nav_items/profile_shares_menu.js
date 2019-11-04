@@ -1,21 +1,23 @@
-import React, {useState} from 'react';
-import {Modal, ModalHeader, Table, Alert, UncontrolledTooltip, ModalBody} from 'reactstrap';
+import React, { useState } from 'react';
+import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip } from 'reactstrap';
 import { Field, Formik } from "formik";
 import InputRange from "react-input-range"
 import ProfileSettings from "./profile_menu";
-import {ProfileInfo} from "../../schemas/profile";
+import ProfileSearch from "../form/profile_search";
+import { ProfileInfo } from "../../schemas/profile";
 
-const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVerificationEmail, verificationEmailSent, }) => {
+const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVerificationEmail, verificationEmailSent,
+                               getProfileMatches}) => {
 
     const updateSuccess = profileData.profileUpdateSuccess;
     const updateFailure = profileData.profileUpdateFailure;
     const [emailEditMode, setEmailEditMode] = useState(false);
-    const [showDelConfirm, setShowDelConfirm] = useState(false);
+    const [showProfileSearch, setShowProfileSearch] = useState(false);
 
     if (!profileData.is_verified) {
         return (
             <Modal isOpen={isOpen} toggle={toggle} className="registration-modal">
-                <ModalHeader><h6 className='fontsize10 bottom-0'>Profile needs verifying</h6></ModalHeader>
+                <ModalHeader><p className='fontsize10 bottom-0'>Profile needs verifying</p></ModalHeader>
                 <ModalBody>Please verify your account in order to access shared user profiles
                     <div className='top-10'>
                         <a onClick={requestVerificationEmail} className='send-ver fontsize8'>
@@ -27,17 +29,16 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
         )
     }
 
-    if (showDelConfirm) {
+    if (showProfileSearch) {
         return (
-            <Modal isOpen={showDelConfirm} toggle={() => setShowDelConfirm(!showDelConfirm)} className='max-width-320'>
-                <h5 className='acc-del-text'>Confirm profile deletion</h5>
-                <div className='left-28'>
-                    {/*<button type="button" className='del-acc-btn'*/}
-                            {/*onClick={() => {confirmAccountDelete(); handleLogout()}}*/}
-                    {/*>OK</button>*/}
-                    {/*<button type="button" className='del-acc-btn' onClick={()=> setShowDelConfirm(false)}*/}
-                    {/*>Cancel</button>*/}
-                </div>
+            <Modal className='max-width-320' isOpen={showProfileSearch}
+                toggle={() => setShowProfileSearch(!showProfileSearch)}>
+                <ProfileSearch
+                    getProfileMatches={getProfileMatches}/>
+                <ul>
+                    <li>item1</li>
+                </ul>
+                {/*{matchedProfiles.map(obj => {return <li>{obj.name}</li>})}*/}
             </Modal>
         );
     }
@@ -73,7 +74,7 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
             </tr>
         )
     });
-    const sharedProfilesBody = profiles.length < 1 ? <h6>No shared profiles available</h6> : (
+    const sharedProfilesBody = profiles.length < 1 ? <h6 className='font-normal'>No shared profiles available</h6> : (
         <Table bordered>
             <thead><tr className='short-row'><th> </th><th>Username</th></tr></thead>
             <tbody>
@@ -82,12 +83,29 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
         </Table>
     );
 
+    const pendingRequests = [1];
+    let pendingRequestsSection = null;
+    if (pendingRequests.length > 0) {
+        pendingRequestsSection = (
+            <ModalBody>
+                Test abcd
+            </ModalBody>
+        )
+    }
+
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="max-width-320">
-            <ModalHeader><h6 className='fontsize10 bottom-0'>View shared profiles</h6></ModalHeader>
+            <ModalHeader><p className='fontsize10 bottom-0'>View shared profiles</p></ModalHeader>
             <ModalBody>
-                {sharedProfilesBody}
+                { sharedProfilesBody }
+                <button className='btn search-prof-btn' onClick={() => {setShowProfileSearch(true)}}>
+                    Profile search</button>
             </ModalBody>
+            { pendingRequestsSection && (
+                <ModalHeader className='pend-head'>
+                    <p className='fontsize10 bottom-0'>Pending requests</p>
+                </ModalHeader>) }
+            { pendingRequestsSection }
         </Modal>
     );
 };
