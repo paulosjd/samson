@@ -4,9 +4,11 @@ import CsvDownloadMenu from '../components/nav_items/csv_download_menu'
 import CsvUploadMenu from '../components/nav_items/csv_upload_menu'
 import ParamColorMenu from '../components/nav_items/param_color_menu'
 import LinkedParamsMenu from '../components/nav_items/linked_params_menu'
+import ProfileSharesMenu from '../components/nav_items/profile_shares_menu'
 
 const NavItems  = ({ props }) => {
-    const { showCsvDownloadMenu, showCsvUploadMenu, showColorSchemeMenu, showLinkedParamsMenu } = { ...props.menu };
+    const { showCsvDownloadMenu, showCsvUploadMenu, showColorSchemeMenu, showLinkedParamsMenu, showProfileSharesMenu
+    } = { ...props.menu };
     const [ showSettings, setShowSettings] = useState(false);
 
     if ( showCsvDownloadMenu ) {
@@ -54,6 +56,16 @@ const NavItems  = ({ props }) => {
             unitInfo={props.unitInfo}
             postColorSchema={props.postColorSchema}
             updateSuccess={props.extras.profileUpdateSuccess}
+        />
+    }
+    if ( showProfileSharesMenu ) {
+        return <ProfileSharesMenu
+            toggle={() => props.toggleNavItem('profile_shares', !showProfileSharesMenu)}
+            isOpen={props.menu.showProfileSharesMenu}
+            handleSave={props.updateProfileMenu}
+            profileData={props.extras}
+            requestVerificationEmail={props.requestVerificationEmail}
+            verificationEmailSent={props.extras.verificationEmailSent}
         />
     }
     return <ProfileMenu

@@ -26,7 +26,7 @@ export const requestVerificationEmail = () => {
         axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
             .then(() => {dispatch({ type: constants.VERIFICATION_EMAIL_SUCCESS, value: true })})
             .then(() => setTimeout(() => dispatch(
-                { type: constants.VERIFICATION_EMAIL_SUCCESS, value: false }),3500))
+                { type: constants.VERIFICATION_EMAIL_SUCCESS, value: false }),4000))
     }
 };
 

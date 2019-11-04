@@ -4,9 +4,9 @@ import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SHOW_PROFILE_MENU,
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_FETCH_SUCCESS, PROFILE_MENU_FETCH_FAILURE, PROFILE_MENU_EDIT_FAILURE,
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
-    SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR,
-    CLEAR_CSV_LOAD_CONFIRM, TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, SHOW_MENU_EDIT_SUCCESS,
-    POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS, SHOW_LINKED_PARAMS_MENU, UPDATE_LINKED_PARAMS
+    SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM,
+    UNIT_INFO_REFRESH, SHOW_MENU_EDIT_SUCCESS, POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS, SHOW_LINKED_PARAMS_MENU,
+    UPDATE_LINKED_PARAMS, SHOW_PROFILE_SHARES_MENU, PROFILE_SHARE_FETCH_SUCCESS
 } from '../constants/profile'
 import {
     SET_SHOW_ADD_METRIC,
@@ -44,6 +44,8 @@ export const showNavItem = (item, value) => {
             return ({ type: SHOW_CSV_UPLOAD_MENU, value });
         case 'linked_params':
             return ({ type: SHOW_LINKED_PARAMS_MENU, value });
+        case 'profile_shares':
+            return ({ type: SHOW_PROFILE_SHARES_MENU, value });
         default:
             return ({ type: SHOW_PROFILE_MENU, value })
     }
@@ -55,6 +57,14 @@ export const fetchProfileInfo = () => {
         axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
             .then((profileInfo) => dispatch({ type: PROFILE_MENU_FETCH_SUCCESS, payload: {profileInfo} }))
             .catch(() => dispatch({ type: PROFILE_MENU_FETCH_FAILURE }))
+    }
+};
+
+export const fetchProfileShareInfo = () => {
+    const url = `${baseUrl}/profile/profile-share`;
+    return dispatch => {
+        axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
+            .then((shareInfo) => dispatch({ type: PROFILE_SHARE_FETCH_SUCCESS, payload: {shareInfo} }))
     }
 };
 

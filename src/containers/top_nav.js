@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, UncontrolledTooltip } from 'reactstrap';
 import {connect } from "react-redux";
-import { fetchProfileInfo, showNavItem } from '../store/actions/profile'
+import { fetchProfileInfo, fetchProfileShareInfo, showNavItem } from '../store/actions/profile'
 import { setShowRegForm, userLogout } from '../store/actions/user'
 
 
@@ -29,6 +29,12 @@ class TopNav extends Component {
                 >&#x1F4C5;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="schedule_scheme"
                 >Linked parameters</UncontrolledTooltip>
+
+                <span role="img" aria-label="shares" className='right-18 fontsize18 csr-pt' id="shares"
+                      onClick={this.props.handleSharesMenuClick}
+                >&#x1F5C3;</span>
+                <UncontrolledTooltip id="ttip" placement="bottom" target="shares"
+                >Shared user profiles</UncontrolledTooltip>
 
                 <span role="img" aria-label="download" className='right-18 fontsize18 csr-pt' id="download"
                       onClick={() => this.props.showNavItem('csv_download')}
@@ -69,7 +75,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleProfileClick: () => { dispatch(showNavItem('profile', true)); dispatch(fetchProfileInfo()) },
+        handleProfileClick: () => {
+            dispatch(showNavItem('profile', true));
+            dispatch(fetchProfileInfo()) },
+        handleSharesMenuClick: () => {
+            dispatch(showNavItem('profile_shares', true));
+            dispatch(fetchProfileShareInfo()) },
         showNavItem: (item) => dispatch(showNavItem(item, true)),
         showColorSchemeMenu: () => dispatch(showNavItem('interventions', true)),
         showLinkedParamsMenu: () => dispatch(showNavItem('linked_params', true)),

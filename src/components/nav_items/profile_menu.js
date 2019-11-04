@@ -93,9 +93,8 @@ const ProfileMenu = ({ toggle, isOpen, handleSave, profileData, setShowSettings,
                             { showSettings && !profileData.is_verified && (
                                     <Alert className="warn-not-verified" color="warning">Account not verified
                                         <span style={{float:'right'}}>
-                                            <a href='javascript:' onClick={requestVerificationEmail}>
-                                                Resend verification email
-                                            </a>
+                                            <a onClick={requestVerificationEmail} className='send-ver'
+                                            >Resend verification email</a>
                                         </span>
                                     </Alert> )}
                             { showSettings && verificationEmailSent && (

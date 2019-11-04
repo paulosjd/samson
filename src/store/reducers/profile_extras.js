@@ -1,6 +1,6 @@
 import {
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_EDIT_FAILURE, CLEAR_PROFILE_UPDATE_STATUS, PROFILE_MENU_FETCH_SUCCESS,
-    SHOW_MENU_EDIT_SUCCESS,
+    SHOW_MENU_EDIT_SUCCESS, PROFILE_SHARE_FETCH_SUCCESS,
 } from "../constants/profile";
 import { USER_EMAIL_UPDATE, userConstants } from "../constants/user";
 
@@ -27,6 +27,9 @@ export default function extras(state = initialState, action) {
             return { ...state, profileUpdateSuccess: false, profileUpdateFailure: false };
         case PROFILE_MENU_FETCH_SUCCESS:
             return { ...state, ...action.payload.profileInfo.data };
+        case PROFILE_SHARE_FETCH_SUCCESS:
+            console.log(...action.payload.shareInfo.data)
+            return { ...state, ...action.payload.shareInfo.data };
         case USER_EMAIL_UPDATE:
             return {...state, email: action.payload.targetsData.data.email};
         case userConstants.VERIFICATION_EMAIL_SUCCESS:
