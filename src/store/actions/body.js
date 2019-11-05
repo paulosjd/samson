@@ -8,7 +8,7 @@ import {
 import { DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH, UPDATE_LINKED_PARAMS, PROFILE_SEARCH_RESULTS
 } from "../constants/profile";
 
-const baseUrl = 'http://127.0.0.1:8000/api';
+export const baseUrl = 'http://127.0.0.1:8000/api';
 
 export const setMenuItemIndex = (value) => ({
     type: SET_MENU_ITEM_INDEX, value
@@ -109,15 +109,5 @@ export const postTargetValue = (value) => {
         axios.post(url,{value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then(targetsData => dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
-    }
-};
-
-export const getProfileMatches = (value) => {
-    const url = `${baseUrl}/profile/profile-share/${value}`;
-    return dispatch => {
-        axios.get(url,{headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-            .then(profileMatches =>dispatch({ type: PROFILE_SEARCH_RESULTS, payload: profileMatches }))
-
-            // .then(targetsData => dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
     }
 };

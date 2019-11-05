@@ -151,7 +151,6 @@ const mapDispatchToProps = dispatch => {
         postNewEmail: (val) => dispatch(postNewEmail(val)),
         requestVerificationEmail: () => dispatch(requestVerificationEmail()),
         confirmAccountDelete: () => dispatch(confirmAccountDelete()),
-        getProfileMatches: (val) => dispatch(getProfileMatches(val))
     };
 };
 

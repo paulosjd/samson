@@ -66,7 +66,7 @@ const NavItems  = ({ props }) => {
             profileData={props.extras}
             requestVerificationEmail={props.requestVerificationEmail}
             verificationEmailSent={props.extras.verificationEmailSent}
-            getProfileMatches={props.getProfileMatches}
+            // getProfileMatches={props.getProfileMatches}
         />
     }
     return <ProfileMenu

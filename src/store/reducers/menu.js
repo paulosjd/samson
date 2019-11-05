@@ -10,7 +10,7 @@ const initialState = {
     showColorSchemeMenu: false,
     showLinkedParamsMenu: false,
     showProfileSharesMenu: false,
-    profileSearchMatches: []
+    profileSearchResults: []
 };
 
 export default function menu(state = initialState, action) {
@@ -28,8 +28,7 @@ export default function menu(state = initialState, action) {
         case SHOW_PROFILE_SHARES_MENU:
             return { ...initialState, showProfileSharesMenu: action.value };
         case PROFILE_SEARCH_RESULTS:
-            console.log(action.payload)
-            return { ...initialState, profileSearchMatches: action.payload };
+            return { ...initialState, showProfileSharesMenu: true, profileSearchResults: action.payload.data };
         default:
             return state
     }
