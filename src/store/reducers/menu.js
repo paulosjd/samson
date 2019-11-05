@@ -1,6 +1,6 @@
 import {
     SHOW_PROFILE_MENU, SHOW_INTERVENTIONS_MENU, SHOW_CSV_DOWNLOAD_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_LINKED_PARAMS_MENU,
-    SHOW_PROFILE_SHARES_MENU
+    SHOW_PROFILE_SHARES_MENU, PROFILE_SEARCH_RESULTS
 } from "../constants/profile";
 
 const initialState = {
@@ -9,7 +9,8 @@ const initialState = {
     showCsvUploadMenu: false,
     showColorSchemeMenu: false,
     showLinkedParamsMenu: false,
-    showProfileSharesMenu: false
+    showProfileSharesMenu: false,
+    profileSearchMatches: []
 };
 
 export default function menu(state = initialState, action) {
@@ -26,6 +27,9 @@ export default function menu(state = initialState, action) {
             return { ...initialState, showLinkedParamsMenu: action.value };
         case SHOW_PROFILE_SHARES_MENU:
             return { ...initialState, showProfileSharesMenu: action.value };
+        case PROFILE_SEARCH_RESULTS:
+            console.log(action.payload)
+            return { ...initialState, profileSearchMatches: action.payload };
         default:
             return state
     }

@@ -9,7 +9,7 @@ const ProfileSearch = ({ getProfileMatches, }) => {
             enableReinitialize
             initialValues={{input_text: ''}}
             validationSchema={ProfileSearchSchema}
-            onSubmit={getProfileMatches}
+            onSubmit={val => getProfileMatches(val.input_text)}
         >
             {props => {
                 const {values, touched, handleBlur, errors, handleSubmit, setFieldValue} = props;

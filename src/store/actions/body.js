@@ -5,7 +5,8 @@ import {
     APPEND_EDITED_DP_PARAMS, RESET_CHART_SELECTION, SET_SHOW_ROLLING_MEANS, SET_SHOW_ADD_CUSTOM_METRIC,
     SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN, SET_SHOW_MONTHLY_DIFFS, SET_SHOW_ADD_LINKED_PARAM
 } from '../constants/body'
-import { DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH, UPDATE_LINKED_PARAMS } from "../constants/profile";
+import { DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH, UPDATE_LINKED_PARAMS, PROFILE_SEARCH_RESULTS
+} from "../constants/profile";
 
 const baseUrl = 'http://127.0.0.1:8000/api';
 
@@ -115,7 +116,7 @@ export const getProfileMatches = (value) => {
     const url = `${baseUrl}/profile/profile-share/${value}`;
     return dispatch => {
         axios.get(url,{headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-            .then(targetsData => console.log({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
+            .then(profileMatches =>dispatch({ type: PROFILE_SEARCH_RESULTS, payload: profileMatches }))
 
             // .then(targetsData => dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
     }
