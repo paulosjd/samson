@@ -30,6 +30,7 @@ const Register = ({ toggle, isOpen, isSubmitting, regSubmit, regSubmitBegin, sub
                                 id="username"
                                 placeholder="Enter a username"
                                 type="text"
+                                maxLength={20}
                                 value={values.username}
                                 onChange={handleFieldChange}
                                 onBlur={handleBlur}

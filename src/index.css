@@ -41,6 +41,7 @@ ul {
 .display-inline {display: inline-block !important}
 .csr-pt {cursor: pointer}
 .fontsize8 {font-size: 0.8rem !important}
+.fontsize9 {font-size: 0.9rem !important}
 .fontsize10 {font-size: 1.0rem !important}
 .fontsize12 {font-size: 1.2rem !important}
 .fontsize16 {font-size: 1.45rem}
@@ -715,4 +716,29 @@ input[type='file'] {
 
 .search-prof-btn:hover {
     background-color: #dfe7f5 !important;
+}
+
+.search-prof-input {
+    border-radius: 3px !important;
+}
+
+.search-prof-form input {
+    border-radius: 4px;
+    border: 1px solid #dddddd;
+    margin-left: 22px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.prof-results button {
+    text-align: center;
+    color: #006ba6;
+    min-width: 200px;
+    margin-left: 32px;
+}
+
+.confirm-send-req textarea {
+    width: 250px;
+    border-radius: 4px;
+    margin-top: 2px;
 }

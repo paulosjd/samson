@@ -1,6 +1,6 @@
 import {
     SHOW_PROFILE_MENU, SHOW_INTERVENTIONS_MENU, SHOW_CSV_DOWNLOAD_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_LINKED_PARAMS_MENU,
-    SHOW_PROFILE_SHARES_MENU, PROFILE_SEARCH_RESULTS
+    SHOW_PROFILE_SHARES_MENU, PROFILE_SEARCH_RESULTS, PROFILE_SHARE_REQUEST_FAILURE
 } from "../constants/profile";
 
 const initialState = {
@@ -10,7 +10,8 @@ const initialState = {
     showColorSchemeMenu: false,
     showLinkedParamsMenu: false,
     showProfileSharesMenu: false,
-    profileSearchResults: []
+    profileSearchResults: [],
+    profileShareRequestFailure: false,
 };
 
 export default function menu(state = initialState, action) {
@@ -29,6 +30,8 @@ export default function menu(state = initialState, action) {
             return { ...initialState, showProfileSharesMenu: action.value };
         case PROFILE_SEARCH_RESULTS:
             return { ...initialState, showProfileSharesMenu: true, profileSearchResults: action.payload.data };
+        case PROFILE_SHARE_REQUEST_FAILURE:
+            return { ...state, profileShareRequestFailure: action.value };
         default:
             return state
     }
