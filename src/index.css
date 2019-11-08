@@ -519,6 +519,33 @@ input[type='file'] {
     border: 0;
 }
 
+.pend-table th, .pend-table td {
+    border-top: none !important;
+    padding: .5rem !important;
+    padding-top: 0 !important;
+    line-height: 1.45 !important;
+}
+
+.pend-table {
+    margin-bottom: 0 !important;
+}
+
+.pend-req-name {
+    margin-top: 2px;
+    min-width: 120px;
+    color: #006ba6;
+    background-color: #f4f7fe;
+    border: 0;
+    border-radius: 3px;
+    text-align: left;
+    cursor: default !important;
+    padding-left: 12px;
+}
+
+.pend-req-name:focus {
+    outline: none;
+}
+
 .bm-del{
     width: 20px !important;
 }
@@ -741,4 +768,11 @@ input[type='file'] {
     width: 250px;
     border-radius: 4px;
     margin-top: 2px;
+}
+
+.share-req-fail {
+    margin: 12px 0 6px !important;
+    max-width: 200px !important;
+    padding: 0.5rem !important;
+    padding-left: 0.8rem !important;
 }

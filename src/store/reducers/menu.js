@@ -29,7 +29,7 @@ export default function menu(state = initialState, action) {
         case SHOW_PROFILE_SHARES_MENU:
             return { ...initialState, showProfileSharesMenu: action.value };
         case PROFILE_SEARCH_RESULTS:
-            return { ...initialState, showProfileSharesMenu: true, profileSearchResults: action.payload.data };
+            return { ...state, showProfileSharesMenu: true, profileSearchResults: action.payload.data };
         case PROFILE_SHARE_REQUEST_FAILURE:
             return { ...state, profileShareRequestFailure: action.value };
         default:

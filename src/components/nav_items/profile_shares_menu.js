@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip } from 'reactstrap';
-import { Field, Formik } from "formik";
 import ProfileSearch from "../form/profile_search";
 import { baseUrl } from "../../store/actions/body";
-import {
-    PROFILE_MENU_FETCH_FAILURE, PROFILE_SEARCH_RESULTS, PROFILE_SHARE_FETCH_SUCCESS, PROFILE_SHARE_REQUEST_FAILURE,
+import { PROFILE_SEARCH_RESULTS, PROFILE_SHARE_FETCH_SUCCESS, PROFILE_SHARE_REQUEST_FAILURE
 } from "../../store/constants/profile";
-import {userConstants as constants} from "../../store/constants/user";
 
 const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVerificationEmail, verificationEmailSent
 }) => {
@@ -28,16 +25,29 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
                 .then(() => setHasSearched(true))
         }
     };
+    // TODO move this to actions and import
+    const deleteShareRequest = (ojbId) => {
+        const url = `${baseUrl}/profile/profile-share/delete`;
+        return dispatch => {
+            axios.post(url,{message: requestConfirmMessage, profile_id: requestConfirmId},
+                {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+                .then(shareInfo => dispatch({ type: PROFILE_SHARE_FETCH_SUCCESS, payload: {shareInfo} }))
+        }
+    };
+
     const postShareRequest = () => {
         const url = `${baseUrl}/profile/profile-share/request`;
         return dispatch => {
             axios.post(url,{message: requestConfirmMessage, profile_id: requestConfirmId},
                 {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-                .then((shareInfo) => dispatch({ type: PROFILE_SHARE_FETCH_SUCCESS, payload: {shareInfo} }))
-                .then(() => {setShowRequestConfirm(false); setShowProfileSearch(false)})
+                .then(shareInfo => dispatch({ type: PROFILE_SHARE_FETCH_SUCCESS, payload: {shareInfo} }))
                 .catch(() => dispatch({ type: PROFILE_SHARE_REQUEST_FAILURE, value: true }))
+                .then(() => {
+                    setShowRequestConfirm(false); setShowProfileSearch(false); setHasSearched(false)
+                } )
+                .then(() => { return dispatch({ type: PROFILE_SEARCH_RESULTS, payload: []}) })
                 .then(() => setTimeout(() => dispatch(
-                    { type: PROFILE_SHARE_REQUEST_FAILURE, value: false }),2500))
+                    { type: PROFILE_SHARE_REQUEST_FAILURE, value: false }),3000))
         }
     };
     const profileSearchResults = content.menu.profileSearchResults;
@@ -124,21 +134,6 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
         );
     }
 
-    let settingsArea;
-    // if (!showSettings) {
-        // settingsArea = (<span role="img" aria-label="palette" className='right-18 csr-pt'
-        //                       onClick={() => setShowSettings(true)}>&#x2699; Profile settings</span>)
-    // } else {
-    //     settingsArea = (
-    //         <ProfileSettings
-    //             email={profileData.email}
-    //             isVerified={profileData.is_verified}
-    //             editMode={emailEditMode}
-    //             setEditMode={setEmailEditMode}
-    //             // postNewEmail={postNewEmail}
-    //         />)
-    // }
-
     const profiles = [];
     // const profiles = [{name: 'foobar', id: 34}, ];
 
@@ -164,14 +159,21 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
         </Table>
     );
 
-    const pendingRequests = [1];
     let pendingRequestsSection = null;
-    if (pendingRequests.length > 0) {
-        pendingRequestsSection = (
-            <ModalBody>
-                Test abcd
-            </ModalBody>
-        )
+    if (profileData.share_requests_made.length > 0) {
+        const pendingRequests = profileData.share_requests_made.map(obj => {
+            return (
+                <tr key={obj.id}>
+                    <td style={{width: 28}}><span role="img" aria-label="trash" className='del-icon'
+                                                  onClick={() => deleteShareRequest(obj.id)}
+                    >&#x274C;</span></td>
+                    <td><button className='pend-req-name'>
+                        {obj.receiver}</button>
+                    </td>
+                </tr>
+            )
+        });
+        pendingRequestsSection = <Table className='pend-table'><tbody>{ pendingRequests }</tbody></Table>
     }
 
     return (
@@ -181,12 +183,19 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
                 { sharedProfilesBody }
                 <button className='btn search-prof-btn' onClick={() => {setShowProfileSearch(true)}}>
                     Profile search</button>
+                { content.menu.profileShareRequestFailure && (
+                    <Alert className="share-req-fail" color="danger">Something went wrong</Alert> )}
             </ModalBody>
             { pendingRequestsSection && (
-                <ModalHeader className='pend-head'>
-                    <p className='fontsize10 bottom-0'>Pending requests</p>
-                </ModalHeader>) }
-            { pendingRequestsSection }
+                <React.Fragment>
+                    <ModalHeader className='pend-head'>
+                        <p className='fontsize10 bottom-0'>Pending requests</p>
+                    </ModalHeader>
+                    <ModalBody className='pend-body'>
+                        { pendingRequestsSection }
+                    </ModalBody>
+                </React.Fragment> )}
+
         </Modal>
     );
 };

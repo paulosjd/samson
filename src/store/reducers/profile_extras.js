@@ -13,6 +13,8 @@ const initialState = {
     birth_year: '',
     height: '',
     gender: '',
+    share_requests_made: [],
+    share_requests_received: []
 };
 
 export default function extras(state = initialState, action) {
@@ -28,7 +30,7 @@ export default function extras(state = initialState, action) {
         case PROFILE_MENU_FETCH_SUCCESS:
             return { ...state, ...action.payload.profileInfo.data };
         case PROFILE_SHARE_FETCH_SUCCESS:
-            console.log(...action.payload.shareInfo.data)
+            console.log(action.payload.shareInfo.data)
             return { ...state, ...action.payload.shareInfo.data };
         case USER_EMAIL_UPDATE:
             return {...state, email: action.payload.targetsData.data.email};
