@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, UncontrolledTooltip } from 'reactstrap';
+import { Navbar, UncontrolledTooltip, Alert } from 'reactstrap';
 import {connect } from "react-redux";
 import { fetchProfileInfo, fetchProfileShareInfo, showNavItem } from '../store/actions/profile'
 import { setShowRegForm, userLogout } from '../store/actions/user'
@@ -17,6 +17,10 @@ class TopNav extends Component {
 
                 <span onClick={this.props.handleProfileClick} className="mr-auto nav-item"
                 >{'  ' + this.props.username}</span>
+
+                { this.props.shareRequestsReceived.length > 0 && (
+                    <Alert className="pend-share-alert" style={{padding: 0.2}} color="warning"
+                           onClick={this.props.handleSharesMenuClick}>Pending requests</Alert> )}
 
                 <span role="img" aria-label="palette" id="color_scheme" className='right-18 csr-pt'
                       onClick={this.props.showColorSchemeMenu}
@@ -70,6 +74,7 @@ const mapStateToProps = state => {
     return {
         isDemo: isDemo,
         username: isDemo ? 'Guest' : state.auth.username,
+        shareRequestsReceived: state.extras.share_requests_received
     };
 };
 

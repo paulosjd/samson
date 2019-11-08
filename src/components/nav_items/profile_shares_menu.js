@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip } from 'reactstrap';
+import {Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip, Navbar} from 'reactstrap';
 import ProfileSearch from "../form/profile_search";
-import { baseUrl } from "../../store/actions/body";
+import { baseUrl, deleteShareRequest } from "../../store/actions/body";
 import { PROFILE_SEARCH_RESULTS, PROFILE_SHARE_FETCH_SUCCESS, PROFILE_SHARE_REQUEST_FAILURE
 } from "../../store/constants/profile";
 
@@ -14,8 +14,9 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
     const [showRequestConfirm, setShowRequestConfirm] = useState(false);
     const [showProfileSearch, setShowProfileSearch] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
-    const content = useSelector(state => state); //this hook gives us redux store state
     const dispatch = useDispatch(); //this hook gives us dispatch method
+    const content = useSelector(state => state); //this hook gives us redux store state
+    const profileSearchResults = content.menu.profileSearchResults;
 
     const getProfileMatches = (value) => {
         const url = `${baseUrl}/profile/profile-search/${value}`;
@@ -23,15 +24,6 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
             axios.get(url,{headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
                 .then(profileMatches => dispatch({ type: PROFILE_SEARCH_RESULTS, payload: profileMatches }))
                 .then(() => setHasSearched(true))
-        }
-    };
-    // TODO move this to actions and import
-    const deleteShareRequest = (ojbId) => {
-        const url = `${baseUrl}/profile/profile-share/delete`;
-        return dispatch => {
-            axios.post(url,{message: requestConfirmMessage, profile_id: requestConfirmId},
-                {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
-                .then(shareInfo => dispatch({ type: PROFILE_SHARE_FETCH_SUCCESS, payload: {shareInfo} }))
         }
     };
 
@@ -50,7 +42,6 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
                     { type: PROFILE_SHARE_REQUEST_FAILURE, value: false }),3000))
         }
     };
-    const profileSearchResults = content.menu.profileSearchResults;
 
     if (!profileData.is_verified) {
         return (
@@ -134,6 +125,23 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
         );
     }
 
+    let awaitingConfirmSection;
+    if (profileData.share_requests_received.length > 0) {
+        const awaitingConfirms = profileData.share_requests_received.map(obj => {
+            return (
+                <tr key={obj.id}>
+                    <td style={{width: 28}}><span role="img" aria-label="trash" className='del-icon'
+                                                  onClick={() => dispatch(deleteShareRequest(obj.id))}
+                    >&#x274C;</span></td>
+                    <td><button className='pend-req-name'>
+                        {obj.requester}</button>
+                    </td>
+                </tr>
+            )
+        });
+        awaitingConfirmSection = <Table className='pend-table'><tbody>{ awaitingConfirms }</tbody></Table>
+    }
+
     const profiles = [];
     // const profiles = [{name: 'foobar', id: 34}, ];
 
@@ -165,7 +173,7 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
             return (
                 <tr key={obj.id}>
                     <td style={{width: 28}}><span role="img" aria-label="trash" className='del-icon'
-                                                  onClick={() => deleteShareRequest(obj.id)}
+                                                  onClick={() => dispatch(deleteShareRequest(obj.id))}
                     >&#x274C;</span></td>
                     <td><button className='pend-req-name'>
                         {obj.receiver}</button>
@@ -178,6 +186,15 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
 
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="max-width-320">
+            { awaitingConfirmSection && (
+                <React.Fragment>
+                    <ModalHeader className='pend-head'>
+                        <p className='fontsize10 bottom-0'>Awaiting confirmation</p>
+                    </ModalHeader>
+                    <ModalBody className='await-con-body pend-body'>
+                        { awaitingConfirmSection }
+                    </ModalBody>
+                </React.Fragment> )}
             <ModalHeader><p className='fontsize10 bottom-0'>View shared profiles</p></ModalHeader>
             <ModalBody>
                 { sharedProfilesBody }

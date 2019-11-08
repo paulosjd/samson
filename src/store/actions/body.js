@@ -5,7 +5,8 @@ import {
     APPEND_EDITED_DP_PARAMS, RESET_CHART_SELECTION, SET_SHOW_ROLLING_MEANS, SET_SHOW_ADD_CUSTOM_METRIC,
     SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN, SET_SHOW_MONTHLY_DIFFS, SET_SHOW_ADD_LINKED_PARAM
 } from '../constants/body'
-import { DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH, UPDATE_LINKED_PARAMS, PROFILE_SEARCH_RESULTS
+import {
+    DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH, UPDATE_LINKED_PARAMS, PROFILE_SHARE_FETCH_SUCCESS
 } from "../constants/profile";
 
 export const baseUrl = 'http://127.0.0.1:8000/api';
@@ -109,5 +110,14 @@ export const postTargetValue = (value) => {
         axios.post(url,{value},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then(targetsData => dispatch({ type: TARGETS_DATA_REFRESH, payload: {targetsData} }))
+    }
+};
+
+export const deleteShareRequest = (ojbId) => {
+    const url = `${baseUrl}/profile/profile-share/delete`;
+    return dispatch => {
+        axios.post(url,{profile_share_id: ojbId},
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+            .then(shareInfo => dispatch({ type: PROFILE_SHARE_FETCH_SUCCESS, payload: {shareInfo} }))
     }
 };

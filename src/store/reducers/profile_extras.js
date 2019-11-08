@@ -14,7 +14,7 @@ const initialState = {
     height: '',
     gender: '',
     share_requests_made: [],
-    share_requests_received: []
+    share_requests_received: [{id: 55, requester: 'Mr Fooface'}]
 };
 
 export default function extras(state = initialState, action) {
