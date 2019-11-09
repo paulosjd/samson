@@ -121,11 +121,3 @@ export const updateProfileShare = (ojbId, action) => {
             .then(shareInfo => dispatch({ type: PROFILE_SHARE_FETCH_SUCCESS, payload: {shareInfo} }))
     }
 };
-
-export const deleteShareRequest = (ojbId) => {
-    updateProfileShare(ojbId, 'delete')
-};
-
-export const acceptShareRequest = (ojbId) => {
-    updateProfileShare(ojbId, 'accept')
-};
