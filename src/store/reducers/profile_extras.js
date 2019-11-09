@@ -1,6 +1,6 @@
 import {
     PROFILE_MENU_EDIT_SUCCESS, PROFILE_MENU_EDIT_FAILURE, CLEAR_PROFILE_UPDATE_STATUS, PROFILE_MENU_FETCH_SUCCESS,
-    SHOW_MENU_EDIT_SUCCESS, PROFILE_SHARE_FETCH_SUCCESS,
+    SHOW_MENU_EDIT_SUCCESS, PROFILE_SHARE_FETCH_SUCCESS, SUMMARY_DATA_PROFILE_EXTRAS
 } from "../constants/profile";
 import { USER_EMAIL_UPDATE, userConstants } from "../constants/user";
 
@@ -13,8 +13,9 @@ const initialState = {
     birth_year: '',
     height: '',
     gender: '',
+    active_shares: [],
     share_requests_made: [],
-    share_requests_received: [{id: 55, requester: 'Mr Fooface'}]
+    share_requests_received: []
 };
 
 export default function extras(state = initialState, action) {
@@ -30,10 +31,11 @@ export default function extras(state = initialState, action) {
         case PROFILE_MENU_FETCH_SUCCESS:
             return { ...state, ...action.payload.profileInfo.data };
         case PROFILE_SHARE_FETCH_SUCCESS:
-            console.log(action.payload.shareInfo.data)
             return { ...state, ...action.payload.shareInfo.data };
         case USER_EMAIL_UPDATE:
             return {...state, email: action.payload.targetsData.data.email};
+        case SUMMARY_DATA_PROFILE_EXTRAS:
+            return { ...state, share_requests_received: action.payload.profileData.data.share_requests_received };
         case userConstants.VERIFICATION_EMAIL_SUCCESS:
             return {...state, verificationEmailSent: action.value};
         default:

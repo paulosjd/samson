@@ -46,7 +46,13 @@ ul {
 .fontsize12 {font-size: 1.2rem !important}
 .fontsize16 {font-size: 1.45rem}
 .fontsize18 {font-size: 1.8rem}
-.font-normal {font-weight: normal !important}
+
+.font-normal {
+    font-weight: normal !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 3px !important;
+    margin-top: 5px !important;
+}
 
 .nav-item {
     cursor: pointer;
@@ -736,13 +742,13 @@ input[type='file'] {
 .search-prof-btn {
     margin-top: 16px;
     color: #4A4A4A !important;
-    background-color: #e7f0fc !important;
+    background-color: #FFF3CD !important;
     padding: .4rem .75rem !important;
     line-height: 1 !important;
 }
 
 .search-prof-btn:hover {
-    background-color: #dfe7f5 !important;
+    background-color: #eef9cf !important;
 }
 
 .search-prof-input {

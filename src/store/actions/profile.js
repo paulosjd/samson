@@ -6,7 +6,7 @@ import {
     CLEAR_PROFILE_UPDATE_STATUS, SHOW_INTERVENTIONS_MENU, SHOW_CSV_UPLOAD_MENU, SHOW_CSV_DOWNLOAD_MENU,
     SUBMIT_CSV_LOAD_SUCCESS, SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM,
     UNIT_INFO_REFRESH, SHOW_MENU_EDIT_SUCCESS, POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS, SHOW_LINKED_PARAMS_MENU,
-    UPDATE_LINKED_PARAMS, SHOW_PROFILE_SHARES_MENU, PROFILE_SHARE_FETCH_SUCCESS
+    UPDATE_LINKED_PARAMS, SHOW_PROFILE_SHARES_MENU, PROFILE_SHARE_FETCH_SUCCESS, SUMMARY_DATA_PROFILE_EXTRAS
 } from '../constants/profile'
 import {
     SET_SHOW_ADD_METRIC,
@@ -21,7 +21,10 @@ export const fetchProfileSummary = () => {
     let url = `${baseUrl}/profile/summary`;
     return dispatch => {
         axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
-            .then(profileData => dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: {profileData} }))
+            .then(profileData => {
+                dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: {profileData} });
+                dispatch({ type: SUMMARY_DATA_PROFILE_EXTRAS, payload: {profileData} });
+            })
             .catch((error) => dispatch({ type: FETCH_SUMMARY_DATA_FAILURE, payload: {error} }))
     }
 };

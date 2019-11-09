@@ -113,11 +113,19 @@ export const postTargetValue = (value) => {
     }
 };
 
-export const deleteShareRequest = (ojbId) => {
-    const url = `${baseUrl}/profile/profile-share/delete`;
+export const updateProfileShare = (ojbId, action) => {
+    const url = `${baseUrl}/profile/profile-share/${action}`;
     return dispatch => {
         axios.post(url,{profile_share_id: ojbId},
             {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
             .then(shareInfo => dispatch({ type: PROFILE_SHARE_FETCH_SUCCESS, payload: {shareInfo} }))
     }
+};
+
+export const deleteShareRequest = (ojbId) => {
+    updateProfileShare(ojbId, 'delete')
+};
+
+export const acceptShareRequest = (ojbId) => {
+    updateProfileShare(ojbId, 'accept')
 };
