@@ -1,3 +1,4 @@
+Frontend for a [web application](http://mysite.com) used to track individuals health metrics.
 
 First install all the dependencies
 
@@ -20,5 +21,6 @@ libraries**
 `useDispatch` and `useSelector` in `src/components/nav_items/profile_shares`. 
 These gives access to the `dispatch` method and Redux store state
 
-
+Multiple dispatches after `axios.get` call in async action creator which is handled by Redux Thunk: 
+Simultaneous, successive dispatches in `postEditedDataPoints`, `loadSharedViewData` in `src/store/actions/body`. 
 

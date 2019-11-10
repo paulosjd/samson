@@ -6,11 +6,8 @@ import {
     SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN, SET_SHOW_MONTHLY_DIFFS, SET_SHOW_ADD_LINKED_PARAM
 } from '../constants/body'
 import {
-    DATA_POINTS_REFRESH,
-    TARGETS_DATA_REFRESH,
-    UPDATE_LINKED_PARAMS,
-    PROFILE_SHARE_FETCH_SUCCESS,
-    FETCH_SUMMARY_DATA_SUCCESS, SUMMARY_DATA_PROFILE_EXTRAS, FETCH_SUMMARY_DATA_FAILURE
+    DATA_POINTS_REFRESH, TARGETS_DATA_REFRESH, UPDATE_LINKED_PARAMS, PROFILE_SHARE_FETCH_SUCCESS,
+    FETCH_SUMMARY_DATA_SUCCESS, SHARE_VIEW_EXTRAS, FETCH_SUMMARY_DATA_FAILURE
 } from "../constants/profile";
 
 export const baseUrl = 'http://127.0.0.1:8000/api';
@@ -126,13 +123,13 @@ export const updateProfileShare = (ojbId, action) => {
     }
 };
 
-export const testGetSummary = (profileId) => {
+export const loadSharedViewData = (profileId) => {
     let url = `${baseUrl}/profile/shared-summary/${profileId}`;
     return dispatch => {
         axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
             .then(profileData => {
                 dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: {profileData} });
-                dispatch({ type: SUMMARY_DATA_PROFILE_EXTRAS, payload: {profileData} });
+                dispatch({ type: SHARE_VIEW_EXTRAS, payload: profileData });
             })
             .catch((error) => dispatch({ type: FETCH_SUMMARY_DATA_FAILURE, payload: {error} }))
     }

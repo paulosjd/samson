@@ -70,7 +70,7 @@ class MenuItems extends Component {
                         className='hover-background med-row'
                         onClick={() => this.props.setShowAddMetric(true)}
                     >
-                        <span role="img" aria-label="plus">&#x2795; Add metrics to track</span>
+                        <span role="img" aria-label="plus">&#x2795; Add metric to track</span>
                     </ListGroupItem>)}
 
                 { (!this.props.showAddMetric && availParams.length === 0) || (

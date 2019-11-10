@@ -1,7 +1,8 @@
 import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SUBMIT_CSV_LOAD_SUCCESS,
     SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH,
-    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS, UPDATE_LINKED_PARAMS
+    TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS, UPDATE_LINKED_PARAMS,
+    SHARE_VIEW_EXTRAS
 } from "../constants/profile";
 
 const initialState = {
@@ -21,7 +22,11 @@ const initialState = {
     loadError: null,
     uploadFilename: '',
     showCsvLoadSuccess: false,
-    isSharedView: false
+    isShareView: false,
+};
+
+const initialShareViewState = {
+    shareViewUsername: '',
 };
 
 export default function profile(state = initialState, action) {
@@ -32,6 +37,7 @@ export default function profile(state = initialState, action) {
             const profileData = action.payload.profileData.data;
             return {
                 ...state,
+                ...initialShareViewState,
                 loading: false,
                 loadError: false,
                 allParams: profileData.all_params,
@@ -44,8 +50,13 @@ export default function profile(state = initialState, action) {
                 rollingMeans: profileData.rolling_means,
                 monthlyChanges: profileData.monthly_changes,
                 bookmarks: profileData.bookmarks,
-                isSharedView: profileData.is_shared_view,
+                isShareView: profileData.is_shared_view,
                 summaryItems: summaryItemsFromPayload(profileData.profile_summary),
+            };
+        case SHARE_VIEW_EXTRAS:
+            return {
+                ...state,
+                shareViewUsername: action.payload.data.share_view_username
             };
         case UPDATE_BOOKMARKS:
             return {...state, bookmarks: action.payload.bookmarksData.data};

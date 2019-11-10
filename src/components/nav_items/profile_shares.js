@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip } from 'reactstrap';
 import ProfileSearch from "../form/profile_search";
-import { baseUrl, updateProfileShare, testGetSummary } from "../../store/actions/body";
+import { showNavItem } from "../../store/actions/profile";
+import { baseUrl, updateProfileShare, loadSharedViewData } from "../../store/actions/body";
 import { PROFILE_SEARCH_RESULTS, PROFILE_SHARE_FETCH_SUCCESS, PROFILE_SHARE_REQUEST_FAILURE
 } from "../../store/constants/profile";
 
@@ -17,8 +18,8 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
     const [hasSearched, setHasSearched] = useState(false);
     const acceptShareRequest = (objId) => updateProfileShare(objId, 'accept');
     const deleteShareRequest = (objId) => updateProfileShare(objId, 'delete');
-    const dispatch = useDispatch(); //this hook gives us dispatch method
-    const content = useSelector(state => state); //this hook gives us redux store state
+    const dispatch = useDispatch();
+    const content = useSelector(state => state);
     const profileSearchResults = content.menu.profileSearchResults;
 
     const getProfileMatches = (value) => {
@@ -158,7 +159,8 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
     if (profileData.active_shares.length > 0) {
         const handleProfileClick = (profileId, e) => {
             if (e.target.id !== 'delBtn') {
-                dispatch(testGetSummary(profileId))
+                dispatch(loadSharedViewData(profileId));
+                dispatch(showNavItem('profile_shares', false));
             }
         };
         const tableBody = profileData.active_shares.map(obj => {

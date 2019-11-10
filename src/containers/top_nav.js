@@ -1,12 +1,39 @@
 import React, { Component } from 'react';
 import { Navbar, UncontrolledTooltip, Alert } from 'reactstrap';
 import {connect } from "react-redux";
-import { fetchProfileInfo, fetchProfileShareInfo, showNavItem } from '../store/actions/profile'
+import { fetchProfileInfo, fetchProfileShareInfo, showNavItem, fetchProfileSummary } from '../store/actions/profile'
 import { setShowRegForm, userLogout } from '../store/actions/user'
 
-
 class TopNav extends Component {
+
     render() {
+
+        if (this.props.isShareView && this.props.shareViewUsername) {
+            return (
+                <Navbar>
+                    <span className="nav-item sv_username color4a fontsize18">
+                        {this.props.shareViewUsername}</span>
+                    <span className="mr-auto nav-item sv_notify">shared view</span>
+                    <button
+                        type="button" className="leave_sv"
+                        onClick={this.props.fetchProfileSummary}
+                    >Return to my profile</button>
+                    {this.props.isDemo && (
+                        <button type="button" className="form-submit"
+                                onClick={() => this.props.handleLogout('register', this.props.setShowRegForm)}
+                        >Register</button>
+                    )}
+                    <button
+                        type="button" className="form-submit"
+                        onClick={(e) => {
+                            this.props.handleLogout(e);
+                            this.props.userLogout()
+                        }}
+                    >Logout</button>
+                </Navbar>
+            )
+        }
+
         return (
             <Navbar>
                 <span role="img" aria-label="Mushroom" className='nav-item' id="profile"
@@ -15,9 +42,8 @@ class TopNav extends Component {
                 <UncontrolledTooltip id="ttip" placement="bottom" target="profile"
                 >Profile information</UncontrolledTooltip>
 
-                <span onClick={this.props.handleProfileClick} className="mr-auto nav-item"
-                >{'  ' + this.props.username}</span>
-
+                <span onClick={this.props.handleProfileClick} className="mr-auto nav-item color4a left-6 fontsize18"
+                >{this.props.username}</span>
                 { this.props.shareRequestsReceived.length > 0 && (
                     <Alert className="pend-share-alert" style={{padding: 0.2}} color="warning"
                            onClick={this.props.handleSharesMenuClick}>Pending requests</Alert> )}
@@ -28,7 +54,7 @@ class TopNav extends Component {
                 <UncontrolledTooltip id="ttip" placement="bottom" target="color_scheme"
                 >Color labeling</UncontrolledTooltip>
 
-                <span role="img" aria-label="palette" id="schedule_scheme" className='right-18 fontsize16 csr-pt'
+                <span role="img" aria-label="palette" id="schedule_scheme" className='right-18 fontsize15 csr-pt'
                       onClick={this.props.showLinkedParamsMenu}
                 >&#x1F4C5;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="schedule_scheme"
@@ -74,7 +100,9 @@ const mapStateToProps = state => {
     return {
         isDemo: isDemo,
         username: isDemo ? 'Guest' : state.auth.username,
-        shareRequestsReceived: state.extras.share_requests_received
+        shareRequestsReceived: state.extras.share_requests_received,
+        isShareView: state.profile.isShareView,
+        shareViewUsername: state.profile.shareViewUsername,
     };
 };
 
@@ -90,6 +118,7 @@ const mapDispatchToProps = dispatch => {
         showColorSchemeMenu: () => dispatch(showNavItem('interventions', true)),
         showLinkedParamsMenu: () => dispatch(showNavItem('linked_params', true)),
         setShowRegForm: () => dispatch(setShowRegForm(true)),
+        fetchProfileSummary: () => dispatch(fetchProfileSummary()),
         userLogout: () => dispatch(userLogout())
     };
 };
