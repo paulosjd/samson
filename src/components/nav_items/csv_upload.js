@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Table, ModalHeader, Alert } from 'reactstrap';
 import { toTitleCase } from '../../utils/helpers'
-import CsvUploadForm from '../form/csv_upload'
+import CsvUploadForm from '../form/csv_upload_form'
 
 const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload, csvUploadConfirm,
                            clearLoadError, showCsvLoadSuccess, fetchProfileSummary }) => {

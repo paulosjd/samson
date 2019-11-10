@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import ProfileMenu from '../components/nav_items/profile_menu'
-import CsvDownloadMenu from '../components/nav_items/csv_download_menu'
-import CsvUploadMenu from '../components/nav_items/csv_upload_menu'
-import ParamColorMenu from '../components/nav_items/param_color_menu'
-import LinkedParamsMenu from '../components/nav_items/linked_params_menu'
-import ProfileSharesMenu from '../components/nav_items/profile_shares_menu'
+import CsvDownloadMenu from '../components/nav_items/csv_download'
+import CsvUploadMenu from '../components/nav_items/csv_upload'
+import ParamColorMenu from '../components/nav_items/param_color'
+import LinkedParamsMenu from '../components/nav_items/linked_params'
+import ProfileSharesMenu from '../components/nav_items/profile_shares'
 
 const NavItems  = ({ props }) => {
     const { showCsvDownloadMenu, showCsvUploadMenu, showColorSchemeMenu, showLinkedParamsMenu, showProfileSharesMenu

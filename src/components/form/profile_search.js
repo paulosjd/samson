@@ -18,7 +18,7 @@ const ProfileSearch = ({ getProfileMatches }) => {
                         <div className='display-inline search-prof-form'>
                         <input
                             type='text'
-                            placeholder='Enter search'
+                            placeholder='Enter username'
                             maxLength={20}
                             value={values.input_text}
                             onChange={ e => { setFieldValue('input_text', e.target.value) }}

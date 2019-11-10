@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, ModalHeader, Alert, ModalBody } from 'reactstrap';
-import CsvDownloadForm from "../form/csv_download";
+import CsvDownloadForm from "../form/csv_download_form";
 
 const CsvDownloadMenu = ({ toggle, isOpen, profileData, showCsvLoadSuccess, getCsvDownload, clearLoadError }) => {
 

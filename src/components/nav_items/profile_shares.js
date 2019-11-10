@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip } from 'reactstrap';
 import ProfileSearch from "../form/profile_search";
-import { baseUrl, updateProfileShare } from "../../store/actions/body";
+import { baseUrl, updateProfileShare, testGetSummary } from "../../store/actions/body";
 import { PROFILE_SEARCH_RESULTS, PROFILE_SHARE_FETCH_SUCCESS, PROFILE_SHARE_REQUEST_FAILURE
 } from "../../store/constants/profile";
 
@@ -13,6 +13,7 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
     const [requestConfirmId, setRequestConfirmId] = useState(null);
     const [showRequestConfirm, setShowRequestConfirm] = useState(false);
     const [showProfileSearch, setShowProfileSearch] = useState(false);
+    const [delConfirmObj, setDelConfirmObj] = useState(null);
     const [hasSearched, setHasSearched] = useState(false);
     const acceptShareRequest = (objId) => updateProfileShare(objId, 'accept');
     const deleteShareRequest = (objId) => updateProfileShare(objId, 'delete');
@@ -38,7 +39,7 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
                 .catch(() => dispatch({ type: PROFILE_SHARE_REQUEST_FAILURE, value: true }))
                 .then(() => {
                     setShowRequestConfirm(false); setShowProfileSearch(false); setHasSearched(false)
-                } )
+                })
                 .then(() => { return dispatch({ type: PROFILE_SEARCH_RESULTS, payload: []}) })
                 .then(() => setTimeout(() => dispatch(
                     { type: PROFILE_SHARE_REQUEST_FAILURE, value: false }),3000))
@@ -127,20 +128,79 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
         );
     }
 
+    if (delConfirmObj) {
+        return (
+            <Modal className='max-width-320'
+                   isOpen={!!delConfirmObj}
+                   toggle={() => {if (delConfirmObj) {
+                       setDelConfirmObj(null)
+                   }}} >
+                <ModalHeader>
+                    <p className='fontsize10 bottom-0'>{`Delete profile view share with ${delConfirmObj.name}?`}</p>
+                </ModalHeader>
+                <ModalBody className='confirm-send-req'>
+                    <div>
+                        <button type="button" className='del-acc-btn'
+                                onClick={() => {
+                                    dispatch(deleteShareRequest(delConfirmObj.id)); setDelConfirmObj(null)
+                                }}
+                        >OK</button>
+                        <button type="button" className='del-acc-btn'
+                                onClick={() => setDelConfirmObj(null)}
+                        >Cancel</button>
+                    </div>
+                </ModalBody>
+            </Modal>
+        );
+    }
+
+    let sharedProfilesBody = <h6 className='menu-text'>No shared profiles yet</h6>;
+    if (profileData.active_shares.length > 0) {
+        const handleProfileClick = (profileId, e) => {
+            if (e.target.id !== 'delBtn') {
+                dispatch(testGetSummary(profileId))
+            }
+        };
+        const tableBody = profileData.active_shares.map(obj => {
+            console.log(obj)
+            return (
+                <tr key={obj.id}>
+                    <td>
+                        <button className='view-prof-btn' onClick={(e) => handleProfileClick(obj.profile_id, e)}>
+                            {obj.name}
+                            <span className='del-share' id='delBtn'
+                                  onClick={() => setDelConfirmObj(obj)}
+                            >X</span>
+                        </button>
+                    </td>
+                </tr>
+            )
+        });
+        sharedProfilesBody = (
+            <Table className='pend-table'>
+                <tbody>
+                { tableBody }
+                </tbody>
+            </Table>
+        );
+    }
+
     let awaitingConfirmSection;
     if (profileData.share_requests_received.length > 0) {
         const awaitingConfirms = profileData.share_requests_received.map(obj => {
             return (
                 <tr key={obj.id}>
                     <td style={{width: 28}}>
-                        <span role="img" aria-label="trash" className='del-icon'
+                        <span role="img" aria-label="trash" className='del-icon' id='reject'
                               onClick={() => dispatch(deleteShareRequest(obj.id))}
                         >&#x274C;</span>
+                        <UncontrolledTooltip id="ttip" placement="bottom" target="reject">Dismiss</UncontrolledTooltip>
                     </td>
                     <td style={{width: 28}}>
-                        <span role="img" aria-label="tick" className='del-icon'
+                        <span role="img" aria-label="tick" className='del-icon' id='accept'
                               onClick={() => dispatch(acceptShareRequest(obj.id))}
                         >&#x2714;</span>
+                        <UncontrolledTooltip id="ttip" placement="bottom" target="accept">Accept</UncontrolledTooltip>
                     </td>
                     <td>
                         <button className='pend-req-name'>{obj.requester}</button>
@@ -151,40 +211,16 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
         awaitingConfirmSection = <Table className='pend-table'><tbody>{ awaitingConfirms }</tbody></Table>
     }
 
-    let sharedProfilesBody = <h6 className='font-normal'>No shared profiles yet</h6>;
-    if (profileData.active_shares.length > 0) {
-        const tableBody = profileData.active_shares.map((obj, ind) => {
-            return (
-                <tr key={ind}>
-                    <td>
-                        <span className='csr-pt fontsize12 ' role="img" aria-label="info" id="view">&#x2139;</span>
-                        <UncontrolledTooltip id="ttip" placement="bottom" target="view">View profile</UncontrolledTooltip>
-                    </td>
-                    <td>
-                        <h6>{obj.name}</h6>
-                    </td>
-                </tr>
-            )
-        });
-        sharedProfilesBody = (
-            <Table className='pend-table'>
-                <thead><tr className='short-row'><th> </th><th>Username</th></tr></thead>
-                <tbody>
-                    { tableBody }
-                </tbody>
-            </Table>
-        );
-    }
-
     let pendingRequestsSection = null;
     if (profileData.share_requests_made.length > 0) {
         const pendingRequests = profileData.share_requests_made.map(obj => {
             return (
                 <tr key={obj.id}>
                     <td style={{width: 28}}>
-                        <span role="img" aria-label="trash" className='del-icon'
+                        <span role="img" aria-label="trash" className='del-icon' id='cancel'
                               onClick={() => dispatch(deleteShareRequest(obj.id))}
                         >&#x274C;</span>
+                        <UncontrolledTooltip id="ttip" placement="bottom" target="cancel">Cancel</UncontrolledTooltip>
                     </td>
                     <td>
                         <button className='pend-req-name'>{obj.receiver}</button>
@@ -197,20 +233,21 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
 
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="max-width-320">
-            <ModalHeader><p className='fontsize10 bottom-0'>View shared profiles</p></ModalHeader>
-            <ModalBody>
+            <ModalHeader><p className='fontsize10 bottom-0'>Shared profile views</p></ModalHeader>
+            <ModalBody className='padleft-0 padright-0 padbottom-8' >
                 { sharedProfilesBody }
-                <button className='btn search-prof-btn' onClick={() => {setShowProfileSearch(true)}}>
-                    Profile search</button>
-                { content.menu.profileShareRequestFailure && (
-                    <Alert className="share-req-fail" color="danger">Something went wrong</Alert> )}
+                <div className='search-prof-btn'>
+                    <button onClick={() => {setShowProfileSearch(true)}}>Profile search</button>
+                    { content.menu.profileShareRequestFailure && (
+                        <Alert className="share-req-fail" color="danger">Something went wrong</Alert> )}
+                </div>
             </ModalBody>
             { awaitingConfirmSection && (
                 <React.Fragment>
                     <ModalHeader className='pend-head'>
                         <p className='fontsize10 bottom-0'>Pending requests</p>
                     </ModalHeader>
-                    <ModalBody className='await-con-body pend-body'>
+                    <ModalBody className='await-con-body bottom-5'>
                         { awaitingConfirmSection }
                     </ModalBody>
                 </React.Fragment> )}
