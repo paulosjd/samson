@@ -162,7 +162,6 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
             }
         };
         const tableBody = profileData.active_shares.map(obj => {
-            console.log(obj)
             return (
                 <tr key={obj.id}>
                     <td>

@@ -21,6 +21,7 @@ const initialState = {
     loadError: null,
     uploadFilename: '',
     showCsvLoadSuccess: false,
+    isSharedView: false
 };
 
 export default function profile(state = initialState, action) {
@@ -43,6 +44,7 @@ export default function profile(state = initialState, action) {
                 rollingMeans: profileData.rolling_means,
                 monthlyChanges: profileData.monthly_changes,
                 bookmarks: profileData.bookmarks,
+                isSharedView: profileData.is_shared_view,
                 summaryItems: summaryItemsFromPayload(profileData.profile_summary),
             };
         case UPDATE_BOOKMARKS:
