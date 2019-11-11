@@ -5,7 +5,7 @@ import DataPointTableAdd from '../form/dp_table_add'
 import { toTitleCase } from '../../utils/helpers'
 
 const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditDataFlag, editData, postEditedDataPoints,
-                         postAddedDataPoints, addData, loadError, clearEditDataFailure }) => {
+                         postAddedDataPoints, addData, loadError, clearEditDataFailure, isShareView }) => {
     let value2;
     let val2headers;
     if (selectedParameter) {
@@ -34,29 +34,44 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
         />
     );
 
+    let tableHeader = (
+        <tr className='short-row'>
+            <th colSpan={value2 ? 3 : 2}>
+                { !addData ?
+                    <span className='data-points-header-action' role="img" aria-label="plus"
+                          onClick={() => setAddDataFlag(true)}>
+                                &#x2795; Add
+                            </span> : null }
+                { dataPoints.length > 0 &&
+                <span className='data-points-header-action' role="img" aria-label="pencil"
+                      onClick={() => {
+                          clearEditDataFailure();
+                          setEditDataFlag(true) }
+                      }
+                >&#x270F;&#xFE0F; Edit</span> }
+                <span className='dp-param-label'>
+                            {selectedParameter.name ? selectedParameter.name + ' records' : ''}
+                        </span>
+            </th>
+        </tr>
+    );
+    if (isShareView) {
+        tableHeader = (
+            <tr className='short-row'>
+                <th colSpan={value2 ? 3 : 2}>
+                    <span className=''>
+                            {selectedParameter.name ? selectedParameter.name + ' records' : ''}
+                        </span>
+                </th>
+            </tr>
+        );
+    }
+
     return (
         <div>
             <Table className='data-points-table' bordered>
                 <thead>
-                <tr className='short-row'>
-                    <th colSpan={value2 ? 3 : 2}>
-                        { !addData ?
-                            <span className='data-points-header-action' role="img" aria-label="plus"
-                                  onClick={() => setAddDataFlag(true)}>
-                                &#x2795; Add
-                            </span> : null }
-                        { dataPoints.length > 0 &&
-                            <span className='data-points-header-action' role="img" aria-label="pencil"
-                                  onClick={() => {
-                                      clearEditDataFailure();
-                                      setEditDataFlag(true) }
-                                  }
-                            >&#x270F;&#xFE0F; Edit</span> }
-                        <span className='dp-param-label'>
-                            {selectedParameter.name ? selectedParameter.name + ' records' : ''}
-                        </span>
-                    </th>
-                </tr>
+                { tableHeader }
                 { value2 && <tr className='short-row val2-header'><th> </th>
                     <th>{val2headers[1]}</th><th>{val2headers[2]}</th></tr> }
                 </thead>

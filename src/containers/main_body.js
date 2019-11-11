@@ -7,8 +7,8 @@ import Summary from './summary'
 import Feature from './feature'
 import * as actionCreator from "../store/actions/profile";
 import {
-    setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure, getProfileMatches,
-    setShowAddMetric, postTargetValue, setEditTargetFlag, setEditTarget2Flag, setShowLinkedParamAdd, postLinkedParams
+    setFeatItemIndex, setEditDataFlag, postEditedDataPoints, setAddDataFlag, clearEditDataFailure, setShowAddMetric,
+    postTargetValue, setEditTargetFlag, setEditTarget2Flag, setShowLinkedParamAdd, postLinkedParams
 } from "../store/actions/body";
 import OutsideAction from '../utils/outside_action'
 import {
@@ -54,6 +54,7 @@ class MainBody extends Component {
                             setShowLinkedParamAdd={this.props.setShowLinkedParamAdd}
                             showAddLinkedParam={this.props.showAddLinkedParam}
                             postLinkedParams={this.props.postLinkedParams}
+                            isShareView={this.props.isShareView}
                         />
                     </Col>
                     <Col xs="4" style={{paddingLeft: 0, paddingRight: 0}}>
@@ -85,6 +86,7 @@ class MainBody extends Component {
                             handleProfileClick={this.props.handleProfileClick}
                             postEditedBookmarks={this.props.postEditedBookmarks}
                             postAddedBookmarks={this.props.postAddedBookmarks}
+                            isShareView={this.props.isShareView}
                         />
                         </OutsideAction>
                     </Col>
@@ -117,6 +119,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         menu: menu,
         linkedParams: profile.linkedParams,
         showAddLinkedParam: body.showAddLinkedParam,
+        isShareView: profile.isShareView
     };
 };
 

@@ -6,7 +6,7 @@ import LinkedParamAdd from '../components/form/linked_param_add'
 import LinkedParamsChart from '../components/body/linked_params_chart'
 
 const Summary = ({isLoading, body, dataPoints, selParam, linkedParams, summaryParams, setShowLinkedParamAdd,
-                  showAddLinkedParam, postLinkedParams}) => {
+                  showAddLinkedParam, postLinkedParams, isShareView}) => {
 
     const [ hideQualifyText, setHideQualifyText] = useState(false);
     const [ activeLabel, setActiveLabel] = useState('');
@@ -67,7 +67,7 @@ const Summary = ({isLoading, body, dataPoints, selParam, linkedParams, summaryPa
                     setActiveObjId={setActiveObjId}
                 />
             </OutsideAction>
-            { showLinkedParamAddBtn && (
+            { !isShareView && showLinkedParamAddBtn && (
                 <div className='add-linked-param-btn' ><span role="img" aria-label="plus"
                      onClick={() => setShowLinkedParamAdd(true)}
                 >&#x2795; Add linked parameter</span></div>) }

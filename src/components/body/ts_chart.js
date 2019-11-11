@@ -181,7 +181,7 @@ class TimeSeriesChart extends PureComponent {
                 margin={chartDims.margin}
                 data={chartData.reverse()}
                 onClick ={(val) => {
-                    if (chartDataIsDefault) {
+                    if (chartDataIsDefault && !this.props.isShareView) {
                         if (val) {
                             this.props.setActiveLabel(val.activeLabel);
                             this.props.setActiveObjId(val.activePayload[0].payload.id);
@@ -257,6 +257,7 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         showMean: body.showMean,
         showMonthlyDiffs: body.showMonthlyDiffs,
         linkedParams: profile.linkedParams,
+        isShareView: profile.isShareView
     };
 };
 

@@ -60,12 +60,16 @@ class MenuItems extends Component {
                     </ListGroupItem>)
             })
         } else {
-            items = <h2>Add metrics to begin tracking</h2>
+            items = !this.props.showAddMetric ? (
+                <span className='margin10'>
+                    {!this.props.isShareView ? 'Add metrics to begin tracking' : 'No tracking metrics added'}
+                </span>
+            )  : null
         }
 
         return (
             <ListGroup className='menu-items-list'>
-                { !this.props.showAddMetric && availParams.length > 0 && (
+                { !this.props.isShareView && !this.props.showAddMetric && availParams.length > 0 && (
                     <ListGroupItem
                         className='hover-background med-row'
                         onClick={() => this.props.setShowAddMetric(true)}
@@ -73,13 +77,16 @@ class MenuItems extends Component {
                         <span role="img" aria-label="plus">&#x2795; Add metric to track</span>
                     </ListGroupItem>)}
 
-                { (!this.props.showAddMetric && availParams.length === 0) || (
-                    this.props.showAddMetric && !this.props.metricAddFormHasValue) ? (
-                    <ListGroupItem
-                        className='med-row lh12 bkg-light-blue' id='custom_metric_add_btn'
-                        onClick={() => this.props.setShowAddCustomMetric(!this.props.showAddCustomMetric)}
-                    ><span id='custom_metric_add_btn' role="img" aria-label="plus"
-                    >&#x2795; Add custom metric</span></ListGroupItem>) : null }
+                { !this.props.isShareView && ((!this.props.showAddMetric && availParams.length === 0) || (
+                    this.props.showAddMetric && !this.props.metricAddFormHasValue)) ? (
+                        <ListGroupItem
+                            className='med-row lh12 bkg-light-blue' id='custom_metric_add_btn'
+                            onClick={() => this.props.setShowAddCustomMetric(!this.props.showAddCustomMetric)}
+                        >
+                            <span id='custom_metric_add_btn' role="img" aria-label="plus">
+                                &#x2795; Add custom metric
+                            </span>
+                        </ListGroupItem>) : null }
 
                 { this.props.showAddMetric && availParams.length > 0 ? (
                     <ListGroupItem className='hover-background'>
@@ -141,6 +148,7 @@ const mapStateToProps = state => {
         ideals: state.profile.ideals,
         metricAddFormHasValue: state.body.metricAddFormHasValue,
         customItemSaveError: state.profile.loadError,
+        isShareView: state.profile.isShareView,
     };
 };
 

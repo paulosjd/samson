@@ -5,7 +5,7 @@ import TargetValueAdd from "../form/target_value_add"
 import { toTitleCase } from '../../utils/helpers'
 
 const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTarget, editTarget2, setEditTargetFlag,
-                       setEditTarget2Flag, handleProfileClick, unitInfo}) => {
+                       setEditTarget2Flag, handleProfileClick, unitInfo, isShareView}) => {
 
     const paramIdealInfo = selectedParameter.ideal_info || '';
     const paramIdealInfoUrl = selectedParameter.ideal_info_url || '';
@@ -25,14 +25,18 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
                 <td>{'Target value'.concat(
                     hasVal2 ? ' (' + selectedParameter.upload_field_labels.split(', ')[1] + ') ' : '',
                     ': ', savedTarget, ' ', unitSymbol, ' ')}
-                    <span onClick={() => setEditTargetFlag(true)}
-                          role="img" aria-label="info" id="target-edit-icon">&#x270F;</span>
-                    <UncontrolledTooltip id="ttip" target="target-edit-icon">Edit</UncontrolledTooltip>
+                    { !isShareView && (
+                        <React.Fragment>
+                            <span onClick={() => setEditTargetFlag(true)}
+                                  role="img" aria-label="info" id="target-edit-icon">&#x270F;</span>
+                            <UncontrolledTooltip id="ttip" target="target-edit-icon">Edit</UncontrolledTooltip>
+                        </React.Fragment>
+                    )}
                 </td>
             </tr>
         )
     } else {
-        targetRow = (
+        targetRow = !isShareView ? (
             <tr className="no-border">
                 <td>
                     <TargetValueAdd
@@ -44,7 +48,7 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
                     />
                 </td>
             </tr>
-        )
+        ) : null
     }
 
     let targetRow2 = null;
@@ -54,14 +58,18 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
                 <td>{'Target value'.concat(
                     hasVal2 ? ' (' + selectedParameter.upload_field_labels.split(', ')[2] + ') ' : '',
                     ': ', savedTarget2, ' ', unitSymbol, ' ')}
-                    <span onClick={() => setEditTarget2Flag(true)}
-                          role="img" aria-label="info" id="target-edit-icon">&#x270F;</span>
-                    <UncontrolledTooltip id="ttip" target="target-edit-icon">Edit</UncontrolledTooltip>
+                    { !isShareView && (
+                        <React.Fragment>
+                            <span onClick={() => setEditTarget2Flag(true)}
+                                  role="img" aria-label="info" id="target-edit-icon">&#x270F;</span>
+                            <UncontrolledTooltip id="ttip" target="target-edit-icon">Edit</UncontrolledTooltip>
+                        </React.Fragment>
+                    )}
                 </td>
             </tr>
         )
     } else if (hasVal2) {
-        targetRow2 = (
+        targetRow2 = !isShareView ? (
             <tr className="no-border">
                 <td>
                     <TargetValueAdd
@@ -74,7 +82,7 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
                     />
                 </td>
             </tr>
-        )
+        ) : null
     }
 
     let miscInfo = [];
@@ -156,9 +164,14 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
         idealRow = (
             <tr className="no-border">
                 <td className='info-text'>{ideals.missing_field.concat(' field in profile needs setting ')}
-                    <span role="img" aria-label="info" id="info" onClick={handleProfileClick}>&#x1F527;</span>
-                    <UncontrolledTooltip id="ttip" placement="bottom" target="info"
-                    >{'Set '.concat(ideals.missing_field.toLowerCase(), ' for additional info')}</UncontrolledTooltip>
+                    { !isShareView && (
+                        <React.Fragment>
+                            <span role="img" aria-label="info" id="info" onClick={handleProfileClick}>&#x1F527;</span>
+                            <UncontrolledTooltip id="ttip" placement="bottom" target="info">
+                                {'Set '.concat(ideals.missing_field.toLowerCase(), ' for additional info')}
+                            </UncontrolledTooltip>
+                        </React.Fragment>
+                    )}
                 </td>
             </tr>
         )

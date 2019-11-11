@@ -26,6 +26,7 @@ ul {
 .max-width-320 {max-width: 320px !important;}
 .max-width-520 {max-width: 500px !important;}
 
+.margin10 {margin: 10px 10px;}
 .left-0 {margin-left: 0 !important;}
 .left-6 {margin-left: 6px !important;}
 .left-14 {margin-left: 14px !important;}
@@ -39,19 +40,20 @@ ul {
 .bottom-14 {margin-bottom: 14px}
 .bottom-0 {margin-bottom: 0px !important}
 .padleft-0 {margin-left: 0 !important}
+
 .padright-0 {padding-right: 0 !important}
 .padbottom-8 {padding-bottom: 8px !important}
 
 .display-inline {display: inline-block !important}
 .csr-pt {cursor: pointer}
+.color4a {color: #4A4A4A !important}
+
 .fontsize8 {font-size: 0.8rem !important}
 .fontsize9 {font-size: 0.9rem !important}
 .fontsize10 {font-size: 1.0rem !important}
 .fontsize12 {font-size: 1.2rem !important}
 .fontsize15 {font-size: 1.45rem !important}
 .fontsize18 {font-size: 1.8rem !important}
-
-.color4a {color: #4A4A4A !important}
 
 .menu-text {
     margin-left: 24px;

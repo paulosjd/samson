@@ -4,7 +4,7 @@ import BookmarksEdit from "../form/bookmark_edit";
 import BookmarksTableAdd from '../form/bookmark_add'
 
 const BookmarksTable = ({ selectedParameter, bookmarks, addData, editData, setAddDataFlag, setEditDataFlag,
-                            postAddedBookmarks, postEditedBookmarks }) => {
+                            postAddedBookmarks, postEditedBookmarks, isShareView }) => {
 
     bookmarks = bookmarks.sort((a,b) => {
         if (a.title < b.title) return -1;
@@ -33,16 +33,20 @@ const BookmarksTable = ({ selectedParameter, bookmarks, addData, editData, setAd
                 <thead>
                 <tr className='short-row'>
                     <th colSpan={1}>
-                        <span className='dp-param-label'>
+                        <span className={!isShareView ? 'dp-param-label' : ''}>
                             {selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}
                         </span>
-                        <span className='data-points-header-action' role="img" aria-label="plus"
-                              onClick={() => setAddDataFlag(true)}>&#x2795; Add
-                        </span>
-                        { bookmarks.length > 0 &&
-                        <span className='data-points-header-action' role="img" aria-label="pencil"
-                              onClick={() => setEditDataFlag(true)}>&#x270F;&#xFE0F; Edit
-                        </span> }
+                        { !isShareView && (
+                            <React.Fragment>
+                                <span className='data-points-header-action' role="img" aria-label="plus"
+                                      onClick={() => setAddDataFlag(true)}>&#x2795; Add
+                                </span>
+                                { bookmarks.length > 0 &&
+                                <span className='data-points-header-action' role="img" aria-label="pencil"
+                                      onClick={() => setEditDataFlag(true)}>&#x270F;&#xFE0F; Edit
+                                </span> }
+                            </React.Fragment>
+                        )}
                     </th>
                 </tr>
                 </thead>

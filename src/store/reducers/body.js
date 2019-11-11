@@ -2,7 +2,7 @@ import { SET_MENU_ITEM_INDEX, SET_FEAT_ITEM_INDEX, SET_EDIT_DATA_FLAG, SET_ADD_D
     CLEAR_EDIT_DATA_FAILURE, SET_SHOW_ADD_METRIC, SET_SHOW_ADD_QUALIFIER, SET_EDIT_TARGET_FLAG, SET_EDIT_TARGET2_FLAG,
     APPEND_EDITED_DP_PARAMS, RESET_SELECTED_ITEM_INDEX, RESET_CHART_SELECTION, SET_SHOW_ROLLING_MEANS,
     SET_SHOW_ADD_CUSTOM_METRIC, SET_METRIC_ADD_FORM_HAS_VALUE, SET_SHOW_MEAN, SET_SHOW_MONTHLY_DIFFS,
-    SET_SHOW_ADD_LINKED_PARAM
+    SET_SHOW_ADD_LINKED_PARAM, RESET_BODY_STATE
 } from '../constants/body'
 
 const initialState = {
@@ -28,6 +28,8 @@ export default function profile(state = initialState, action) {
     state = { ...state, editData: false, addData: false, editDataError: null};
     const statsInitial = {...state, showRollingMeans: false, showMean: false, showMonthlyDiffs: false};
     switch(action.type) {
+        case RESET_BODY_STATE:
+            return { ...initialState };
         case RESET_SELECTED_ITEM_INDEX:
             return { ...state, selectedItemIndex: 0, selectedFeatIndex: 0 };
         case RESET_CHART_SELECTION:

@@ -7,7 +7,7 @@ import ParamInfo from "../components/body/param_info";
 const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex, setEditDataFlag, postEditedDataPoints,
                      setAddDataFlag, setEditTargetFlag, setEditTarget2Flag, handleProfileClick,
                      postAddedDataPoints, clearEditDataFailure, postTargetValue, unitInfo, bookmarks,
-                     postEditedBookmarks, postAddedBookmarks}) => {
+                     postEditedBookmarks, postAddedBookmarks, isShareView }) => {
 
     const labels = ['\ud83d\udcc8  Records', '\t\ud83d\udcc4  Stats and info', '\ud83d\udcd6  Bookmarks'];
     const paramDps = dataPoints.filter(obj => obj.parameter === selectedParameter.name);
@@ -25,6 +25,7 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
             postEditedDataPoints={postEditedDataPoints}
             postAddedDataPoints={postAddedDataPoints}
             clearEditDataFailure={clearEditDataFailure}
+            isShareView={isShareView}
         />
     );
 
@@ -46,6 +47,7 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
             setEditTargetFlag={setEditTargetFlag}
             setEditTarget2Flag={setEditTarget2Flag}
             handleProfileClick={handleProfileClick}
+            isShareView={isShareView}
         />
     );
 
@@ -59,6 +61,7 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
             setAddDataFlag={setAddDataFlag}
             postEditedBookmarks={postEditedBookmarks}
             postAddedBookmarks={postAddedBookmarks}
+            isShareView={isShareView}
         />
     );
 

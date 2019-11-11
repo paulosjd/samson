@@ -4,7 +4,7 @@ import axios from "axios";
 import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip } from 'reactstrap';
 import ProfileSearch from "../form/profile_search";
 import { showNavItem } from "../../store/actions/profile";
-import { baseUrl, updateProfileShare, loadSharedViewData } from "../../store/actions/body";
+import { baseUrl, loadSharedViewData, resetBodyState, updateProfileShare } from "../../store/actions/body";
 import { PROFILE_SEARCH_RESULTS, PROFILE_SHARE_FETCH_SUCCESS, PROFILE_SHARE_REQUEST_FAILURE
 } from "../../store/constants/profile";
 
@@ -161,6 +161,7 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
             if (e.target.id !== 'delBtn') {
                 dispatch(loadSharedViewData(profileId));
                 dispatch(showNavItem('profile_shares', false));
+                dispatch(resetBodyState())
             }
         };
         const tableBody = profileData.active_shares.map(obj => {

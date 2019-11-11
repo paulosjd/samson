@@ -1,4 +1,4 @@
-Frontend for a [web application](http://mysite.com) used to track individuals health metrics.
+React frontend for a [web application](http://mysite.com) used to track individuals health metrics.
 
 First install all the dependencies
 
@@ -11,12 +11,11 @@ To start the app type
 npm start
 ```
 
-**Notable examples of features/functionality of React and associated 
-libraries**
+**Examples of usage of features from used libraries**
 
-(Referenced usages and their file paths at time of writing)
+*nb* Referenced usages and their file paths at time of writing
 
-*Hooks*
+Hooks
 
 `useDispatch` and `useSelector` in `src/components/nav_items/profile_shares`. 
 These gives access to the `dispatch` method and Redux store state
