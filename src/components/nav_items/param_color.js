@@ -19,7 +19,7 @@ const ParamColorMenu = ({ toggle, isOpen, unitInfo, postColorSchema, updateSucce
         initial[item.param_name + '_min'] = parseInt(colorData.rangeVal1 * 100);
         initial[item.param_name + '_max'] = parseInt(colorData.rangeVal2 * 100);
     });
-    const colorChoices = ['#99c140', '#ffbf00', '#ff7f00'];
+    const colorChoices = ['#fff', '#99c140', '#ffbf00', '#ff7f00'];
 
     return (
         <Modal isOpen={isOpen} toggle={toggle} className="modal-lg">
