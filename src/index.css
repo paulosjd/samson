@@ -39,7 +39,7 @@ ul {
 .bottom-10 {margin-bottom: 10px}
 .bottom-14 {margin-bottom: 14px}
 .bottom-0 {margin-bottom: 0px !important}
-.padleft-0 {margin-left: 0 !important}
+.padleft-0 {padding-left: 0 !important}
 
 .padright-0 {padding-right: 0 !important}
 .padbottom-8 {padding-bottom: 8px !important}
@@ -771,8 +771,8 @@ input[type='file'] {
 }
 
 .search-prof-btn button {
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     color: #4A4A4A;
     background-color: #FFF3CD;
     padding: .4rem .75rem ;

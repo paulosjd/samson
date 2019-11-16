@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip, Tooltip } from 'reactstrap';
 import ProfileSearch from "../form/profile_search";
 import { showNavItem } from "../../store/actions/profile";
 import { baseUrl, loadSharedViewData, resetBodyState, updateProfileShare } from "../../store/actions/body";
@@ -16,11 +16,13 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
     const [showProfileSearch, setShowProfileSearch] = useState(false);
     const [delConfirmObj, setDelConfirmObj] = useState(null);
     const [hasSearched, setHasSearched] = useState(false);
+    const [tooltipTargetIsOpen, setTooltipTargetIsOpen] = useState({});
     const acceptShareRequest = (objId) => updateProfileShare(objId, 'accept');
     const deleteShareRequest = (objId) => updateProfileShare(objId, 'delete');
     const dispatch = useDispatch();
     const content = useSelector(state => state);
     const profileSearchResults = content.menu.profileSearchResults;
+    const isDemo = content.auth.username.startsWith('demo_');
 
     const getProfileMatches = (value) => {
         const url = `${baseUrl}/profile/profile-search/${value}`;
@@ -47,7 +49,22 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
         }
     };
 
-    if (!profileData.is_verified) {
+    const tooltipToggle = targetName => {
+        if (!tooltipTargetIsOpen[targetName]) {
+            setTooltipTargetIsOpen({
+                [targetName]: {tooltipOpen: true}
+            });
+        } else {
+            setTooltipTargetIsOpen({
+                [targetName]: {tooltipOpen: !tooltipTargetIsOpen[targetName].tooltipOpen}
+            });
+        }
+    };
+    const isToolTipOpen = (targetName) => {
+        return tooltipTargetIsOpen[targetName] ? tooltipTargetIsOpen[targetName].tooltipOpen : false;
+    };
+
+    if (!profileData.is_verified && !isDemo) {
         return (
             <Modal isOpen={isOpen} toggle={
                 toggle} className="registration-modal">
@@ -204,8 +221,17 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
                         >&#x2714;</span>
                         <UncontrolledTooltip id="ttip" placement="bottom" target="accept">Accept</UncontrolledTooltip>
                     </td>
-                    <td>
+                    <td style={{width: 158}}>
                         <button className='pend-req-name'>{obj.requester}</button>
+                    </td>
+                    <td>
+                        <span role="img" aria-label="message" className='del-icon' id={`msg-${obj.id}`}>&#x1F4DD;</span>
+                        <Tooltip
+                            id="ttip" placement={'top'}
+                            isOpen={isToolTipOpen(`msg-${obj.id}`)}
+                            toggle={() => tooltipToggle(`msg-${obj.id}`)}
+                            target={`msg-${obj.id}`}
+                        >{obj.message}</Tooltip>
                     </td>
                 </tr>
             )
