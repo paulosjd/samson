@@ -135,6 +135,7 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
                 }}>
                 <ModalHeader><p className='fontsize9 bottom-0'>Search by profile name</p></ModalHeader>
                 <ProfileSearch
+                    isDemo={isDemo}
                     getProfileMatches={(val) => dispatch(getProfileMatches(val))}
                 />
                 <Table bordered>

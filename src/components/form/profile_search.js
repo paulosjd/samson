@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from "formik";
 import { ProfileSearchSchema } from "../../schemas/profile";
+import { Alert } from "reactstrap";
 
-const ProfileSearch = ({ getProfileMatches }) => {
+const ProfileSearch = ({ isDemo, getProfileMatches }) => {
+    const [showDemoNotice, setShowDemoNotice] = useState(false);
 
     return (
         <Formik
             enableReinitialize
             initialValues={{input_text: ''}}
             validationSchema={ProfileSearchSchema}
-            onSubmit={val => { if (val.input_text) getProfileMatches(val.input_text) }}
+            onSubmit={val => { if (val.input_text) {
+                if (isDemo) {
+                    setShowDemoNotice(true);
+                    setTimeout(() => setShowDemoNotice(false), 2500)
+                } else {
+                    getProfileMatches(val.input_text)
+                }
+            }}}
         >
             {props => {
                 const {values, errors, handleSubmit, setFieldValue} = props;
@@ -27,6 +36,8 @@ const ProfileSearch = ({ getProfileMatches }) => {
                                 style={errors.input_text || !values.input_text ? {backgroundColor: '#c8d8df'} : {}}
                         >Search</button>
                         </div>
+                        { showDemoNotice && (
+                            <Alert className="reg-req-warn" color="warning">Registration required</Alert> )}
                     </form>
                 );
             }}
