@@ -97,6 +97,17 @@ export const postCsvUpload = (value) => {
     }
 };
 
+export const confirmCsvUpload = (data, meta) => {
+    const url = `${baseUrl}/datapoints/upload`;
+    return dispatch => {
+        axios.post(url, {data: {...data, confirm: true}, meta: meta },
+            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
+            .then(() => dispatch({ type: CSV_LOAD_CONFIRM }) )
+            .then(() => setTimeout(() => dispatch({ type: CLEAR_CSV_LOAD_CONFIRM }), 2500))
+            .catch((error) => dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) )
+    }
+};
+
 export const postMenuItemAdd = (value) => {
     const url = `${baseUrl}/profile/menu-item-add`;
     return dispatch => {
@@ -115,17 +126,6 @@ export const postCustomMenuItemAdd = (value) => {
             .then(profileData => dispatch({ type: FETCH_SUMMARY_DATA_SUCCESS, payload: {profileData} }) )
             .then(() => dispatch({ type: SET_SHOW_ADD_CUSTOM_METRIC, value: false }) )
             .catch((error) => dispatch({ type: POST_CUSTOM_PARAM_FAILURE, payload: error }) )
-    }
-};
-
-export const confirmCsvUpload = (data, meta) => {
-    const url = `${baseUrl}/datapoints/upload`;
-    return dispatch => {
-        axios.post(url, {data: {...data, confirm: true}, meta: meta },
-            {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
-            .then(() => dispatch({ type: CSV_LOAD_CONFIRM }) )
-            .then(() => setTimeout(() => dispatch({ type: CLEAR_CSV_LOAD_CONFIRM }), 2500))
-            .catch((error) => dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }) )
     }
 };
 

@@ -40,6 +40,7 @@ ul {
 .bottom-14 {margin-bottom: 14px}
 .bottom-0 {margin-bottom: 0px !important}
 .padleft-0 {padding-left: 0 !important}
+.padleft-30 {padding-left: 30px !important}
 
 .padright-0 {padding-right: 0 !important}
 .padbottom-8 {padding-bottom: 8px !important}
@@ -890,4 +891,18 @@ input[type='file'] {
 
 .leave_sv:focus {
     outline: none !important;
+}
+
+.reg-req-warn {
+    margin-left: 1.5rem !important;
+    font-size: 15px;
+    width: 248px;
+    margin-top: 4px !important;
+    margin-bottom: 8px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+.csv-confirm-table th:first-child {
+    padding-left: 48px !important
 }

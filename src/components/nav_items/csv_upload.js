@@ -16,15 +16,18 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
         return (
             <Modal isOpen={isOpen} toggle={toggle} className="csv-upload-modal">
                 <ModalHeader>Confirm data</ModalHeader>
-                <Table className='data-table'>
+                <Table className='csv-confirm-table'>
                     <thead>
-                    <tr>{uploadData.meta.field_order.map((item, key) => {
-                            return <th key={key}>{toTitleCase(item)}</th>})}</tr>
+                        <tr>
+                            {uploadData.meta.field_order.map((item, key) => {
+                                return <th key={key}>{toTitleCase(item)}</th>
+                            })}
+                        </tr>
                     </thead>
                     <tbody>{uploadData.data.map((item, key) => {
                         return (
-                            <tr key = {key} >
-                                <td >{item.date}</td>
+                            <tr key={key}>
+                                <td className='padleft-30'>{item.date}</td>
                                 <td>{item.value}</td>
                                 {item.value2 && <td>{item.value2}</td>}
                             </tr>
@@ -38,7 +41,7 @@ const CsvUploadMenu = ({ toggle, isOpen, handleSave, profileData, postCsvUpload,
                     <button type="button" className="btn btn-danger csv-upload-clear"
                             onClick={clearLoadError}>Clear</button>
                 </div>
-                { profileData.loadError && errorMsg }
+                {profileData.loadError && errorMsg}
             </Modal>
         )
     }

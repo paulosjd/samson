@@ -18,14 +18,22 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
         }
     };
 
+    const getParamUnitOptions = (param_name) => {
+        const paramIndex = allParams.findIndex(x => x.name === param_name);
+        return allParams[paramIndex].available_unit_options.map(x => x.name);
+    };
+
     return (
         <Formik
             initialValues={{ file: null, param_choice: '', date_fmt: '', unit_choice: ''}}
-            onSubmit={handleCsvUploadSubmit}
+            onSubmit={(val) => {
+                if (!val['unit_choice']){
+                    val['unit_choice'] = getParamUnitOptions(val.param_choice)[0]
+                }
+                handleCsvUploadSubmit(val)}
+            }
             validationSchema={CsvUpload}
             render={({ values, handleSubmit, setFieldValue, errors, touched }) => {
-
-                // Units of measurement values or options
                 let unitOptionField = null;
                 let hasValue2;
                 const savedUnitOption = unitOptionSaved(values.param_choice);
@@ -39,14 +47,15 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                         </React.Fragment>)
                 } else if (values.param_choice) {
                     // Parameter selected but not unit of measurement saved, so show options to save
-                    const paramIndex = allParams.findIndex(x => x.name === values.param_choice);
-                    const unitOptions = allParams[paramIndex].available_unit_options.map(x => x.name);
+                    const unitOptions = getParamUnitOptions(values.param_choice);
                     unitOptionField = (
                         <React.Fragment>
                             <label style={{marginLeft: 26}}>Units of measurement:</label>
                             <select id='unit_choice' className='unit-opt-select' value={values.unit_choice}
                                     onChange={ e => setFieldValue("unit_choice", e.target.value) }>
-                                {unitOptions.map((val, i) => { return <option key={i} value={val}>{val}</option>})}
+                                {unitOptions.map((val, i) => {
+                                    return <option key={i} value={val}>{val}</option>
+                                })}
                             </select>
                         </React.Fragment>)
                 }
