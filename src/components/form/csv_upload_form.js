@@ -1,17 +1,28 @@
 import React, {useState} from "react";
 import { Formik } from "formik";
 import { CsvUpload } from "../../schemas/csv_load";
+import {useSelector} from "react-redux";
 
 const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFormats }) => {
 
     const [filename, setFilename] = useState('');
     const [uploadLabels, setuploadLabels] = useState([]);
+    const content = useSelector(state => state);
+    const blankParams = content.profile.blankParams;
+    console.log(blankParams)
 
     // For units of measurement values or options
     const unitOptionSaved = (param, checkValue2=false) => {
         const savedParamInd = summaryItems.findIndex(x => x.parameter.name === param);
         if (savedParamInd > -1) {
             const item = summaryItems[savedParamInd].parameter;
+            if (checkValue2)
+                return item.num_values > 1;
+            return item.unit_name.concat(' (', item.unit_symbol, ')')
+        }
+        const savedBlankInd = blankParams.findIndex(x => x.name === param);
+        if (savedBlankInd > -1) {
+            const item = blankParams[savedBlankInd]
             if (checkValue2)
                 return item.num_values > 1;
             return item.unit_name.concat(' (', item.unit_symbol, ')')
@@ -61,6 +72,9 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                 }
 
                 const paleCls = !values.file || !values.param_choice || !values.date_fmt ? "no-val" : "";
+
+
+
                 return (
                     <form onSubmit={handleSubmit}>
                     <div>
