@@ -9,7 +9,6 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
     const [uploadLabels, setuploadLabels] = useState([]);
     const content = useSelector(state => state);
     const blankParams = content.profile.blankParams;
-    console.log(blankParams)
 
     // For units of measurement values or options
     const unitOptionSaved = (param, checkValue2=false) => {
@@ -22,7 +21,7 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
         }
         const savedBlankInd = blankParams.findIndex(x => x.name === param);
         if (savedBlankInd > -1) {
-            const item = blankParams[savedBlankInd]
+            const item = blankParams[savedBlankInd];
             if (checkValue2)
                 return item.num_values > 1;
             return item.unit_name.concat(' (', item.unit_symbol, ')')
@@ -70,10 +69,7 @@ const CsvUploadForm = ({ summaryItems, allParams, handleCsvUploadSubmit, dateFor
                             </select>
                         </React.Fragment>)
                 }
-
                 const paleCls = !values.file || !values.param_choice || !values.date_fmt ? "no-val" : "";
-
-
 
                 return (
                     <form onSubmit={handleSubmit}>
