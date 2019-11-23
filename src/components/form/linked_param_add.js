@@ -23,7 +23,7 @@ const LinkedParamAdd = ({ paramId, availParams, postLinkedParams }) => {
             {props => {
                 const {values, touched, errors, handleSubmit, setFieldValue} = props;
                 return (
-                    <div className="card">
+                    <div className="card linked-param-form">
                         <form onSubmit={handleSubmit}>
                             <div className='display-inline'>
                             <select id='param_choice' className='item-add-sel' value={values.param_choice}

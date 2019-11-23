@@ -16,8 +16,9 @@ const Summary = ({isLoading, body, dataPoints, selParam, linkedParams, summaryPa
     if (linkedParams) {
         linkedParam = linkedParams[selParam.name];
     }
+    const paramLinksAvailable = summaryParams.filter(obj => obj.id !== selParam.id);
+    let showLinkedParamAddBtn = !showAddLinkedParam && paramLinksAvailable.length > 0;
     let linkedParamsChart = null;
-    let showLinkedParamAddBtn = !showAddLinkedParam;
     if (linkedParam) {
         const ds2ParamInd = summaryParams.findIndex(x => x.name === linkedParam);
         if (ds2ParamInd > -1) {
@@ -39,7 +40,7 @@ const Summary = ({isLoading, body, dataPoints, selParam, linkedParams, summaryPa
         linkedParamAddForm = (
             <OutsideAction action={() => setShowLinkedParamAdd(false)}>
                 <LinkedParamAdd
-                    availParams={summaryParams.filter(obj => obj.id !== selParam.id)}
+                    availParams={paramLinksAvailable}
                     postLinkedParams={postLinkedParams}
                     paramId={selParam.id}
                 />

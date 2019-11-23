@@ -71,7 +71,7 @@ const DataPointTable = ({dataPoints, selectedParameter, setAddDataFlag, setEditD
         <div>
             <Table className='data-points-table' bordered>
                 <thead>
-                { tableHeader }
+                { selectedParameter ? tableHeader : null }
                 { value2 && <tr className='short-row val2-header'><th> </th>
                     <th>{val2headers[1]}</th><th>{val2headers[2]}</th></tr> }
                 </thead>

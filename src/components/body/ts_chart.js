@@ -75,9 +75,6 @@ class TimeSeriesChart extends PureComponent {
             offset = (valMax - valMin) > valMin ? valMin : (valMax - valMin) / 2;
         }
 
-
-        console.log(selParam)
-
         const paramIdeals = this.props.ideals ? this.props.ideals[this.props.selectedItemIndex] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
         let yAxisDomain;
