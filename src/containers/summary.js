@@ -4,6 +4,7 @@ import TimeSeriesChart from '../components/body/ts_chart'
 import OutsideAction from '../utils/outside_action'
 import LinkedParamAdd from '../components/form/linked_param_add'
 import LinkedParamsChart from '../components/body/linked_params_chart'
+import {useSelector} from "react-redux";
 
 const Summary = ({isLoading, body, dataPoints, selParam, linkedParams, summaryParams, setShowLinkedParamAdd,
                   showAddLinkedParam, postLinkedParams, isShareView}) => {
@@ -11,6 +12,9 @@ const Summary = ({isLoading, body, dataPoints, selParam, linkedParams, summaryPa
     const [ hideQualifyText, setHideQualifyText] = useState(false);
     const [ activeLabel, setActiveLabel] = useState('');
     const [ activeObjId, setActiveObjId] = useState('');
+
+    const content = useSelector(state => state);
+    summaryParams = summaryParams.concat(content.profile.blankParams);
 
     let linkedParam;
     if (linkedParams) {

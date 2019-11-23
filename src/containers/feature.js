@@ -79,7 +79,7 @@ const Feature = ({dataPoints, body, ideals, selectedParameter, setFeatItemIndex,
 
     return (
         <React.Fragment>
-            <ListGroup className='feat-item-group'>
+            <ListGroup className={'feat-item-group '.concat(!selectedParameter ? 'opaque6' : '')}>
                 {labels.map((val, ind) => {
                     return (
                     <ListGroupItem key={ind}

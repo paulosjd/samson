@@ -187,7 +187,7 @@ const ParamInfo = ({latestDp, selectedParameter, postTargetValue, ideals, editTa
             <Table className='param-info-table' bordered>
                 { headRow }
                 <tbody>
-                { targetRow }
+                { selectedParameter ? targetRow : null }
                 { targetRow2 }
                 { idealRow }
                 { miscInfo.map((obj, ind) => {

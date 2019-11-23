@@ -1,8 +1,12 @@
 import React from 'react';
 import { Modal, ModalHeader, Table, Alert, UncontrolledTooltip } from 'reactstrap';
 import { Field, Formik } from "formik";
+import {useSelector} from "react-redux";
 
 const LinkedParamsMenu = ({ toggle, isOpen, summaryParams, postLinkedParamsEdit, updateSuccess, linkedParams }) => {
+
+    const content = useSelector(state => state);
+    summaryParams = summaryParams.concat(content.profile.blankParams);
 
     const initial = {};
     summaryParams.sort((a,b) => {
@@ -22,7 +26,7 @@ const LinkedParamsMenu = ({ toggle, isOpen, summaryParams, postLinkedParamsEdit,
             enableReinitialize
             initialValues={initial}
             onSubmit={values => {
-                // Send ids to server instead of names
+                // Get ids from names to send to server, since no unique constraint on name
                 const idDict = {};
                 Object.entries(values).forEach(item => {
                     const paramIdInd = summaryParams.findIndex(x => x.name === item[1]);
@@ -45,7 +49,7 @@ const LinkedParamsMenu = ({ toggle, isOpen, summaryParams, postLinkedParamsEdit,
                                     component="select"
                                     name={name} selected={props.values[name]}>
                                     <option key={ind + 'opt'} value="" > </option>
-                                    {paramNames.map((linkedName, ind2) => {
+                                    {paramNames.filter(x => x !== obj.name).map((linkedName, ind2) => {
                                         return <option key={ind2} value={linkedName}>{linkedName}</option>
                                     })}
                                 </Field>

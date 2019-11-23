@@ -27,31 +27,35 @@ const BookmarksTable = ({ selectedParameter, bookmarks, addData, editData, setAd
         />
     );
 
+    const headRow = (
+        <tr className='short-row'>
+            <th colSpan={1}>
+                        <span className={!isShareView ? 'dp-param-label' : ''}>
+                            {selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}
+                        </span>
+                { !isShareView && (
+                    <React.Fragment>
+                                <span className='data-points-header-action' role="img" aria-label="plus"
+                                      onClick={() => setAddDataFlag(true)}>&#x2795; Add
+                                </span>
+                        { bookmarks.length > 0 &&
+                        <span className='data-points-header-action' role="img" aria-label="pencil"
+                              onClick={() => setEditDataFlag(true)}>&#x270F;&#xFE0F; Edit
+                                </span> }
+                    </React.Fragment>
+                )}
+            </th>
+        </tr>
+    )
+
     return (
         <div>
             <Table className='bookmarks-table' bordered>
                 <thead>
-                <tr className='short-row'>
-                    <th colSpan={1}>
-                        <span className={!isShareView ? 'dp-param-label' : ''}>
-                            {selectedParameter.name ? selectedParameter.name + ' bookmarks' : ''}
-                        </span>
-                        { !isShareView && (
-                            <React.Fragment>
-                                <span className='data-points-header-action' role="img" aria-label="plus"
-                                      onClick={() => setAddDataFlag(true)}>&#x2795; Add
-                                </span>
-                                { bookmarks.length > 0 &&
-                                <span className='data-points-header-action' role="img" aria-label="pencil"
-                                      onClick={() => setEditDataFlag(true)}>&#x270F;&#xFE0F; Edit
-                                </span> }
-                            </React.Fragment>
-                        )}
-                    </th>
-                </tr>
+                { selectedParameter ? headRow : null }
                 </thead>
                 <tbody>
-                {bookmarks.map(obj => {
+                { bookmarks.map(obj => {
                     const maxLinkLen = 54;
                     return (
                         <tr key={obj.id}>

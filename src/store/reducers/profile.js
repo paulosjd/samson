@@ -68,6 +68,7 @@ export default function profile(state = initialState, action) {
             return { ...state, unitInfo: action.payload.unitInfoData.data };
         case DATA_POINTS_REFRESH:
             const data = action.payload.profileData.data;
+            // console.log(data.summary_data)
             return {
                 ...state,
                 dataPoints: data.all_data,
