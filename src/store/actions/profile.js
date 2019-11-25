@@ -36,6 +36,8 @@ export const resetSelectedItemIndex = () => ({
 
 export const showNavItem = (item, value) => {
     switch (item) {
+        case 'report_download':
+            return ({ type: SHOW_INTERVENTIONS_MENU, value });
         case 'interventions':
             return ({ type: SHOW_INTERVENTIONS_MENU, value });
         case 'csv_download':

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { Container, Row, Col } from 'reactstrap';
 import MenuItems from './menu_items'
 import NavItems from './nav_items'
@@ -26,7 +26,7 @@ class MainBody extends Component {
     }
 
     render() {
-        if ( this.props.error ) {
+        if (this.props.error) {
             console.log(this.props.error);
             this.props.handleLogout()
         }

@@ -18,7 +18,7 @@ class TopNav extends Component {
                         type="button" className="leave_sv"
                         onClick={this.props.fetchProfileSummary}
                     >Return to my profile</button>
-                    {this.props.isDemo && (
+                    { this.props.isDemo && (
                         <button type="button" className="form-submit"
                                 onClick={() => this.props.handleLogout('register', this.props.setShowRegForm)}
                         >Register</button>
@@ -43,7 +43,7 @@ class TopNav extends Component {
                 >Profile information</UncontrolledTooltip>
 
                 <span onClick={this.props.handleProfileClick} className="mr-auto nav-item color4a left-6 fontsize18"
-                >{this.props.username}</span>
+                >{ this.props.username }</span>
                 { this.props.shareRequestsReceived.length > 0 && (
                     <Alert className="pend-share-alert" style={{padding: 0.2}} color="warning"
                            onClick={this.props.handleSharesMenuClick}>Pending requests</Alert> )}
@@ -66,6 +66,12 @@ class TopNav extends Component {
                 <UncontrolledTooltip id="ttip" placement="bottom" target="shares"
                 >Shared user profiles</UncontrolledTooltip>
 
+                <span role="img" aria-label="report" className='right-18 fontsize18 csr-pt' id="report"
+                      onClick={() => this.props.showNavItem('report_download')}
+                >&#x1F4E5;</span>
+                <UncontrolledTooltip id="ttip" placement="bottom" target="report"
+                >Report download</UncontrolledTooltip>
+
                 <span role="img" aria-label="download" className='right-18 fontsize18 csr-pt' id="download"
                       onClick={() => this.props.showNavItem('csv_download')}
                 >&#x1F4E5;</span>
@@ -78,7 +84,7 @@ class TopNav extends Component {
                 <UncontrolledTooltip id="ttip" placement="bottom" target="upload"
                 >CSV data upload</UncontrolledTooltip>
 
-                {this.props.isDemo && (
+                { this.props.isDemo && (
                     <button type="button" className="form-submit"
                             onClick={() => this.props.handleLogout('register', this.props.setShowRegForm)}
                     >Register</button>

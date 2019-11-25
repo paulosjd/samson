@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ProfileMenu from '../components/nav_items/profile_menu'
 import CsvDownloadMenu from '../components/nav_items/csv_download'
 import CsvUploadMenu from '../components/nav_items/csv_upload'
@@ -7,11 +7,13 @@ import LinkedParamsMenu from '../components/nav_items/linked_params'
 import ProfileSharesMenu from '../components/nav_items/profile_shares'
 
 const NavItems  = ({ props }) => {
-    const { showCsvDownloadMenu, showCsvUploadMenu, showColorSchemeMenu, showLinkedParamsMenu, showProfileSharesMenu
+    const { 
+        showCsvDownloadMenu, showCsvUploadMenu, showColorSchemeMenu, showLinkedParamsMenu, showProfileSharesMenu,
+        showReportDownloadMenu
     } = { ...props.menu };
     const [ showSettings, setShowSettings] = useState(false);
 
-    if ( showCsvDownloadMenu ) {
+    if (showCsvDownloadMenu) {
         return <CsvDownloadMenu
             toggle={() => {
                 props.toggleNavItem('csv_upload', !showCsvDownloadMenu);
@@ -24,7 +26,7 @@ const NavItems  = ({ props }) => {
             getCsvDownload={props.getCsvDownload}
         />
     }
-    if ( showCsvUploadMenu ) {
+    if (showCsvUploadMenu) {
         return <CsvUploadMenu
             toggle={() => {
                 props.toggleNavItem('csv_upload', !showCsvUploadMenu);
@@ -39,7 +41,17 @@ const NavItems  = ({ props }) => {
             showCsvLoadSuccess={props.profile.showCsvLoadSuccess}
         />
     }
-    if ( showLinkedParamsMenu ) {
+    if (showReportDownloadMenu) {
+        return <LinkedParamsMenu
+            toggle={() => props.toggleNavItem('report_download', !showReportDownloadMenu)}
+            isOpen={props.menu.showLinkedParamsMenu}
+            summaryParams={props.summaryParams}
+            postLinkedParamsEdit={props.postLinkedParamsEdit}
+            updateSuccess={props.extras.profileUpdateSuccess}
+            linkedParams={props.profile.linkedParams}
+        />
+    }
+    if (showLinkedParamsMenu) {
         return <LinkedParamsMenu
             toggle={() => props.toggleNavItem('linked_params', !showLinkedParamsMenu)}
             isOpen={props.menu.showLinkedParamsMenu}
@@ -49,7 +61,7 @@ const NavItems  = ({ props }) => {
             linkedParams={props.profile.linkedParams}
         />
     }
-    if ( showColorSchemeMenu ) {
+    if (showColorSchemeMenu) {
         return <ParamColorMenu
             toggle={() => props.toggleNavItem('interventions', !showColorSchemeMenu)}
             isOpen={props.menu.showColorSchemeMenu}
@@ -58,7 +70,7 @@ const NavItems  = ({ props }) => {
             updateSuccess={props.extras.profileUpdateSuccess}
         />
     }
-    if ( showProfileSharesMenu ) {
+    if (showProfileSharesMenu) {
         return <ProfileSharesMenu
             toggle={() => props.toggleNavItem('profile_shares', !showProfileSharesMenu)}
             isOpen={props.menu.showProfileSharesMenu}
