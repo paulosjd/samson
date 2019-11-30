@@ -68,7 +68,7 @@ class TopNav extends Component {
 
                 <span role="img" aria-label="report" className='right-18 fontsize18 csr-pt' id="report"
                       onClick={() => this.props.showNavItem('report_download')}
-                >&#x1F4E5;</span>
+                >&#x1F4CB;</span>
                 <UncontrolledTooltip id="ttip" placement="bottom" target="report"
                 >Report download</UncontrolledTooltip>
 

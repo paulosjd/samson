@@ -5,6 +5,7 @@ import CsvUploadMenu from '../components/nav_items/csv_upload'
 import ParamColorMenu from '../components/nav_items/param_color'
 import LinkedParamsMenu from '../components/nav_items/linked_params'
 import ProfileSharesMenu from '../components/nav_items/profile_shares'
+import ReportDownloadMenu from '../components/nav_items/report_download'
 
 const NavItems  = ({ props }) => {
     const { 
@@ -42,13 +43,14 @@ const NavItems  = ({ props }) => {
         />
     }
     if (showReportDownloadMenu) {
-        return <LinkedParamsMenu
+        return <ReportDownloadMenu
             toggle={() => props.toggleNavItem('report_download', !showReportDownloadMenu)}
-            isOpen={props.menu.showLinkedParamsMenu}
+            isOpen={props.menu.showReportDownloadMenu}
+            handleSave={props.updateProfileMenu}
+            profileData={props.extras}
+            requestVerificationEmail={props.requestVerificationEmail}
+            verificationEmailSent={props.extras.verificationEmailSent}
             summaryParams={props.summaryParams}
-            postLinkedParamsEdit={props.postLinkedParamsEdit}
-            updateSuccess={props.extras.profileUpdateSuccess}
-            linkedParams={props.profile.linkedParams}
         />
     }
     if (showLinkedParamsMenu) {
