@@ -266,7 +266,7 @@ const ProfileSharesMenu = ({ toggle, isOpen, handleSave, profileData, requestVer
             <ModalBody className='padleft-0 padright-0 padbottom-8' >
                 { sharedProfilesBody }
                 <div className='search-prof-btn'>
-                    <button onClick={() => {setShowProfileSearch(true)}}>Profile search</button>
+                    <button onClick={() => setShowProfileSearch(true)}>Profile search</button>
                     { content.menu.profileShareRequestFailure && (
                         <Alert className="share-req-fail" color="danger">Something went wrong</Alert> )}
                 </div>

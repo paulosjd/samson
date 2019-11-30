@@ -44,7 +44,7 @@ export default ({date, label, value, value2, unit_symbol, valColor, paramIdeals,
 
     return (
         <div>
-            <h5 className='category_label'>{label}</h5>
+            <h5 className='category_label line1'>{label}</h5>
             {date && (<h6 className='category_label'>{date + ' '}
                 <span role="img" aria-label="dash-symbol">&#x2796;</span>
                 <span className='menu-item-content'
