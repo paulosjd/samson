@@ -2,7 +2,7 @@ import {
     FETCH_SUMMARY_DATA_BEGIN, FETCH_SUMMARY_DATA_SUCCESS, FETCH_SUMMARY_DATA_FAILURE, SUBMIT_CSV_LOAD_SUCCESS,
     SUBMIT_CSV_LOAD_FAILURE, CSV_LOAD_CONFIRM, CSV_LOAD_CLEAR, CLEAR_CSV_LOAD_CONFIRM, DATA_POINTS_REFRESH,
     TARGETS_DATA_REFRESH, UNIT_INFO_REFRESH, POST_CUSTOM_PARAM_FAILURE, UPDATE_BOOKMARKS, UPDATE_LINKED_PARAMS,
-    SHARE_VIEW_EXTRAS
+    SHARE_VIEW_EXTRAS, REPORT_DOWNLOAD_SCHEDULE_FAILURE, REPORT_DOWNLOAD_SCHEDULE_SUCCESS
 } from "../constants/profile";
 
 const initialState = {
@@ -23,6 +23,13 @@ const initialState = {
     uploadFilename: '',
     showCsvLoadSuccess: false,
     isShareView: false,
+    reportDownloadFail: false,
+    reportDownloadSuccess: false,
+    reportTaskId: '',
+
+    isFetching: false,
+    items:[],
+    error2:{}
 };
 
 const initialShareViewState = {
@@ -68,7 +75,6 @@ export default function profile(state = initialState, action) {
             return { ...state, unitInfo: action.payload.unitInfoData.data };
         case DATA_POINTS_REFRESH:
             const data = action.payload.profileData.data;
-            // console.log(data.summary_data)
             return {
                 ...state,
                 dataPoints: data.all_data,
@@ -89,6 +95,21 @@ export default function profile(state = initialState, action) {
             return { ...state, uploadData: {}, uploadFilename: '', loadError: null};
         case POST_CUSTOM_PARAM_FAILURE:
             return { ...state, loadError: action.payload.response.data.error };
+        case REPORT_DOWNLOAD_SCHEDULE_FAILURE:
+            return { ...state, reportDownloadFail: action.value };
+        case REPORT_DOWNLOAD_SCHEDULE_SUCCESS:
+            const newState = { ...state, reportDownloadSuccess: action.value };
+            if (action.value) {
+                newState.reportTaskId = action.task_id
+            }
+            return newState;
+        case 'FETCH_JOKE':
+            return {...state, isFetching:true};
+        case 'FETCH_JOKE_SUCCESS':
+            return {...state, isFetching:false, items:action.data};
+        case 'FETCH_JOKE_FAILURE':
+            return {...state, isFetching:false, error:action.data};
+
         default:
             return state
     }

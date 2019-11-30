@@ -27,7 +27,7 @@ import {
     SHOW_PROFILE_SHARES_MENU,
     PROFILE_SHARE_FETCH_SUCCESS,
     SUMMARY_DATA_PROFILE_EXTRAS,
-    SHOW_REPORT_DOWNLOAD_MENU
+    SHOW_REPORT_DOWNLOAD_MENU, REPORT_DOWNLOAD_SCHEDULE_SUCCESS, REPORT_DOWNLOAD_SCHEDULE_FAILURE
 } from '../constants/profile'
 import {
     SET_SHOW_ADD_METRIC, RESET_SELECTED_ITEM_INDEX, SET_SHOW_ADD_CUSTOM_METRIC, EDIT_DATA_FAILURE
@@ -169,6 +169,53 @@ export const getCsvDownload = (value) => {
             .catch((error) => dispatch({ type: SUBMIT_CSV_LOAD_FAILURE, payload: error }))
     }
 };
+
+export const requestReport = (task_id) => {
+    const url = `${baseUrl}/profile/generate-report/${task_id}`;
+    console.log(url)
+    return dispatch => {
+        axios.get(url, {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
+            .then(() => console.log('tsd'))
+    }
+};
+
+
+function fetchJoke() {
+    return {
+        type: 'FETCH_JOKE'
+    };
+}
+
+function fetchJokeSuccess(data) {
+    return {
+        type: 'FETCH_JOKE_SUCCESS',
+        data
+    };
+}
+
+function fetchJokeFail(error) {
+    return {
+        type: 'FETCH_JOKE_FAILURE',
+        error
+    };
+}
+
+export function fetchJokeCall(task_id){
+    console.log('called with ' + task_id)
+    return function(dispatch){
+        console.log('inner called with ' + task_id)
+
+        dispatch(fetchJoke());
+        return axios.get(`${baseUrl}/profile/generate-report/${task_id}`,
+            { headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
+            .then(function(result){
+                dispatch(fetchJokeSuccess(result.data))
+            })
+            .catch(error => dispatch(fetchJokeFail(error)));
+    }
+}
+
+
 
 export const postColorSchema = (value) => {
     return dispatch => {

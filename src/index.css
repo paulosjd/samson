@@ -935,7 +935,7 @@ input[type='file'] {
 }
 
 .color2 {
-    background-color: #f2f3ff;
+    background-color: #f6f7ff;
 }
 
 .download-report-btn {
@@ -970,4 +970,11 @@ input[type='file'] {
 .section-label2 {
     margin: 8px 0 0 28px;
     font-size: 13px;
+}
+
+.report-alert {
+    margin: 4px 0 14px 28px !important;
+    width: 220px !important;
+    padding: 0.5rem !important;
+    padding-left: 0.8rem !important;
 }

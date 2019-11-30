@@ -1,23 +1,60 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { Modal, ModalHeader, ModalBody, Table, Alert, UncontrolledTooltip, Tooltip } from 'reactstrap';
+import { Modal, ModalBody, Table, Alert } from 'reactstrap';
 import ProfileSearch from "../form/profile_search";
-import { showNavItem } from "../../store/actions/profile";
+import { requestReport, fetchJokeCall } from "../../store/actions/profile";
 import { baseUrl, loadSharedViewData, resetBodyState, updateProfileShare } from "../../store/actions/body";
-import { PROFILE_SEARCH_RESULTS, PROFILE_SHARE_FETCH_SUCCESS, PROFILE_SHARE_REQUEST_FAILURE
+import {
+    CSV_LOAD_CONFIRM,
+    REPORT_DOWNLOAD_SCHEDULE_FAILURE, REPORT_DOWNLOAD_SCHEDULE_SUCCESS
 } from "../../store/constants/profile";
+import download from "downloadjs";
 
-const ReportDownloadMenu = ({ toggle, isOpen, handleSave, profileData, summaryParams, requestVerificationEmail, verificationEmailSent
-                           }) => {
+const ReportDownloadMenu = ({ toggle, isOpen, summaryParams }) => {
     const [removedParamIds, setRemovedParamsIds] = useState([]);
     const [removedStats, setRemovedStats] = useState([]);
     const dispatch = useDispatch();
     const content = useSelector(state => state);
-    const profileSearchResults = content.menu.profileSearchResults;
-    const isDemo = content.auth.username.startsWith('demo_');
+    const reportDownloadError = content.profile.reportDownloadFail;
+    console.log(content.profile.reportTaskId)
 
-    // submit -- post all param_ids execpt those in removed list, and removed stats post names of those in removed list
+    const url = `${baseUrl}/profile/generate-report`;
+
+    const handleSubmit = () => {
+        const param_ids = summaryParams.filter(obj => !removedParamIds.includes(obj.id)).map(obj => obj.id);
+        const fileName = 'foobar'.concat(
+            new Date().toISOString().slice(0,7).replace('-', ''), '.pdf');
+
+        const postData = {param_ids, removed_stats: removedStats, date: new Date().toDateString()};
+        const poll = (task_id) => {
+            let i = 0;
+            const interval = setInterval(() => {
+                i++;
+                if ( i > 3) {
+                    clearInterval(interval)
+                }
+                dispatch(fetchJokeCall(task_id));
+            }, 4200);
+        };
+        return dispatch => {
+            axios.post(url,postData,
+                {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
+                .then(resp => {
+                        dispatch({ type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: true, task_id: resp.data.task_id });
+                        setTimeout(poll, 4500, resp.data.task_id)
+                })
+
+
+        .then(() => setTimeout(() => dispatch(
+                    { type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: false }),3500))
+                // .then(response => {
+                //     download(response.data, fileName, 'text/csv'); dispatch({ type: CSV_LOAD_CONFIRM })} )
+                .catch(() => dispatch({ type: REPORT_DOWNLOAD_SCHEDULE_FAILURE, value: true }))
+                .then(() => setTimeout(() => dispatch(
+                    { type: REPORT_DOWNLOAD_SCHEDULE_FAILURE, value: false }),3500))
+        }
+    };
 
     let hasData = false;
     let reportOptions = <h6 className='menu-text'>No data available</h6>;
@@ -44,26 +81,26 @@ const ReportDownloadMenu = ({ toggle, isOpen, handleSave, profileData, summaryPa
                         )
                     }) }
                     { removedStats.length !== 2 && <tr><td><p className='section-label2'>Extra stats</p></td></tr> }
-                    <tr>
+                    { !removedStats.includes('monthly') && <tr>
                         <td>
                             <button className='report-param-btn color2' onClick={(e) => console.log(e)}>
                                 Monthly averages
                                 <span className='del-share' id='delBtn'
-                                      onClick={() => console.log('sf')}
+                                      onClick={() => setRemovedStats([...removedStats, 'monthly'])}
                                 >X</span>
                             </button>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr> }
+                    { !removedStats.includes('rolling') && <tr>
                         <td>
                             <button className='report-param-btn color2' onClick={(e) => console.log(e)}>
                                 Rolling averages
                                 <span className='del-share' id='delBtn'
-                                      onClick={() => setRemovedStats([...removedStats, ''])}
+                                      onClick={() => setRemovedStats([...removedStats, 'rolling'])}
                                 >X</span>
                             </button>
                         </td>
-                    </tr>
+                    </tr> }
                 </tbody>
             </Table>
         );
@@ -73,13 +110,16 @@ const ReportDownloadMenu = ({ toggle, isOpen, handleSave, profileData, summaryPa
         <Modal isOpen={isOpen} toggle={toggle} className="max-width-300">
             <ModalBody className='padleft-0 padright-0 padbottom-8' >
                 { hasData && <div>
-                    <button className='download-report-btn' onClick={() => console.log(true)}>Download report</button>
-                    { content.menu.profileShareRequestFailure && (
-                        <Alert className="share-req-fail" color="danger">Something went wrong</Alert> )}
+                    <button className='download-report-btn'
+                            onClick={() => dispatch(handleSubmit())}
+                    >Download report</button>
+                    { content.profile.reportDownloadSuccess && (
+                        <Alert className="report-alert" color="success">Something went wrong</Alert> )}
+                    { content.profile.reportDownloadFail && (
+                        <Alert className="report-alert" color="danger">Something went wrong</Alert> )}
                 </div> }
                 { reportOptions }
             </ModalBody>
-
         </Modal>
     );
 };

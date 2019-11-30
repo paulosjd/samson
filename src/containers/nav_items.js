@@ -46,10 +46,6 @@ const NavItems  = ({ props }) => {
         return <ReportDownloadMenu
             toggle={() => props.toggleNavItem('report_download', !showReportDownloadMenu)}
             isOpen={props.menu.showReportDownloadMenu}
-            handleSave={props.updateProfileMenu}
-            profileData={props.extras}
-            requestVerificationEmail={props.requestVerificationEmail}
-            verificationEmailSent={props.extras.verificationEmailSent}
             summaryParams={props.summaryParams}
         />
     }
