@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Modal, ModalBody, Table, Alert } from 'reactstrap';
-import ProfileSearch from "../form/profile_search";
-import { requestReport, fetchJokeCall } from "../../store/actions/profile";
-import { baseUrl, loadSharedViewData, resetBodyState, updateProfileShare } from "../../store/actions/body";
+import { fetchReportCall } from "../../store/actions/profile";
+import { baseUrl } from "../../store/actions/body";
 import {
-    CSV_LOAD_CONFIRM,
     REPORT_DOWNLOAD_SCHEDULE_FAILURE, REPORT_DOWNLOAD_SCHEDULE_SUCCESS
 } from "../../store/constants/profile";
 import download from "downloadjs";
@@ -34,27 +32,29 @@ const ReportDownloadMenu = ({ toggle, isOpen, summaryParams }) => {
                 if ( i > 3) {
                     clearInterval(interval)
                 }
-                dispatch(fetchJokeCall(task_id));
-            }, 4200);
+                dispatch(fetchReportCall(task_id));
+            }, 3600);
         };
         return dispatch => {
             axios.post(url,postData,
                 {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
                 .then(resp => {
-                        dispatch({ type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: true, task_id: resp.data.task_id });
-                        setTimeout(poll, 4500, resp.data.task_id)
+                        dispatch({ type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: true });
+                        setTimeout(poll, 4000, resp.data.task_id)
                 })
-
-
-        .then(() => setTimeout(() => dispatch(
-                    { type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: false }),3500))
+                .then(() => setTimeout(() => dispatch(
+                    { type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: false }),3800))
                 // .then(response => {
                 //     download(response.data, fileName, 'text/csv'); dispatch({ type: CSV_LOAD_CONFIRM })} )
+                // see downloadjs used in csv_download...
+
                 .catch(() => dispatch({ type: REPORT_DOWNLOAD_SCHEDULE_FAILURE, value: true }))
                 .then(() => setTimeout(() => dispatch(
                     { type: REPORT_DOWNLOAD_SCHEDULE_FAILURE, value: false }),3500))
         }
     };
+
+    // prevent doubled submit
 
     let hasData = false;
     let reportOptions = <h6 className='menu-text'>No data available</h6>;
@@ -64,7 +64,7 @@ const ReportDownloadMenu = ({ toggle, isOpen, summaryParams }) => {
             <Table className='report-param-table'>
                 <tbody>
                     <tr>
-                        <td><p className='section-label'>Tracking metrics</p></td>
+                        <td><p className='section-label'>Health metrics</p></td>
                     </tr>
                     { summaryParams.filter(obj => !removedParamIds.includes(obj.id)).map(obj => {
                         return (
@@ -111,10 +111,11 @@ const ReportDownloadMenu = ({ toggle, isOpen, summaryParams }) => {
             <ModalBody className='padleft-0 padright-0 padbottom-8' >
                 { hasData && <div>
                     <button className='download-report-btn'
+                            disabled={content.profile.reportDownloadSuccess}
                             onClick={() => dispatch(handleSubmit())}
                     >Download report</button>
                     { content.profile.reportDownloadSuccess && (
-                        <Alert className="report-alert" color="success">Something went wrong</Alert> )}
+                        <Alert className="report-alert" color="success">Download scheduled</Alert> )}
                     { content.profile.reportDownloadFail && (
                         <Alert className="report-alert" color="danger">Something went wrong</Alert> )}
                 </div> }

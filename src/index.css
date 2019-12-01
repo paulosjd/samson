@@ -924,7 +924,7 @@ input[type='file'] {
 
 .report-param-btn {
     margin: 0 0 0 28px;
-    background-color: #f2f9f7;
+    background-color: #f5f9f7;
     width: 220px;
     color: #006ba6;
     border-width: 1px;
@@ -935,7 +935,7 @@ input[type='file'] {
 }
 
 .color2 {
-    background-color: #f6f7ff;
+    background-color: #ffffff;
 }
 
 .download-report-btn {
