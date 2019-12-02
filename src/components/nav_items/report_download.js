@@ -2,59 +2,51 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Modal, ModalBody, Table, Alert } from 'reactstrap';
-import { fetchReportCall } from "../../store/actions/profile";
+import { fetchReportCall, showNavItem } from "../../store/actions/profile";
 import { baseUrl } from "../../store/actions/body";
 import {
     REPORT_DOWNLOAD_SCHEDULE_FAILURE, REPORT_DOWNLOAD_SCHEDULE_SUCCESS
 } from "../../store/constants/profile";
-import download from "downloadjs";
 
 const ReportDownloadMenu = ({ toggle, isOpen, summaryParams }) => {
     const [removedParamIds, setRemovedParamsIds] = useState([]);
     const [removedStats, setRemovedStats] = useState([]);
     const dispatch = useDispatch();
     const content = useSelector(state => state);
-    const reportDownloadError = content.profile.reportDownloadFail;
-    console.log(content.profile.reportTaskId)
-
-    const url = `${baseUrl}/profile/generate-report`;
+    const hasReportFile = content.profile.hasReportFile;
 
     const handleSubmit = () => {
         const param_ids = summaryParams.filter(obj => !removedParamIds.includes(obj.id)).map(obj => obj.id);
-        const fileName = 'foobar'.concat(
-            new Date().toISOString().slice(0,7).replace('-', ''), '.pdf');
-
         const postData = {param_ids, removed_stats: removedStats, date: new Date().toDateString()};
         const poll = (task_id) => {
             let i = 0;
             const interval = setInterval(() => {
                 i++;
-                if ( i > 3) {
+                if (i > 3) {
                     clearInterval(interval)
                 }
-                dispatch(fetchReportCall(task_id));
-            }, 3600);
+                if (!hasReportFile) {
+                    dispatch(fetchReportCall(task_id));
+                }
+            }, 3000);
         };
         return dispatch => {
-            axios.post(url,postData,
+            axios.post(`${baseUrl}/profile/generate-report`, postData,
                 {headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}} )
                 .then(resp => {
                         dispatch({ type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: true });
-                        setTimeout(poll, 4000, resp.data.task_id)
+                        setTimeout(poll, 2500, resp.data.task_id)
                 })
                 .then(() => setTimeout(() => dispatch(
-                    { type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: false }),3800))
-                // .then(response => {
-                //     download(response.data, fileName, 'text/csv'); dispatch({ type: CSV_LOAD_CONFIRM })} )
-                // see downloadjs used in csv_download...
-
+                    { type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: false }),2800))
+                .then(() => setTimeout(() =>
+                    dispatch(showNavItem('csv_upload', false)), 2500)
+                )
                 .catch(() => dispatch({ type: REPORT_DOWNLOAD_SCHEDULE_FAILURE, value: true }))
                 .then(() => setTimeout(() => dispatch(
-                    { type: REPORT_DOWNLOAD_SCHEDULE_FAILURE, value: false }),3500))
+                    { type: REPORT_DOWNLOAD_SCHEDULE_FAILURE, value: false }),3000))
         }
     };
-
-    // prevent doubled submit
 
     let hasData = false;
     let reportOptions = <h6 className='menu-text'>No data available</h6>;

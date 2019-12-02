@@ -28,8 +28,7 @@ import {
     PROFILE_SHARE_FETCH_SUCCESS,
     SUMMARY_DATA_PROFILE_EXTRAS,
     SHOW_REPORT_DOWNLOAD_MENU,
-    FETCH_REPORT_FAILURE,
-    FETCH_REPORT_SUCCESS, FETCH_REPORT
+    SET_HAS_REPORT_FILE
 } from '../constants/profile'
 import {
     SET_SHOW_ADD_METRIC, RESET_SELECTED_ITEM_INDEX, SET_SHOW_ADD_CUSTOM_METRIC, EDIT_DATA_FAILURE
@@ -172,27 +171,22 @@ export const getCsvDownload = (value) => {
     }
 };
 
-const fetchReport = () => {
-    return { type: FETCH_REPORT };
-};
-
-const fetchReportSuccess = (data) => {
-    return { type: FETCH_REPORT_SUCCESS, data };
-};
-
-const fetchReportFail = (error) => {
-    return { type: FETCH_REPORT_FAILURE, error };
-};
-
 export const fetchReportCall = (task_id) => {
-    console.log('called with ' + task_id)
     return dispatch => {
-        console.log('inner called with ' + task_id)
-        dispatch(fetchReport());
+        const fileName = 'health_metrics_report_'.concat(
+            new Date().toISOString().slice(0,7).replace('-', ''), '.pdf');
+        dispatch({ type: SET_HAS_REPORT_FILE, value: false });
         return axios.get(`${baseUrl}/profile/generate-report/${task_id}`,
             { headers: {"Authorization": "Bearer " + localStorage.getItem('id_token')}})
-            .then(result => dispatch(fetchReportSuccess(result.data)) )
-            .catch(error => dispatch(fetchReportFail(error)) );
+            .then(result => {
+                if (result.headers['content-type'] === 'application/pdf') {
+                    dispatch({ type: SET_HAS_REPORT_FILE, value: true })
+                    download(result.data, fileName, 'application/pdf');
+                }
+            })
+            .then(() => setTimeout(() =>
+                dispatch({ type: SET_HAS_REPORT_FILE, value: false }), 3600)
+            )
     }
 };
 

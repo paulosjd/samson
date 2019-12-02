@@ -3,13 +3,10 @@ import {
     CSV_LOAD_CLEAR,
     CSV_LOAD_CONFIRM,
     DATA_POINTS_REFRESH,
-    FETCH_REPORT,
-    FETCH_REPORT_FAILURE,
-    FETCH_REPORT_SUCCESS,
     FETCH_SUMMARY_DATA_BEGIN,
     FETCH_SUMMARY_DATA_FAILURE,
     FETCH_SUMMARY_DATA_SUCCESS,
-    POST_CUSTOM_PARAM_FAILURE,
+    POST_CUSTOM_PARAM_FAILURE, SET_HAS_REPORT_FILE,
     REPORT_DOWNLOAD_SCHEDULE_FAILURE,
     REPORT_DOWNLOAD_SCHEDULE_SUCCESS,
     SHARE_VIEW_EXTRAS,
@@ -41,10 +38,7 @@ const initialState = {
     isShareView: false,
     reportDownloadFail: false,
     reportDownloadSuccess: false,
-
-    isFetching: false,
-    reportDownload: null,
-    reportError: {},
+    hasReportFile: false,
 };
 
 const initialShareViewState = {
@@ -81,11 +75,11 @@ export default function profile(state = initialState, action) {
                 shareViewUsername: action.payload.data.share_view_username
             };
         case UPDATE_BOOKMARKS:
-            return {...state, bookmarks: action.payload.bookmarksData.data};
+            return { ...state, bookmarks: action.payload.bookmarksData.data} ;
         case UPDATE_LINKED_PARAMS:
-            return {...state, linkedParams: action.payload.payload.data.linked_parameters};
+            return { ...state, linkedParams: action.payload.payload.data.linked_parameters };
         case TARGETS_DATA_REFRESH:
-            return {...state, ideals: action.payload.targetsData.data};
+            return { ...state, ideals: action.payload.targetsData.data };
         case UNIT_INFO_REFRESH:
             return { ...state, unitInfo: action.payload.unitInfoData.data };
         case DATA_POINTS_REFRESH:
@@ -107,19 +101,16 @@ export default function profile(state = initialState, action) {
         case CLEAR_CSV_LOAD_CONFIRM:
             return { ...state, showCsvLoadSuccess: false, loadError: null };
         case CSV_LOAD_CLEAR:
-            return { ...state, uploadData: {}, uploadFilename: '', loadError: null};
+            return { ...state, uploadData: {}, uploadFilename: '', loadError: null };
         case POST_CUSTOM_PARAM_FAILURE:
             return { ...state, loadError: action.payload.response.data.error };
         case REPORT_DOWNLOAD_SCHEDULE_FAILURE:
-            return { ...state, reportDownloadFail: action.value };
+            return { ...state, reportDownloadFail: action.value, hasReportFile: false };
         case REPORT_DOWNLOAD_SCHEDULE_SUCCESS:
-            return {...state, reportDownloadSuccess: action.value};
-        case FETCH_REPORT:
-            return {...state, isFetching:true};
-        case FETCH_REPORT_SUCCESS:
-            return {...state, isFetching:false, reportDownload: action.data};
-        case FETCH_REPORT_FAILURE:
-            return {...state, isFetching:false, reportError: action.data};
+            return { ...state, reportDownloadSuccess: action.value, hasReportFile: false };
+        case SET_HAS_REPORT_FILE:
+            console.log('reducer SET_HAS_REPORT_FILE case with value: ' + action.value)
+            return { ...state, hasReportFile: action.value };
         default:
             return state
     }

@@ -44,6 +44,11 @@ class TopNav extends Component {
 
                 <span onClick={this.props.handleProfileClick} className="mr-auto nav-item color4a left-6 fontsize18"
                 >{ this.props.username }</span>
+
+                { this.props.hasReportFile && (
+                    <Alert className="pend-share-alert" style={{padding: 0.2}} color="success"
+                    >Download complete</Alert> )}
+
                 { this.props.shareRequestsReceived.length > 0 && (
                     <Alert className="pend-share-alert" style={{padding: 0.2}} color="warning"
                            onClick={this.props.handleSharesMenuClick}>Pending requests</Alert> )}
@@ -109,6 +114,7 @@ const mapStateToProps = state => {
         shareRequestsReceived: state.extras.share_requests_received,
         isShareView: state.profile.isShareView,
         shareViewUsername: state.profile.shareViewUsername,
+        hasReportFile: state.profile.hasReportFile,
     };
 };
 
