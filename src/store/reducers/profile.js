@@ -109,7 +109,6 @@ export default function profile(state = initialState, action) {
         case REPORT_DOWNLOAD_SCHEDULE_SUCCESS:
             return { ...state, reportDownloadSuccess: action.value, hasReportFile: false };
         case SET_HAS_REPORT_FILE:
-            console.log('reducer SET_HAS_REPORT_FILE case with value: ' + action.value)
             return { ...state, hasReportFile: action.value };
         default:
             return state

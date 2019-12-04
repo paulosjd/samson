@@ -22,6 +22,7 @@ class TimeSeriesChart extends PureComponent {
     }
 
     render() {
+        console.log(this.props.ideals)
         const chartDataIsDefault = !this.props.showRollingMeans && !this.props.showMonthlyDiffs;
         const dpIndex = this.props.dataPoints.findIndex(x => x.id === this.props.activeObjId);
         let qualifyingText = '';
@@ -75,7 +76,8 @@ class TimeSeriesChart extends PureComponent {
             offset = (valMax - valMin) > valMin ? valMin : (valMax - valMin) / 2;
         }
 
-        const paramIdeals = this.props.ideals ? this.props.ideals[this.props.selectedItemIndex] : {};
+        const idealInd = this.props.ideals.findIndex(x => x.param_name === selParam.name);
+        const paramIdeals = this.props.ideals && idealInd > -1 ? this.props.ideals[idealInd] : {};
         const savedTarget = paramIdeals ? paramIdeals.saved : '';
         let yAxisDomain;
         if (chartData.length === 1 && chartData[0].value && !chartData[0].value2 ) {
@@ -247,7 +249,6 @@ const mapStateToProps = ({auth, body, extras, menu, profile}) => {
         dataPoints: profile.dataPoints || [],
         selectedParameter: profile.summaryItems.concat(blankItems)[body.selectedItemIndex]
             ? profile.summaryItems.concat(blankItems)[body.selectedItemIndex].parameter : '',
-        selItemInd: body.selectedItemIndex,
         selFeatInd: body.selectedFeatIndex,
         ideals: profile.ideals,
         unitInfo: profile.unitInfo,
