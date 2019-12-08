@@ -49,7 +49,7 @@ class TopNav extends Component {
                     <Alert className="pend-share-alert" style={{padding: 0.2}} color="success"
                     >Download complete</Alert> )}
 
-                { this.props.shareRequestsReceived.length > 0 && (
+                { (this.props.shareRequestsReceived.length > 0 || this.props.isDemo) && (
                     <Alert className="pend-share-alert" style={{padding: 0.2}} color="warning"
                            onClick={this.props.handleSharesMenuClick}>Pending requests</Alert> )}
 

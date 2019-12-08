@@ -28,7 +28,7 @@ const ReportDownloadMenu = ({ toggle, isOpen, summaryParams }) => {
                 if (!hasReportFile) {
                     dispatch(fetchReportCall(task_id));
                 }
-            }, 3000);
+            }, 3500);
         };
         return dispatch => {
             axios.post(`${baseUrl}/profile/generate-report`, postData,
@@ -38,7 +38,7 @@ const ReportDownloadMenu = ({ toggle, isOpen, summaryParams }) => {
                         setTimeout(poll, 2500, resp.data.task_id)
                 })
                 .then(() => setTimeout(() => dispatch(
-                    { type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: false }),2800))
+                    { type: REPORT_DOWNLOAD_SCHEDULE_SUCCESS, value: false }),3500))
                 .then(() => setTimeout(() =>
                     dispatch(showNavItem('csv_upload', false)), 2500)
                 )
