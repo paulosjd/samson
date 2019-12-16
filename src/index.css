@@ -190,6 +190,12 @@ ul {
     margin-top: 24px;
 }
 
+.login-spin {
+    margin-left: 8px;
+    margin-bottom: 8px;
+}
+
+
 .bkg-light-blue {
     background-color: rgba(135, 160, 236, 0.07) !important
 }

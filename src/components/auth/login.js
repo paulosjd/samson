@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 import { Formik } from 'formik';
-import { Alert } from 'reactstrap';
+import { Alert, Spinner } from 'reactstrap';
 import AuthService from '../../utils/auth_service';
 import Register from './register'
 import Forgotten from './forgotten'
 import { demoRegistrationSubmit, regSubmitBegin, registrationSubmit, refreshRegistration, forgottenLogin,
-    setShowRegForm,
+    setShowRegForm
 } from "../../store/actions/user";
 import { LoginSchema } from '../../schemas/auth'
 import './login.css';
@@ -18,7 +18,8 @@ class Login extends Component {
             show_register: this.props.showRegForm || false,
             login_fail: false,
             show_help: false,
-            help_topic: ''
+            help_topic: '',
+            loginSubmitting: false
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.Auth = new AuthService();
@@ -66,7 +67,11 @@ class Login extends Component {
             <Formik
                 initialValues={{ username: '', password: ''}}
                 validationSchema={LoginSchema}
-                onSubmit={this.handleFormSubmit}
+                onSubmit={(values) => {
+                    if (!this.props.isSubmitting && !this.state.loginSubmitting) {
+                        this.handleFormSubmit(values)
+                    }
+                }}
             >
                 {props => {
                     const {values, touched, errors, handleChange, handleBlur, handleSubmit} = props;
@@ -99,13 +104,23 @@ class Login extends Component {
                         {errors.password && touched.password && (<div className="login-error">{errors.password}</div>)}
                         { this.state.login_fail && !errors.username && !errors.password && (
                             <div className="login-error">Invalid credentials</div> )}
-                        <button type="submit" className="form-submit login-submit">Login</button>
+                            { (this.props.isSubmitting || this.state.loginSubmitting) && (
+                                    <div className='login-spin'>
+                                        <Spinner color="secondary" />
+                                    </div>
+                            )}
+                        <button
+                            type="submit"
+                            className="form-submit login-submit"
+                        >Login</button>
                         </form>
                         <button
                             onClick={() => {
-                                this.props.regSubmitBegin();
-                                this.props.demoAccessSubmit(this.loginOnRegistration.bind(this))}
-                            }
+                                if (!this.props.isSubmitting && !this.state.loginSubmitting) {
+                                    this.props.regSubmitBegin();
+                                    this.props.demoAccessSubmit(this.loginOnRegistration.bind(this))
+                                }
+                            }}
                             className="form-submit reg-modal-button light-blue"
                         >Demo</button>
                         <button
@@ -131,9 +146,10 @@ class Login extends Component {
         );
     }
     handleFormSubmit(values){
+        this.setState({loginSubmitting: true});
         this.Auth.login(values.username, values.password)
             .then(() => {this.props.history.replace('/')})
-            .catch(() => this.setState({login_fail: true}));
+            .catch(() => this.setState({login_fail: true, loginSubmitting: false}));
     }
     toggleLoginHelp(event) {
         this.props.refreshRegistration();
