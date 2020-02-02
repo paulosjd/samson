@@ -9,7 +9,7 @@ export default class AuthService {
     }
 
     login(username, password) {
-        return this.fetch('http://localhost:8000/auth-jwt/', JSON.stringify({username, password}))
+        return this.fetch('http://localhost:8080/auth-jwt/', JSON.stringify({username, password}))
         .then(res => {
             this.setToken(res.data.token);
             return Promise.resolve(res.data);

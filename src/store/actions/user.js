@@ -4,7 +4,7 @@ import { userConstants as constants } from '../../store/constants/user';
 import { REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, CLEAR_EXT_FORM_ERRORS, USER_LOGOUT, USER_EMAIL_UPDATE
 } from "../constants/user";
 
-const baseUrl = 'http://127.0.0.1:8000/api/users';
+const baseUrl = 'http://127.0.0.1:8080/api/users';
 
 export const loginSuccess = (user) => {
     return { type: constants.LOGIN_SUCCESS, user }

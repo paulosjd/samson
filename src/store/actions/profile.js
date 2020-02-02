@@ -34,7 +34,7 @@ import {
     SET_SHOW_ADD_METRIC, RESET_SELECTED_ITEM_INDEX, SET_SHOW_ADD_CUSTOM_METRIC, EDIT_DATA_FAILURE
 } from "../constants/body";
 
-const baseUrl = 'http://127.0.0.1:8000/api';
+const baseUrl = 'http://127.0.0.1:8080/api';
 
 export const fetchProfileSummary = () => {
     let url = `${baseUrl}/profile/summary`;

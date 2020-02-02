@@ -10,7 +10,7 @@ import {
     FETCH_SUMMARY_DATA_SUCCESS, SHARE_VIEW_EXTRAS, FETCH_SUMMARY_DATA_FAILURE
 } from "../constants/profile";
 
-export const baseUrl = 'http://127.0.0.1:8000/api';
+export const baseUrl = 'http://127.0.0.1:8080/api';
 
 export const setMenuItemIndex = (value) => ({
     type: SET_MENU_ITEM_INDEX, value
